@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5">
+            <h5 class="page-header">【{{ item_description }}】速度趋势图</h5>
+        </div>
+         <div class="col-lg-5">
+            <form action="." method="GET">
+                <button class="btn btn-link btn-xs" type="submit" name="hours" value="1">1小时</button>
+                <button class="btn btn-link btn-xs" type="submit" name="hours" value="2">2小时</button>
+                <button class="btn btn-link btn-xs" type="submit" name="hours" value="4">4小时</button>
+                <button class="btn btn-link btn-xs" type="submit" name="hours" value="8">8小时</button>
+                <button class="btn btn-link btn-xs" type="submit" name="hours" value="24">1天</button>
+            </form>
+        </div>
+    </div>
+    <div id="main" style="height:480px;width: 750px"></div>
+</div>
+<script src="/static/echarts/echarts.js"></script>
+<script type="text/javascript">
+
+    require.config({
+        // 路径配置
+        paths: {
+            echarts: '/static/echarts'
+        }
+    });
+    // 使用
+    require(
+            [
+                'echarts',
+                'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/line'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main'), 'macarons');
+
+                function list_data_in() {
+                    var res = [];
+                    var List = {{ h_data_in|safe }};
+                    var len = List.length;
+                    while (len--) {
+                        res.push(List[len]['value'])
+                    }
+                    return res;
+                }
+
+                function list_data_out() {
+                    var res = [];
+                    var List = {{ h_data_out|safe }};
+                    var len = List.length;
+                    while (len--) {
+                        res.push(List[len]['value'])
+                    }
+                    return res;
+                }
+
+                function list_time() {
+                    var res = [];
+                    var List = {{ h_data_in|safe }};
+                    var len = List.length;
+                    while (len--) {
+                        res.push(List[len]['clock'])
+                    }
+                    return res;
+                }
+
+                var option = {
+                    color: ['rgba(65,105,225,0.8)', 'rgba(0,139,0,0.8)'],
+                    title: {
+                        //text: '{{ item_description }}速度趋势图',
+                        //subtext: '单位：Mbits'
+                    },
+                    grid: {
+                        x: '5%',
+                        y: '10%',
+                        x2: '10%'
+                        //y2: '10%'
+                    },
+                    tooltip: {
+                        //show: true,
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['流入速度', '流出速度']
+                    },
+                    toolbox: {
+                        show: true,
+                        x: 'right',
+                        y: 'bottom',
+                        orient: 'vertical',
+                        feature: {
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    dataZoom: {
+                        show: true,
+                        handleSize: 30,
+                        start: 50,
+                        end: 100,
+                        realtime: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            splitLine: {
+                                show: true,
+                                lineStyle: {
+                                    type: 'dashed'
+                                }
+                            },
+                            data: list_time()
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: 'Mbits',
+                            splitLine: {
+                                show: true,
+                                lineStyle: {
+                                    type: 'dashed'
+                                }
+                            },
+                            scale: true
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '流入速度',
+                            type: 'line',
+                            data: list_data_in(),
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                        {
+                            name: '流出速度',
+                            type: 'line',
+                            data: list_data_out(),
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        }
+                    ]
+                };
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+    );
+</script>
+</body>

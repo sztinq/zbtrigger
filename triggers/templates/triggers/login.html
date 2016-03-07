@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container" id="content">
+    <div class="row">
+        <div class="col-sm-6 col-md-8">
+            <div class="page-header">
+                <h3>请登录...</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="content-main">
+        <form class="form-inline" id="login-form" action="." method="post">{% csrf_token %}
+            <div class="input-group-sm">
+                <label class="required" for="id_username">用户名:</label>
+                <input class="form-control" name="username" id="id_username" type="text" maxlength="254">
+            </div>
+            <div class="input-group-sm">
+                <label class="required" for="id_password">密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
+                <input class="form-control" name="password" id="id_password" type="password">
+            </div>
+            <button class="btn btn-default" type="submit">登&nbsp;&nbsp;录
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

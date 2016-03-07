@@ -1,0 +1,12 @@
+{% extends "triggers/base.html" %}
+
+{% block content %}
+<div class="posts">
+        <section class="post">
+            <header class="post-header">
+                <h1 class="post-title">设备异常同步完成！</h1>
+            </header>
+        </section>
+        <a class="pure-button" href="{% url 'triggers:index' %}">返回首页</a>
+</div><!-- /.blog-post -->
+{% endblock %}

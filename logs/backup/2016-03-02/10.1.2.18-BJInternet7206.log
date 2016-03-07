@@ -1,0 +1,332 @@
+show running-config
+Building configuration...
+
+Current configuration : 8335 bytes
+!
+! Last configuration change at 13:09:02 Beijing Tue Mar 1 2016 by 100273
+! NVRAM config last updated at 13:09:04 Beijing Tue Mar 1 2016 by 100273
+!
+upgrade fpd auto
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec localtime
+no service password-encryption
+!
+hostname BJInternet7206
+!
+boot-start-marker
+boot-end-marker
+!
+!card type command needed for slot 1
+logging userinfo
+enable secret 5 $1$6fyy$kM6O5vpixq5MzBqjkJ5pa.
+!
+aaa new-model
+!
+!
+aaa authentication login default group tacacs+ group radius line
+aaa authentication enable default group tacacs+ enable
+aaa authorization exec default group tacacs+ if-authenticated 
+aaa authorization commands 1 default group tacacs+ if-authenticated 
+aaa authorization commands 15 default group tacacs+ if-authenticated 
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+!
+!
+aaa session-id common
+clock timezone Beijing 8
+ip wccp web-cache redirect-list wccp_acl password ejl
+ip cef
+!
+!
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+class-map match-all c_other_in
+ match not access-group 116
+ match not access-group 117
+class-map match-all c_worktime_other
+ match access-group 119
+class-map match-all c_other
+ match not access-group 118
+ match not access-group 119
+class-map match-all c_worktime_cw
+ match access-group 118
+class-map match-all c_other2
+ match not access-group 116
+ match not access-group 117
+class-map match-all c_cw_in
+ match access-group 116
+class-map match-all c_normal_in
+ match access-group 117
+!
+!
+policy-map p_outside_in
+ class c_cw_in
+  set dscp cs7
+   police cir 10000000
+ class c_normal_in
+   police cir 18000000
+ class c_other_in
+   police cir 2000000
+policy-map p_outside2
+ class c_worktime_cw
+  bandwidth 10000
+ class c_worktime_other
+  bandwidth 20000
+ class c_other
+  bandwidth 2000
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.1.0.66 255.255.255.255
+!
+interface GigabitEthernet0/1
+ ip address 10.1.2.18 255.255.255.240
+ ip nbar protocol-discovery
+ ip route-cache flow
+ ip policy route-map proxy-redirect
+ duplex auto
+ speed auto
+ media-type rj45
+ negotiation auto
+!
+interface FastEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 10.1.2.101 255.255.255.252
+ ip wccp web-cache redirect out
+ ip nbar protocol-discovery
+ ip route-cache flow
+ duplex full
+ speed 100
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ ip address 10.7.0.201 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+ negotiation auto
+!
+interface FastEthernet2/0
+ ip address 10.1.3.1 255.255.255.240
+ ip route-cache flow
+ duplex auto
+ speed auto
+!
+interface FastEthernet2/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+router ospf 1
+ log-adjacency-changes
+ redistribute connected subnets
+ redistribute static subnets
+ network 10.1.2.18 0.0.0.0 area 1
+ network 10.1.2.101 0.0.0.0 area 1
+ network 10.1.3.1 0.0.0.0 area 1
+ default-information originate
+!
+ip forward-protocol nd
+ip route 0.0.0.0 0.0.0.0 10.1.2.102
+ip route 10.1.255.0 255.255.255.0 10.1.2.102
+ip route 10.7.0.0 255.255.0.0 10.7.0.202
+no ip http server
+ip flow-cache timeout active 1
+ip flow-export source Loopback0
+ip flow-export version 5
+ip flow-export destination 10.1.18.120 9996
+!
+!
+ip access-list extended limit
+ deny   ip host 10.1.25.158 any
+ deny   ip host 10.1.35.154 any
+ permit ip any any
+ip access-list extended wccp_acl
+ deny   ip any host 118.67.112.72
+ deny   ip 10.1.3.0 0.0.0.15 any
+ deny   ip host 10.1.12.246 any
+ deny   ip host 10.1.20.15 any
+ deny   ip host 10.1.13.30 any
+ deny   ip host 10.1.13.35 any
+ deny   ip host 10.1.13.56 any
+ deny   ip host 10.1.38.11 any
+ deny   ip host 10.1.38.12 any
+ deny   ip host 10.1.38.13 any
+ permit ip 10.1.11.0 0.0.0.255 any
+ permit ip 10.1.13.0 0.0.0.255 any
+ permit ip 10.1.15.0 0.0.0.255 any
+ permit ip 10.1.17.0 0.0.0.255 any
+ deny   ip host 10.1.12.10 any
+ permit ip 10.1.12.0 0.0.0.255 any
+ deny   ip host 10.1.20.16 any
+ deny   ip host 10.1.20.17 any
+ deny   ip host 10.1.20.18 any
+ deny   ip host 10.1.20.8 any
+ permit ip 10.1.20.0 0.0.0.255 any
+ deny   ip host 10.1.38.16 any
+ permit ip 10.1.38.0 0.0.0.255 any
+ deny   ip host 10.1.38.14 any
+ip access-list extended wccp_acl_3
+ deny   ip host 10.1.16.3 any
+ deny   ip host 10.1.16.4 any
+ permit ip 10.1.16.0 0.0.0.255 any
+ permit ip 10.1.21.0 0.0.0.255 any
+ permit ip 10.1.25.0 0.0.0.255 any
+ip access-list extended wccp_squid3
+ deny   ip any host 118.67.112.72
+ deny   ip 10.1.3.0 0.0.0.15 any
+ deny   ip host 10.1.36.5 any
+ deny   ip host 10.1.36.4 any
+ deny   ip host 10.1.36.6 any
+ deny   ip host 10.1.96.178 any
+ deny   ip host 10.1.97.225 any
+ permit ip 10.1.97.0 0.0.0.255 any
+ deny   ip host 10.1.35.14 any
+ deny   ip host 10.1.36.52 any
+ deny   ip host 10.1.35.31 any
+ deny   ip host 10.1.95.245 any
+ deny   ip host 10.1.36.7 any
+ deny   ip host 10.1.36.16 any
+ deny   ip host 10.1.34.132 any
+ permit ip 10.1.34.0 0.0.0.255 any
+ permit ip 10.1.36.0 0.0.0.255 any
+!
+logging history informational
+logging alarm informational
+logging trap debugging
+logging facility local4
+logging source-interface FastEthernet2/0
+logging 10.1.3.3
+access-list 10 permit 10.1.3.2
+access-list 10 permit 10.1.3.3
+access-list 116 permit ip any host 10.1.36.4 time-range worktime
+access-list 116 permit ip any host 10.1.36.5 time-range worktime
+access-list 116 permit ip any host 10.1.36.52 time-range worktime
+access-list 116 permit ip any host 10.1.19.201
+access-list 116 permit ip any host 10.1.36.6 time-range worktime
+access-list 116 permit ip any 10.1.2.0 0.0.0.255
+access-list 116 permit ip any host 10.1.1.66
+access-list 116 permit ip any host 10.1.1.67
+access-list 117 permit tcp any eq www any time-range worktime
+access-list 117 permit tcp any eq domain any time-range worktime
+access-list 117 permit tcp any eq smtp any time-range worktime
+access-list 117 permit tcp any eq pop3 any time-range worktime
+access-list 117 permit tcp any eq 443 any time-range worktime
+access-list 117 permit ip any host 10.1.1.66
+access-list 117 permit ip any host 10.1.1.67
+access-list 118 permit ip host 10.1.36.4 any time-range worktime
+access-list 118 permit ip host 10.1.36.5 any time-range worktime
+access-list 118 permit ip host 10.1.36.6 any time-range worktime
+access-list 118 permit ip host 10.1.36.52 any time-range worktime
+access-list 118 permit ip 10.1.2.0 0.0.0.255 any
+access-list 118 permit ip host 10.1.1.66 any
+access-list 119 permit tcp any any eq www time-range worktime
+access-list 119 permit tcp any any eq domain time-range worktime
+access-list 119 permit tcp any any eq smtp time-range worktime
+access-list 119 permit tcp any any eq pop3 time-range worktime
+access-list 119 permit tcp any any eq 443 time-range worktime
+access-list 119 permit ip host 10.1.1.66 any
+access-list 119 permit ip host 10.1.1.67 any
+priority-list 1 protocol ip high list 111
+priority-list 1 protocol ip high list 112
+priority-list 1 queue-limit 100 200 300 400
+snmp-server community public RO
+snmp-server ifindex persist
+snmp-server location Beijing
+snmp-server enable traps tty
+snmp-server host 10.1.18.40 public 
+snmp-server host 10.1.3.3 public 
+route-map proxy-redirect permit 10
+ match ip address wccp_acl
+ set ip next-hop 10.1.3.2
+!
+route-map proxy-redirect permit 15
+ match ip address wccp_acl_3
+ set ip next-hop 10.1.3.3
+!
+route-map proxy-redirect permit 20
+ match ip address wccp_squid3
+ set ip next-hop 10.1.3.4
+!
+!
+!
+tacacs-server host 10.1.3.4
+tacacs-server key ejianlong
+radius-server host 10.1.18.10 auth-port 1812 acct-port 1813 key ejianlong
+radius-server host 10.1.18.15 auth-port 1812 acct-port 1813 key ejianlong
+radius-server retransmit 1
+radius-server key ejianlong
+!
+control-plane
+!
+!
+!
+!
+!
+!
+gatekeeper
+ shutdown
+!
+!
+line con 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ password cisco7206
+line vty 5 15
+!
+ntp clock-period 17180974
+ntp source GigabitEthernet0/1
+ntp server 10.68.2.50
+time-range Changzhong
+ periodic weekdays 8:00 to 16:00
+!
+time-range cw_worktime
+ periodic weekdays 16:00 to 17:00
+!
+time-range other_worktime
+ periodic weekdays 7:00 to 16:00
+!
+time-range weekendtime
+ periodic weekend 0:00 to 23:59
+!
+time-range worktime
+ periodic weekdays 7:30 to 17:30
+!
+!
+end
+
+BJInternet7206#

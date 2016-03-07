@@ -1,0 +1,213 @@
+show running-config
+Building configuration...
+
+Current configuration : 5319 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname BJ2950_2_4F7_2
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$sRoX$6xFKjW9PKlLyRZSnkFnXJ0
+!
+aaa new-model
+!
+!
+aaa authentication login default group tacacs+ group radius line
+aaa authentication enable default group tacacs+ enable
+aaa authorization exec default group tacacs+ if-authenticated 
+aaa authorization commands 1 default group tacacs+ if-authenticated 
+aaa authorization commands 15 default group tacacs+ if-authenticated 
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+!
+!
+!
+aaa session-id common
+clock timezone MTU 8
+system mtu routing 1500
+ip subnet-zero
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-900394624
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-900394624
+ revocation-check none
+ rsakeypair TP-self-signed-900394624
+!
+!
+crypto pki certificate chain TP-self-signed-900394624
+ certificate self-signed 01
+  30820245 308201AE A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 39303033 39343632 34301E17 0D393330 33303130 30303035 
+  325A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3930 30333934 
+  36323430 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100 
+  BCD386C1 6D0DBE2C 04BF47D9 B4374827 DF958494 1C988155 E7C5AF3E 9EB66562 
+  7DC972C7 BAB2FB26 9E9BC781 B4A8DD95 16B3CC2D 698AC0A3 D946FA31 F868846E 
+  1320E118 1513C4C5 C5122D39 DBDE7054 6406215C F5662CB4 05370D85 A3089213 
+  99A81EF2 7DBA4633 682884DD D20BCBC7 4E113BD6 556D123C 0F779B25 344D086D 
+  02030100 01A36F30 6D300F06 03551D13 0101FF04 05300301 01FF301A 0603551D 
+  11041330 11820F42 4A323935 305F325F 3446375F 322E301F 0603551D 23041830 
+  168014FC 64B96F5E 80B1AF82 67C35D8F C4AC881C 35A54C30 1D060355 1D0E0416 
+  0414FC64 B96F5E80 B1AF8267 C35D8FC4 AC881C35 A54C300D 06092A86 4886F70D 
+  01010405 00038181 00070467 0D25984F 2755A6F5 BAD8D826 55C01A08 B8C891BD 
+  C9DA49B0 8C9D2E1B D8EDD6A4 1B31C6FF CE7C6B2C 45E6EC9A 88B733A7 EDF8DD8F 
+  71998BD4 C13E6510 401E0D6E 230398A1 FAC0657A A48695AD F5654955 587C26FA 
+  F2C8A14A 858D01AA C4D0FFA6 84288DB9 407DD5B6 209A2F19 4947710A 8182D9A6 
+  F9299C3C 5E1F91F2 61
+  quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface FastEthernet0/1
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/2
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/3
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/4
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/5
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/6
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/7
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/8
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/9
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/10
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/11
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/12
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/13
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/14
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/15
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/16
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/17
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/18
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/19
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/20
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/21
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/22
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/23
+ switchport access vlan 12
+ switchport mode access
+!
+interface FastEthernet0/24
+ switchport access vlan 12
+ switchport mode access
+!
+interface GigabitEthernet0/1
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ switchport mode trunk
+!
+interface Vlan1
+ ip address 10.1.0.19 255.255.255.192
+ no ip route-cache
+!
+ip http server
+ip http secure-server
+snmp-server community public RO
+snmp-server location Beijing
+snmp-server host 10.1.18.10 public 
+snmp-server host 10.1.18.30 public 
+tacacs-server host 10.1.3.4
+tacacs-server directed-request
+tacacs-server key ejianlong
+radius-server host 10.1.18.10 auth-port 1812 acct-port 1813 key ejianlong
+radius-server host 10.1.18.15 auth-port 1812 acct-port 1813 key ejianlong
+radius-server host 10.1.18.10 auth-port 1645 acct-port 1646
+radius-server retransmit 1
+radius-server key ejianlong
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ password cisco
+line vty 5 15
+!
+end
+
+BJ2950_2_4F7_2#

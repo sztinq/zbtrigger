@@ -1,0 +1,2 @@
+6: sysname SR6608-2
+455: info-center loghost 10.68.7.104 facility local5

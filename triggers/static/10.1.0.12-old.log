@@ -1,0 +1,920 @@
+IP:10.1.0.12Beijing4506_2#show running-config
+Building configuration...
+    
+Current configuration : 21878 bytes
+!
+! Last configuration change at 16:20:57 GMT Tue Dec 15 2015 by 100530
+! NVRAM config last updated at 16:20:58 GMT Tue Dec 15 2015 by 100530
+!
+version 12.2
+no service pad
+service timestamps debug datetime localtime
+service timestamps log datetime msec localtime
+service password-encryption
+service compress-config
+!
+hostname Beijing4506_2
+!
+logging buffered 64000 debugging
+aaa new-model
+aaa authentication login default group tacacs+ group radius line
+aaa authentication enable default group tacacs+ enable
+aaa authorization exec default group tacacs+ if-authenticated 
+aaa authorization commands 1 default group tacacs+ if-authenticated 
+aaa authorization commands 15 default group tacacs+ if-authenticated 
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+enable secret 5 $1$Dl/1$djWAE1GnXwOwUcVFuBvOQ1
+!
+clock timezone GMT 8
+qos aggregate-policer 101 512000 bps 64000 byte conform-action transmit exceed-action drop 
+qos
+vtp domain JianLong_BJ
+vtp mode transparent
+ip subnet-zero
+no ip dhcp conflict logging
+ip dhcp excluded-address 10.1.11.0 10.1.11.20
+ip dhcp excluded-address 10.1.12.0 10.1.12.20
+ip dhcp excluded-address 10.1.13.0 10.1.13.20
+ip dhcp excluded-address 10.1.14.0 10.1.14.20
+ip dhcp excluded-address 10.1.15.0 10.1.15.20
+ip dhcp excluded-address 10.1.16.0 10.1.16.20
+ip dhcp excluded-address 10.1.17.0 10.1.17.20
+ip dhcp excluded-address 10.1.20.0 10.1.20.20
+ip dhcp excluded-address 10.1.120.0 10.1.120.20
+ip dhcp excluded-address 10.1.31.0 10.1.31.30
+ip dhcp excluded-address 10.1.19.0 10.1.19.100
+ip dhcp excluded-address 10.1.19.119
+ip dhcp excluded-address 10.1.19.120
+ip dhcp excluded-address 10.1.19.176
+ip dhcp excluded-address 10.1.11.73
+ip dhcp excluded-address 10.1.12.34
+ip dhcp excluded-address 10.1.14.128
+ip dhcp excluded-address 10.1.17.57
+ip dhcp excluded-address 10.1.20.33
+ip dhcp excluded-address 10.1.20.45
+ip dhcp excluded-address 10.1.31.58
+ip dhcp excluded-address 10.1.31.95
+ip dhcp excluded-address 10.1.19.172
+ip dhcp excluded-address 10.1.19.150
+ip dhcp excluded-address 10.1.95.0 10.1.95.30
+ip dhcp excluded-address 10.1.96.0 10.1.96.30
+ip dhcp excluded-address 10.1.97.0 10.1.97.30
+ip dhcp excluded-address 10.1.98.0 10.1.98.30
+ip dhcp excluded-address 10.1.99.0 10.1.99.30
+ip dhcp excluded-address 10.1.13.44 10.1.13.45
+ip dhcp excluded-address 10.1.19.155
+ip dhcp excluded-address 10.1.17.160
+ip dhcp excluded-address 10.1.13.23
+ip dhcp excluded-address 10.1.19.173
+ip dhcp excluded-address 10.1.19.190
+!
+ip dhcp pool VLAN11_DHCP
+   network 10.1.11.0 255.255.255.0
+   default-router 10.1.11.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+!
+ip dhcp pool VLAN12_DHCP
+   network 10.1.12.0 255.255.255.0
+   default-router 10.1.12.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+!
+ip dhcp pool VLAN13_DHCP
+   network 10.1.13.0 255.255.255.0
+   default-router 10.1.13.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool VLAN14_DHCP
+   network 10.1.14.0 255.255.255.0
+   default-router 10.1.14.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool VLAN15_DHCP
+   network 10.1.15.0 255.255.255.0
+   default-router 10.1.15.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool VLAN16_DHCP
+   network 10.1.16.0 255.255.255.0
+   default-router 10.1.16.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool VLAN17_DHCP
+   network 10.1.17.0 255.255.255.0
+   default-router 10.1.17.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool VLAN19_DHCP
+   network 10.1.19.0 255.255.255.0
+   default-router 10.1.19.1 
+   domain-name wr
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool VLAN20_DHCP
+   network 10.1.20.0 255.255.255.0
+   default-router 10.1.20.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool VLAN32_DHCP
+   network 10.1.32.0 255.255.255.0
+   default-router 10.1.32.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+!
+ip dhcp pool VLAN33_DHCP
+   network 10.1.33.0 255.255.255.0
+   default-router 10.1.33.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+!
+ip dhcp pool VLAN31_DHCP
+   network 10.1.31.0 255.255.255.0
+   default-router 10.1.31.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool vlan305_DHCP
+   network 10.1.95.0 255.255.255.0
+   default-router 10.1.95.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool vlan306_DHCP
+   network 10.1.96.0 255.255.255.0
+   default-router 10.1.96.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool vlan307_DHCP
+   network 10.1.97.0 255.255.255.0
+   domain-name ejianlong.com
+   default-router 10.1.97.1 
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool vlan308_DHCP
+   network 10.1.98.0 255.255.255.0
+   default-router 10.1.98.1 
+   domain-name ejianlong.com
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+ip dhcp pool vlan309_DHCP
+   network 10.1.99.0 255.255.255.0
+   domain-name ejianlong.com
+   default-router 10.1.99.1 
+   dns-server 10.1.1.67 202.106.0.20 
+   lease 3
+!
+no file verify auto
+spanning-tree mode pvst
+spanning-tree extend system-id
+power redundancy-mode redundant
+!
+mac access-list extended con_4422
+ permit host 0013.027b.4422 any
+mac access-list extended jinzhi
+ deny   host 001e.659f.a81e any
+mac access-list extended vlan12
+ deny   host 60eb.699f.610d any
+ permit any any
+!
+!
+!
+!
+vlan access-map con_4422_map 10
+ action drop
+ match mac address con_4422
+vlan access-map con_4422_map 20
+ action forward
+vlan internal allocation policy ascending
+!
+vlan 2-3 
+!
+vlan 4
+ name storage_raid
+!
+vlan 11-20,31 
+!
+vlan 32
+ name guest_vlan
+!
+vlan 33
+ name repair_vlan
+!
+vlan 34
+ name jmsdj
+!
+vlan 80 
+!
+vlan 89
+ name jishuchu
+!
+vlan 101
+ name test
+!
+vlan 105 
+!
+vlan 110
+ name DMZ
+!
+vlan 111
+ name dns
+!
+vlan 120
+ name Storage_data
+!
+vlan 130
+ name Storage_manage
+!
+vlan 150
+ name video
+!
+vlan 160
+ name DaiLi_Squid
+!
+vlan 200
+ name Rspan
+ remote-span
+!
+vlan 305-309 
+!
+vlan 500
+ name WuYe
+!
+class-map match-any ap_map2
+  match access-group name ap2
+class-map match-any ap_map1
+  match access-group name ap1
+class-map match-all test_hxz
+  match access-group 66
+class-map match-all c_internet
+  match access-group name To_internet
+  match access-group 10
+class-map match-all 101
+  match access-group 101
+class-map match-all c_inernet
+  match access-group name To_internet
+!
+!
+policy-map ap
+  class ap_map1
+ police 100000000 bps 10000000 byte conform-action transmit exceed-action drop 
+  class ap_map2
+ police 3000000 bps 100000 byte conform-action transmit exceed-action drop 
+policy-map 101
+  class 101
+ police aggregate 101
+policy-map p_internet
+  class c_internet
+  trust dscp
+ police 10000000 bps 1000000 byte conform-action transmit exceed-action drop 
+!
+!
+interface Loopback0
+ no ip address
+!
+interface Port-channel1
+ switchport
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/1
+ description To_
+ switchport access vlan 7
+ switchport mode access
+!
+interface GigabitEthernet1/2
+ description To_
+!
+interface GigabitEthernet2/1
+ description To_Beijing4506_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet2/2
+ description To_Beijing4506_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet2/3
+ description To_3F2_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/4
+ description To_3F4_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/5
+ description To_3F6_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/6
+ description To_3F8_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/7
+ description To_3F10_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/8
+ description To_4F1_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/9
+ description To_4F3_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/10
+ description To_4F5_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/11
+ description To_4F7_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/12
+ description To_4F9_1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/13
+ description To_A3_NetMonitor
+ switchport access vlan 18
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/14
+ description To_A3_NetMonitor
+ switchport access vlan 160
+ switchport mode access
+!
+interface GigabitEthernet2/15
+ description 10.1.19.22 sunchu
+ switchport access vlan 160
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/16
+ description To_ERP_DB_15
+ switchport access vlan 160
+ switchport mode access
+ arp timeout 5
+ spanning-tree portfast
+!
+interface GigabitEthernet2/17
+ description 10.1.19.249
+ switchport access vlan 19
+ switchport mode access
+!
+interface GigabitEthernet2/18
+ description to csvm
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/19
+ description To_dianhua_server
+ switchport access vlan 18
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/20
+ description link_to 10.1.19.7 
+ switchport access vlan 19
+ switchport mode access
+ duplex full
+ spanning-tree portfast
+!
+interface GigabitEthernet2/21
+ description qinyitest
+ switchport access vlan 19
+ switchport mode access
+ duplex full
+!
+interface GigabitEthernet2/22
+ switchport access vlan 150
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/23
+ description To_LiangXiangFeng_test
+ switchport access vlan 18
+ switchport mode access
+ duplex full
+!
+interface GigabitEthernet2/24
+ description To_PeiZhi_22
+ switchport access vlan 18
+ switchport mode access
+ duplex full
+!
+interface GigabitEthernet2/25
+ description To_LiuMeiTi_5
+ switchport access vlan 100
+ switchport mode access
+ duplex full
+!
+interface GigabitEthernet2/26
+ description to_shidaiguanghua_liumeiti
+ switchport access vlan 18
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/27
+ description to_testerp
+ switchport access vlan 18
+ switchport mode access
+!
+interface GigabitEthernet2/28
+ description TO_BJ_7206_02_G0/1
+ no switchport
+ ip address 10.1.2.101 255.255.255.252
+ ip ospf network point-to-point
+!
+interface GigabitEthernet2/29
+ description To_Backup_24
+ switchport access vlan 100
+ switchport mode access
+ ip access-group jlbackup out
+!
+interface GigabitEthernet2/30
+ description to_jishuchu_IDM_10.1.18.4
+ switchport access vlan 18
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/31
+ description to vlan18-vmtest
+ switchport access vlan 18
+ switchport mode access
+!
+interface GigabitEthernet2/32
+ description logging backup server haolina
+ switchport access vlan 18
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/33
+ description To_sun_storage_manage
+ switchport access vlan 130
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/34
+ description To_sun_storage_manage
+ switchport access vlan 130
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/35
+ switchport access vlan 18
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/36
+ description WangGuan+Radius
+ switchport access vlan 18
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/37
+ description To_WWW_67
+ switchport access vlan 110
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/38
+ description link_to 10.1.18.37
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet2/39
+ description To_ASA5520_DMZ
+ switchport access vlan 160
+ switchport mode access
+!
+interface GigabitEthernet2/40
+ description To_TT_pix525
+ no switchport
+ ip address 10.1.2.17 255.255.255.240
+ duplex full
+!
+interface GigabitEthernet2/41
+ description To_10.1.1.46
+ switchport access vlan 18
+ switchport mode access
+!
+interface GigabitEthernet2/42
+ description to_10.1.19.6
+ switchport access vlan 19
+ switchport mode access
+!
+interface GigabitEthernet2/43
+ description To_DNS_66
+ switchport access vlan 111
+ switchport mode access
+!
+interface GigabitEthernet2/44
+ switchport mode access
+!
+interface GigabitEthernet2/45
+ description To_ZCL_3560
+ no switchport
+ ip address 10.1.2.89 255.255.255.252
+ ip ospf network point-to-point
+!
+interface GigabitEthernet2/46
+ description To_TrendServer
+ switchport access vlan 18
+ switchport mode access
+!
+interface GigabitEthernet2/47
+ description To_7206_GE0/1_2.34
+ no switchport
+ ip address 10.1.2.33 255.255.255.252
+ ip ospf network point-to-point
+!
+interface GigabitEthernet2/48
+ description To_KingDee_18.18
+ switchport access vlan 18
+ switchport mode access
+!
+interface Vlan1
+ ip address 10.1.0.12 255.255.255.192
+ no ip redirects
+!
+interface Vlan2
+ ip address 10.1.2.12 255.255.255.240
+ standby 2 ip 10.1.2.1
+ standby 2 priority 150
+ standby 2 preempt
+!
+interface Vlan4
+ ip address 10.1.4.1 255.255.255.192
+!
+interface Vlan11
+ ip address 10.1.11.12 255.255.255.0
+ standby 11 ip 10.1.11.1
+ standby 11 preempt
+!
+interface Vlan12
+ ip address 10.1.12.12 255.255.255.0
+ standby 12 ip 10.1.12.1
+ standby 12 priority 150
+ standby 12 preempt
+!
+interface Vlan13
+ ip address 10.1.13.12 255.255.255.0
+ standby 13 ip 10.1.13.1
+ standby 13 preempt
+!
+interface Vlan14
+ ip address 10.1.14.12 255.255.255.0
+ standby 14 ip 10.1.14.1
+ standby 14 priority 150
+ standby 14 preempt
+!
+interface Vlan15
+ ip address 10.1.15.12 255.255.255.0
+ standby 15 ip 10.1.15.1
+ standby 15 preempt
+!
+interface Vlan16
+ ip address 10.1.16.12 255.255.255.0
+ standby 16 ip 10.1.16.1
+ standby 16 priority 150
+ standby 16 preempt
+!
+interface Vlan17
+ ip address 10.1.17.12 255.255.255.0
+ standby 17 ip 10.1.17.1
+ standby 17 preempt
+!
+interface Vlan18
+ ip address 10.1.18.12 255.255.255.0
+ standby 18 ip 10.1.18.1
+ standby 18 priority 150
+ standby 18 preempt
+!
+interface Vlan19
+ ip address 10.1.19.12 255.255.255.0
+ standby 19 ip 10.1.19.1
+ standby 19 priority 200
+ standby 19 preempt
+!
+interface Vlan20
+ ip address 10.1.20.12 255.255.255.0
+ standby 20 ip 10.1.20.1
+ standby 20 priority 150
+ standby 20 preempt
+!
+interface Vlan31
+ ip address 10.1.31.12 255.255.255.0
+ ip helper-address 10.1.31.11
+ standby 31 ip 10.1.31.1
+ standby 31 priority 160
+ standby 31 preempt
+!
+interface Vlan32
+ ip address 10.1.32.12 255.255.255.0
+ ip access-group guest_vlan in
+ standby priority 150
+ standby 32 ip 10.1.32.1
+ standby 32 preempt
+!
+interface Vlan33
+ ip address 10.1.33.12 255.255.255.0
+ ip access-group repair_vlan in
+ standby 33 ip 10.1.33.1
+ standby 33 preempt
+!
+interface Vlan34
+ ip address 10.1.34.12 255.255.255.0
+ ip access-group con_jms in
+ standby 33 preempt
+ standby 34 ip 10.1.34.1
+!
+interface Vlan80
+ ip address 10.1.80.12 255.255.255.0
+ standby 80 ip 10.1.80.1
+ standby 80 preempt
+!
+interface Vlan89
+ ip address 10.1.89.12 255.255.255.0
+ shutdown
+ standby 89 ip 10.1.89.1
+ standby 89 preempt
+!
+interface Vlan101
+ ip address 10.1.105.1 255.255.255.0
+!
+interface Vlan111
+ ip address 10.1.1.65 255.255.255.192
+!
+interface Vlan119
+ no ip address
+ shutdown
+!
+interface Vlan120
+ description To_storage_data
+ ip address 10.1.1.131 255.255.255.224
+ standby 120 ip 10.1.1.129
+ standby 120 priority 200
+ standby 120 preempt
+ standby 120 authentication jianlong
+!
+interface Vlan130
+ description To_storage_manage
+ ip address 10.1.1.163 255.255.255.240
+ standby 130 ip 10.1.1.161
+ standby 130 preempt
+ standby 130 authentication jianlong
+!
+interface Vlan305
+ ip address 10.1.95.12 255.255.255.0
+ standby 100 ip 10.1.95.1
+ standby 100 priority 160
+ standby 100 preempt
+!
+interface Vlan306
+ ip address 10.1.96.12 255.255.255.0
+ standby 100 ip 10.1.96.1
+ standby 100 priority 160
+ standby 100 preempt
+!
+interface Vlan307
+ ip address 10.1.97.12 255.255.255.0
+ standby 101 ip 10.1.97.1
+ standby 101 priority 160
+ standby 101 preempt
+!
+interface Vlan308
+ ip address 10.1.98.12 255.255.255.0
+ standby 100 ip 10.1.98.1
+ standby 100 priority 160
+ standby 100 preempt
+!
+interface Vlan309
+ ip address 10.1.99.12 255.255.255.0
+ standby 100 ip 10.1.99.1
+ standby 100 priority 160
+ standby 100 preempt
+!
+interface Vlan500
+ ip address 10.1.254.12 255.255.255.0
+ standby 254 ip 10.1.254.1
+ standby 254 priority 150
+ standby 254 preempt
+!
+router ospf 100
+ router-id 10.1.0.12
+ log-adjacency-changes
+ redistribute connected subnets
+ redistribute static subnets
+ network 10.1.0.12 0.0.0.0 area 1
+ network 10.1.2.17 0.0.0.0 area 1
+ network 10.1.2.32 0.0.0.15 area 1
+ network 10.1.2.64 0.0.0.15 area 1
+ network 10.1.2.88 0.0.0.3 area 1
+ default-information originate
+!
+ip route 0.0.0.0 0.0.0.0 10.1.2.18
+ip route 10.1.2.16 255.255.255.240 10.1.2.18
+ip route 10.1.255.0 255.255.255.0 10.1.2.18
+ip route 10.7.0.0 255.255.0.0 10.1.2.18
+ip route 202.106.110.156 255.255.255.255 10.1.2.18
+no ip http server
+!
+!
+!
+ip access-list standard DiBenSi
+ permit 10.1.12.7
+ permit 10.1.18.19
+ permit 10.1.18.18
+ permit 10.1.12.10
+ permit 10.1.12.9
+ permit 10.1.12.8
+ deny   10.1.11.0 0.0.0.255
+ deny   10.1.12.0 0.0.0.255
+ deny   10.1.13.0 0.0.0.255
+ deny   10.1.14.0 0.0.0.255
+ deny   10.1.15.0 0.0.0.255
+ deny   10.1.16.0 0.0.0.255
+ deny   10.1.17.0 0.0.0.255
+ deny   10.1.18.0 0.0.0.255
+ deny   10.1.19.0 0.0.0.255
+ deny   10.1.20.0 0.0.0.255
+ deny   10.1.31.0 0.0.0.255
+ deny   10.1.26.0 0.0.0.255
+ permit any
+ip access-list standard re_static_os
+ permit 10.9.0.0
+ permit 10.7.0.0
+ permit 220.231.20.55
+ permit 10.1.2.16
+ permit 210.14.70.135
+ permit 124.207.141.33
+ permit 123.199.129.20
+ permit 211.103.155.28
+ permit 211.147.215.169
+ permit 61.175.235.62
+ permit 114.80.113.30
+ permit 114.80.113.29
+ permit 202.106.110.158
+ permit 202.106.110.156
+ permit 202.127.165.72
+ permit 114.113.144.247
+ permit 219.238.190.13
+ permit 203.81.21.2
+ permit 118.242.19.55
+ permit 114.113.152.50
+ permit 168.160.224.53
+ permit 124.207.219.133
+ permit 10.1.255.0
+ permit 10.59.0.0 0.0.15.255
+!
+ip access-list extended To_internet
+ permit ip host 10.1.96.248 any
+ deny   ip any any
+ip access-list extended con_jms
+ permit ip 10.1.34.0 0.0.0.255 10.1.34.0 0.0.0.255
+ permit ip host 10.1.34.188 any
+ permit ip host 10.1.34.187 any
+ permit ip host 10.1.34.131 any
+ permit ip host 10.1.34.132 any
+ permit ip host 10.1.34.11 any
+ permit ip host 10.1.34.12 any
+ permit ip any 10.1.0.0 0.0.255.255
+ deny   ip any any
+ip access-list extended deny_to_wuye
+ permit ip 10.1.19.0 0.0.0.255 any
+ permit ip 10.1.31.0 0.0.0.255 any
+ permit ip 10.1.38.0 0.0.0.255 any
+ permit ip 10.1.35.0 0.0.0.255 any
+ deny   ip any any
+ip access-list extended guest_vlan
+ permit ip any host 10.1.1.32
+ permit ip any host 10.1.1.66
+ permit ip any host 10.1.32.1
+ permit ip any host 10.1.32.11
+ permit ip any host 10.1.1.34
+ deny   ip any 10.1.0.0 0.0.255.255
+ permit tcp any any eq www
+ permit tcp any any eq smtp
+ permit tcp any any eq pop3
+ip access-list extended inside
+ permit ip host 10.1.31.29 10.0.0.0 0.255.255.255
+ permit ip host 10.1.31.95 10.0.0.0 0.255.255.255
+ permit ip host 10.1.19.2 10.0.0.0 0.255.255.255
+ permit ip host 10.1.19.8 10.0.0.0 0.255.255.255
+ permit ip host 10.1.36.52 10.0.0.0 0.255.255.255
+ permit ip host 10.1.36.180 10.0.0.0 0.255.255.255
+ deny   ip any any
+ip access-list extended limit
+ip access-list extended lt
+ permit ip host 10.1.31.29 any
+ permit ip host 10.1.31.95 any
+ permit ip host 10.1.19.2 any
+ permit ip host 10.1.19.8 any
+ permit ip host 10.1.36.52 any
+ permit ip host 10.1.36.180 any
+ deny   ip any any
+ip access-list extended repair_vlan
+ permit ip any host 10.1.1.32
+ permit ip any host 10.1.1.66
+ permit ip any host 10.1.18.19
+ permit ip any host 10.1.32.1
+ permit ip any host 10.1.32.12
+ deny   ip any 10.1.0.0 0.0.255.255
+ permit ip any any
+ip radius source-interface Vlan1
+!
+logging trap debugging
+logging facility local2
+logging source-interface Vlan1
+logging 10.1.1.35
+logging 10.1.3.3
+access-list 10 permit 10.1.19.0 0.0.0.255
+access-list 101 permit ip host 10.1.105.15 any
+arp 10.1.19.19 0027.1369.55a4 ARPA
+arp 10.1.13.47 0024.1daf.f350 ARPA
+arp 10.1.19.155 0024.7e6e.9b66 ARPA
+arp 10.1.34.187 90fb.a611.b0f3 ARPA
+arp 10.1.34.188 0001.6c48.14e5 ARPA
+arp 10.1.19.190 60eb.699f.5ebb ARPA
+arp 10.1.34.131 0001.6c44.cdd3 ARPA
+arp 10.1.34.132 4437.e606.decd ARPA
+arp 10.1.12.224 60eb.699f.610d ARPA
+!
+route-map static_to_os permit 10
+ match ip address re_static_os
+!
+route-map ltoutside permit 10
+ match ip address inside
+!
+route-map ltoutside permit 20
+ match ip address lt
+ set ip next-hop 10.1.0.11
+!
+!
+snmp-server community public RO
+snmp-server location Beijing
+snmp-server enable traps tty
+snmp-server enable traps vtp
+snmp-server enable traps syslog
+snmp-server enable traps vlan-membership
+snmp-server host 10.1.18.10 public 
+tacacs-server host 10.1.3.4
+tacacs-server directed-request
+tacacs-server key 7 050E0C06204242061702
+radius-server host 10.1.18.15 auth-port 1812 acct-port 1813 key 7 08244647081709181C0C
+radius-server host 10.1.18.10 auth-port 1812 acct-port 1813
+radius-server retransmit 1
+radius-server key 7 151701050524272B2634
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ exec-timeout 5 0
+ timeout login response 300
+ password 7 104D000A0618465E5C52
+line vty 5 15
+!
+!
+monitor session 1 source interface Gi2/40
+monitor session 1 destination interface Gi2/44
+monitor session 2 source vlan 1 - 1000
+monitor session 2 destination interface Gi2/25
+end
+
+Beijing4506_2#

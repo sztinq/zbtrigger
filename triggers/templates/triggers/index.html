@@ -1,0 +1,1069 @@
+{% extends "triggers/bootstrap.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 col-md-8">
+            <div class="page-header">
+                <h3>欢迎
+                    <small>使用建龙集团网络监控平台！在这里您可以实时了解整个集团的网络运行状况！</small>
+                </h3>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="page-header">
+                <h3>视频会议:
+                    <a target="_blank" href="{% url 'triggers:video' %}">
+                        <small id="v_status"></small>
+                    </a>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-7">
+            <div id="main_company" style="height:380px;width:652px" class="thumbnail"></div>
+        </div>
+        <div class="col-sm-6 col-md-5">
+            <div id="main_line" style="height: 380px;width:458px" class="thumbnail"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div id="main_bar" style="height:350px" class="thumbnail"></div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div id="main_internet" style="height: 350px" class="thumbnail"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var t1 = 1;//delay open time 0.001s
+        var t2 = 30000;//reflush time 30s
+        var t3 = 60000;//reflush time 60s
+        var path = {echarts: '/static/echarts'};
+        function zhuanxian_status() {
+            require.config({
+                paths: path
+            });
+            require(
+                    [
+                        'echarts',
+                        'echarts/chart/map'
+                    ],
+                    function (ec) {
+                        require('echarts/util/mapData/params').params.company = {
+                            getGeoJson: function (callback) {
+                                $.ajax({
+                                    url: "/static/echarts/svg/company.svg",
+                                    dataType: 'xml',
+                                    success: function (xml) {
+                                        callback(xml)
+                                    }
+                                });
+                            }
+                        };
+                        var myChart = ec.init(document.getElementById('main_company'));
+                        var zhuan_status = {
+                            normal: [],
+                            interrupt: [],
+                            delay: [],
+                            loss: [],
+                            num: 0
+                        };
+                        var url_zhuan = "/trigger/zhuanxian_status/";
+                        $.ajax(
+                                {
+                                    type: "get",
+                                    url: url_zhuan,
+                                    async: false,
+                                    cache: false,
+                                    success: function (data) {
+                                        var len = data.length;
+                                        for (var i = len - 1; i >= 0; i--) {
+                                            if (data[i]['description'] == '正常') {
+                                                zhuan_status.normal.push({
+                                                    name: data[i]['hostname'],
+                                                    value: '0'
+                                                });
+                                            }
+                                            if (data[i]['description'] == '中断') {
+                                                zhuan_status.interrupt.push({
+                                                    name: data[i]['hostname'],
+                                                    value: '1'
+                                                });
+                                            }
+                                            if (data[i]['description'] == '丢包') {
+                                                zhuan_status.loss.push({
+                                                    name: data[i]['hostname'],
+                                                    value: '2'
+                                                });
+                                            }
+                                            if (data[i]['description'] == '延时') {
+                                                zhuan_status.delay.push({
+                                                    name: data[i]['hostname'],
+                                                    value: '3'
+                                                });
+                                            }
+                                        }
+                                        zhuan_status.num = data.length;
+                                        //console.log(zhuan_status);
+                                    }
+                                }
+                        );
+
+
+                        var option = {
+                            backgroundColor: '#FCFCFC',
+                            color: ['rgba(0,139,0,0.8)', 'rgba(255,48,48,0.8)', 'orange', 'rgba(65,105,225,0.8)'],
+                            title: {
+                                text: '集团专线状态',
+                                subtext: '[共' + zhuan_status.num + '条]',
+                                x: 'left',
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.5)',
+                                trigger: 'item',
+                                enterable: true,
+                                position: function (p) {
+                                    return [p[0] - 60, p[1] + 10];
+                                },
+                                formatter: function (params, ticket, callback) {
+                                    var status = '';
+                                    if (params.value == 0) {
+                                        status = '正常'
+                                    }
+                                    if (params.value == 1) {
+                                        status = '中断'
+                                    }
+                                    if (params.value == 2) {
+                                        status = '丢包'
+                                    }
+                                    if (params.value == 3) {
+                                        status = '延时'
+                                    }
+                                    var res = '【<a  style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                            + '\'' + 'line_status/' + params.name + '\',' + '\'newwindow,' + '\',' + '\''
+                                            + 'height=600,width=860,top=20,left=20,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no' + '\'' + ')">'
+                                            + '延时与丢包...</a>】' + '<br>' + '【<a style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                            + '\'' + 'zhuanxian_detail/' + params.name + '\',' + '\'newwindow,' + '\',' + '\''
+                                            + 'height=500,width=800,top=20,left=20,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no' + '\'' + ')">'
+                                            + '联系信息...</a>】';
+                                    setTimeout(function () {
+                                        callback(ticket, res);
+                                    }, 500);
+                                    return '正在加载,请稍等...';
+                                }
+                            },
+                            legend: {
+                                x: 'right',
+                                data: ['正常', '中断', '丢包', '延时'],
+                                selectedMode: 'single',
+                                selected: {
+                                    '中断': true,
+                                    '丢包': true,
+                                    '延时': true
+                                },
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                }
+                            },
+                            toolbox: {
+                                show: true,
+                                orient: 'vertical',
+                                x: 'right',
+                                y: 'bottom',
+                                feature: {
+                                    restore: {show: true},
+                                    saveAsImage: {show: true}
+                                }
+                            },
+                            series: [
+                                {
+                                    name: '正常',
+                                    type: 'map',
+                                    mapType: 'company',
+                                    hoverable: false,
+                                    clickable: false,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {show: true}
+                                        }
+                                        //emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    geoCoord: {
+                                        '唐山建龙专线路由器1': [20, 80],
+                                        '唐山建龙专线路由器2': [140, 80],
+                                        '承德建龙专线路由器': [260, 80],
+                                        '抚顺新钢铁专线路由器': [380, 80],
+                                        '黑龙江建龙专线路由器': [500, 80],
+                                        '新宝泰专线路由器': [620, 80],
+                                        '山西建龙专线路由器': [740, 80],
+                                        '黑龙江嘉天专线路由器': [860, 80],
+                                        '青岛船厂专线路由器': [20, 160],
+                                        '四川川锅专线交换机': [140, 160],
+                                        '一汽凌源专线路由器': [260, 160],
+                                        '上海洪祥专线路由器': [380, 160],
+                                        '舟山专线路由器': [500, 160],
+                                        '浙江建龙专线路由器': [620, 160],
+                                        '浙江楹联专线路由器': [740, 160],
+                                        '北京联通IDC': [860, 160],
+                                        '唐山联通外网': [20, 240],
+                                        '唐山电信外网': [260, 240],
+                                        '天津捷威交换机': [20, 320],
+                                        '天津龙岗专线路由器': [140, 320],
+                                        '天津建龙专线路由器': [260, 320],
+                                        '天津茂联专线路由器': [500, 320],
+                                        '天津祥威专线交换机': [620, 320],
+                                        '天津祥嘉专线路由器': [740, 320],
+                                        '北京总部专线路由器': [20, 420],
+                                        '总裁楼核心交换机': [140, 420],
+                                        '建龙矿业核心交换机': [260, 420],
+                                        '志能祥赢2960': [500, 420],
+                                        '北京洪祥航运路由器': [620, 420],
+                                        '北京联通外网': [860, 420],
+                                        '吉林数据中心路由器': [20, 520],
+                                        '长春地产专线路由器': [140, 520],
+                                        '吉林恒联专线路由器': [260, 520]
+                                    },
+                                    textFixed: {
+                                        '唐山DC': [0, 20],
+                                        '唐山1-100': [0, 20],
+                                        '唐山2-100': [0, 20],
+                                        '承德电信6': [0, 20],
+                                        '抚顺电信6': [0, 20],
+                                        '双鸭山电信6': [0, 20],
+                                        '丰润电信2': [0, 20],
+                                        '山西联通4': [0, 20],
+                                        '嘉天电信2': [0, 20],
+
+                                        '青岛移动2': [0, 20],
+                                        '川锅移动2': [0, 20],
+                                        '凌源电信2': [0, 20],
+                                        '上海电信2': [0, 20],
+                                        '舟山移动2': [0, 20],
+                                        '杭州电信2': [0, 20],
+                                        '浙江移动2': [0, 20],
+                                        '电商联通2': [10, 20],
+                                        '唐山电信Internet-20': [0, 20],
+                                        '唐山联通Internet-100': [0, 20],
+                                        '天津区': [0, 20],
+                                        '天津捷威移动6': [10, 20],
+                                        '天津建龙移动2': [30, 20],
+                                        '茂联电信2': [-10, 20],
+                                        '龙港电信2': [15, 20],
+                                        '祥威电信100': [10, 20],
+                                        '祥嘉电信100': [40, 20],
+                                        '北京区': [0, 20],
+                                        '总部电信6': [-5, 20],
+                                        '总裁楼移动100': [10, 20],
+                                        '洪祥航运电信2': [30, 20],
+                                        '矿业移动100': [20, 20],
+                                        '志能祥赢联通100': [0, 20],
+                                        '吉林区': [0, 20],
+                                        '吉林联通10': [0, 20],
+                                        '明城联通20': [10, 20],
+                                        '长春电信2': [10, 20],
+                                        '北京联通Internet-52': [0, 20]
+                                    },
+                                    markPoint: {
+                                        symbol: 'circle',
+                                        symbolSize: 5,
+                                        effect: {
+                                            show: true,
+                                            shadowBlur: 10
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                label: {show: false}
+                                            }
+                                        },
+                                        data: zhuan_status.normal
+                                    }
+                                },
+                                {
+                                    name: '中断',
+                                    type: 'map',
+                                    mapType: 'company',
+                                    itemStyle: {
+                                        normal: {
+                                            label: {show: true}
+                                        },
+                                        emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    markPoint: {
+                                        symbol: 'circle',
+                                        symbolSize: 5,
+                                        effect: {
+                                            show: true,
+                                            shadowBlur: 10
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                label: {show: false}
+                                            }
+                                        },
+                                        data: zhuan_status.interrupt
+                                    }
+                                },
+                                {
+                                    name: '丢包',
+                                    type: 'map',
+                                    mapType: 'company',
+                                    hoverable: false,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {show: true}
+                                        },
+                                        emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    markPoint: {
+                                        symbol: 'circle',
+                                        symbolSize: 5,
+                                        effect: {
+                                            show: true,
+                                            shadowBlur: 10
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                label: {show: false}
+                                            }
+                                        },
+                                        data: zhuan_status.loss
+                                    }
+                                },
+                                {
+                                    name: '延时',
+                                    type: 'map',
+                                    mapType: 'company',
+                                    hoverable: false,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {show: true}
+                                        },
+                                        emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    markPoint: {
+                                        symbol: 'circle',
+                                        symbolSize: 5,
+                                        effect: {
+                                            show: true,
+                                            shadowBlur: 10
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                label: {show: false}
+                                            }
+                                        },
+                                        data: zhuan_status.delay
+                                    }
+                                }
+                            ]
+                        };
+                        // 为echarts对象加载数据
+                        myChart.setOption(option);
+                    }
+            );
+        }
+        function zhuanxian_data() {
+            require.config({
+                paths: path
+            });
+            require(
+                    [
+                        'echarts',
+                        'echarts/chart/map'
+                    ],
+                    function (ec) {
+                        require('echarts/util/mapData/params').params.line = {
+                            getGeoJson: function (callback) {
+                                $.ajax({
+                                    url: "/static/echarts/svg/line.svg",
+                                    dataType: 'xml',
+                                    success: function (xml) {
+                                        callback(xml)
+                                    }
+                                });
+                            }
+                        };
+                        var myChart = ec.init(document.getElementById('main_line'));
+                        var zhuanxian_lastvalue = {
+                            invalue: [],
+                            outvalue: [],
+                            line: [],
+                            num: 0
+                        };
+                        var url_zhuanxian = "/trigger/zhuanxian_lastvalue/";
+                        $.ajax(
+                                {
+                                    type: "get",
+                                    url: url_zhuanxian,
+                                    async: false,
+                                    cache: false,
+                                    success: function (data) {
+                                        var len = data.length;
+                                        for (var i = len - 1; i >= 0; i--) {
+                                            zhuanxian_lastvalue.line.push([{
+                                                name: data[i]['company'],
+                                                value: data[i]['invalue'] * 1000
+                                            }, {name: '唐山数据中心'}]);
+                                            zhuanxian_lastvalue.invalue.push({
+                                                name: data[i]['company'],
+                                                value: data[i]['invalue'] * 1000
+                                            });
+                                            zhuanxian_lastvalue.outvalue.push([{name: '唐山数据中心'}, {
+                                                name: data[i]['company'],
+                                                value: data[i]['outvalue'] * 1000
+                                            }]);
+                                        }
+                                        zhuanxian_lastvalue.num = data.length;
+                                        //console.log(zhuanxian_lastvalue);
+                                    }
+                                }
+                        );
+                        var option = {
+                            backgroundColor: '#FCFCFC',
+                            color: ['rgba(65,105,225,0.8)', 'rgba(0,139,0,0.8)'],
+                            title: {
+                                text: '集团专线流量',
+                                subtext: '[单位:kbits,共' + zhuanxian_lastvalue.num + '条]',
+                                x: 'left',
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b}'
+                            },
+                            legend: {
+                                x: 'right',
+                                data: ['流入', '流出'],
+                                selectedMode: 'single',
+                                selected: {
+                                    '流入': false
+                                },
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                }
+                            },
+                            toolbox: {
+                                show: true,
+                                orient: 'vertical',
+                                x: 'right',
+                                y: 'bottom',
+                                feature: {
+                                    restore: {show: true},
+                                    saveAsImage: {show: true}
+                                }
+                            },
+                            dataRange: {
+                                min: 0,
+                                max: 500,
+                                calculable: true,
+                                color: ['#ff3333', 'orange', 'blue', 'lime', 'green'],
+                                textStyle: {
+                                    color: '#000000'
+                                }
+                            },
+                            series: [
+                                {
+                                    name: '流出',
+                                    type: 'map',
+                                    tooltip: {
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        trigger: 'item',
+                                        enterable: true,
+                                        position: function (p) {
+                                            return [p[0] - 60, p[1] + 10];
+                                        },
+                                        formatter: function (params, ticket, callback) {
+                                            //console.log(params);
+                                            var line = params.name.split(" ");
+                                            //console.log(line);
+                                            var res = '<a  style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                                    + '\'' + 'line_history/' + line[2] + '专线' + '\',' + '\'newwindow,' + '\',' + '\''
+                                                    + 'height=600,width=860,top=20,left=20,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no' + '\'' + ')">'
+                                                    + line[2] + '</a>' + ':' + params.value;
+                                            setTimeout(function () {
+                                                callback(ticket, res);
+                                            }, 500);
+                                            return '正在加载,请稍等...';
+                                        }
+                                    },
+                                    roam: false,
+                                    mapType: 'line',
+                                    hoverable: false,
+                                    clickable: false,
+                                    itemStyle: {
+                                        normal: {label: {show: true}},
+                                        emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    geoCoord: {
+                                        '唐山数据中心': [460, 240],
+                                        '唐山建龙1': [392, 116],
+                                        '唐山建龙2': [392, 187],
+                                        '承德建龙': [600, 180],
+                                        '新宝泰': [610, 260],
+                                        '一汽凌源': [740, 210],
+                                        '青岛船厂': [700, 260],
+                                        '长春地产': [747, 63],
+                                        '吉林建龙': [645, 90],
+                                        '吉林恒联': [750, 123],
+                                        '抚顺新钢铁': [637, 150],
+                                        '嘉天地产': [458, 31],
+                                        '黑龙江建龙': [565, 26],
+                                        '北京总部': [148, 250],
+                                        '总裁楼': [95, 306],
+                                        '矿业': [212, 178],
+                                        '志能祥赢': [125, 178],
+                                        '洪祥航运': [63, 231],
+                                        '天津捷威': [477, 385],
+                                        '天津龙港': [533, 374],
+                                        '天津建龙': [528, 436],
+                                        '天津茂联': [523, 498],
+                                        '天津祥威': [469, 498],
+                                        '天津祥嘉': [425, 441],
+                                        '四川川锅': [285, 498],
+                                        '山西建龙': [307, 369],
+                                        '上海洪祥': [710, 400],
+                                        '舟山扬帆': [710, 460],
+                                        '浙江建龙': [710, 520],
+                                        '浙江盈联': [710, 580]
+                                    },
+                                    textFixed: {
+                                        '数据中心': [0, 20],
+                                        '唐山1': [-30, 0],
+                                        '唐山2': [-30, 0],
+                                        '北京': [0, 20],
+                                        '承德': [40, 0],
+                                        '丰润': [20, 10],
+                                        '凌源': [40, 0],
+                                        '青岛': [40, 0],
+                                        '抚顺': [40, 0],
+                                        '吉林': [20, 0],
+                                        '明城': [0, 10],
+                                        '长春': [0, 10],
+                                        '嘉天': [-30, 0],
+                                        '双鸭山': [30, 0],
+                                        '上海': [20, 0],
+                                        '舟山': [20, 0],
+                                        '杭州': [20, 0],
+                                        '浙江': [20, 0],
+                                        '天津': [20, 0],
+                                        '天津建龙': [0, 10],
+                                        '茂联': [0, 10],
+                                        '龙港': [0, 10],
+                                        '祥威': [0, 10],
+                                        '祥嘉': [0, 10],
+                                        '山西': [-30, 0],
+                                        '川锅': [-30, 0],
+                                        '总裁楼': [-20, 0],
+                                        '洪祥航运': [-20, 0],
+                                        '矿业': [0, 10],
+                                        '志能祥赢': [-20, 0]
+                                    },
+                                    markLine: {
+                                        smooth: true,
+                                        effect: {
+                                            show: true,
+                                            scaleSize: 1,
+                                            period: 30,
+                                            color: '#fff',
+                                            shadowBlur: 5
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                color: function (params) {
+                                                    if (params.data[1].value == 0) {
+                                                        return 'gray'
+                                                    }
+                                                },
+                                                borderWidth: 1,
+                                                lineStyle: {
+                                                    type: 'dotted'
+                                                }
+                                            }
+                                        },
+                                        data: zhuanxian_lastvalue.outvalue
+                                    }
+                                },
+                                {
+                                    name: '流入',
+                                    type: 'map',
+                                    tooltip: {
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        trigger: 'item',
+                                        enterable: true,
+                                        position: function (p) {
+                                            return [p[0] - 60, p[1] + 10];
+                                        },
+                                        formatter: function (params, ticket, callback) {
+                                            var line = params.name.split(" ");
+                                            var res = '<a  style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                                    + '\'' + 'line_history/' + line[0] + '专线' + '\',' + '\'newwindow,' + '\',' + '\''
+                                                    + 'height=600,width=860,top=20,left=20,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no' + '\'' + ')">'
+                                                    + line[0] + '</a>' + ':' + params.value;
+                                            setTimeout(function () {
+                                                callback(ticket, res);
+                                            }, 500);
+                                            return '正在加载,请稍等...';
+                                        }
+                                    },
+                                    roam: false,
+                                    mapType: 'line',
+                                    hoverable: false,
+                                    clickable: false,
+                                    itemStyle: {
+                                        normal: {label: {show: true}},
+                                        emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    markLine: {
+                                        smooth: true,
+                                        effect: {
+                                            show: true,
+                                            scaleSize: 1,
+                                            period: 30,
+                                            color: '#fff',
+                                            shadowBlur: 5
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                color: function (params) {
+                                                    if (params.data[0].value == 0) {
+                                                        return 'gray'
+                                                    }
+                                                },
+                                                label: {show: false},
+                                                borderWidth: 1,
+                                                lineStyle: {
+                                                    type: 'dotted'
+                                                }
+                                            }
+                                        },
+                                        data: zhuanxian_lastvalue.line
+                                    },
+                                    markPoint: {
+                                        clickable: false,
+                                        symbol: 'pin',
+                                        symbolSize: 0,
+                                        effect: {
+                                            show: false,
+                                            shadowBlur: 0
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                label: {position: 'top'}
+                                            }
+                                        },
+                                        data: zhuanxian_lastvalue.invalue
+                                    }
+                                }
+
+                            ]
+                        };
+                        // 为echarts对象加载数据
+                        myChart.setOption(option);
+                    }
+            );
+        }
+        function device_data() {
+            require.config({
+                paths: path
+            });
+            require(
+                    [
+                        'echarts',
+                        'echarts/chart/bar'
+                    ],
+                    function (ec) {
+                        var myChart = ec.init(document.getElementById('main_bar'));
+                        var device = {
+                            name: [],
+                            host_num: [],
+                            problem: [],
+                            host_total: 0,
+                            problem_total: 0
+                        };
+                        var url_device = "/trigger/device_value/";
+                        $.ajax(
+                                {
+                                    type: "get",
+                                    url: url_device,
+                                    async: false,
+                                    cache: false,
+                                    success: function (data) {
+                                        var len = data.length;
+                                        for (var i = len - 1; i >= 0; i--) {
+                                            device.name.push(data[i]['servername']);
+                                            device.host_num.push(data[i]['hostnum']);
+                                            device.host_total += data[i]['hostnum'];
+                                            device.problem.push(data[i]['problemnum']);
+                                            device.problem_total += data[i]['problemnum'];
+                                        }
+                                        //console.log(device);
+                                    }
+                                }
+                        );
+
+                        var option = {
+                            backgroundColor: '#FCFCFC',
+                            color: ['rgba(65,105,225,0.8)', 'rgba(255,48,48,0.8)'],
+                            title: {
+                                text: '监控设备',
+                                subtext: '[设备数量:共' + device.host_total + ',异常数量:共' + device.problem_total + ']',
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                enterable: false
+                            },
+                            legend: {
+                                x: 'right',
+                                y: 'top',
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                },
+                                data: ['设备数量', '异常数量']
+                            },
+                            toolbox: {
+                                show: true,
+                                orient: 'vertical',
+                                x: 'right',
+                                y: 'bottom',
+                                feature: {
+                                    restore: {show: true},
+                                    saveAsImage: {show: true}
+                                }
+                            },
+                            calculable: true,
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            type: 'dashed'
+                                        }
+                                    },
+                                    splitArea: {show: true},
+                                    axisLabel: {
+                                        interval: 0,
+                                        rotate: -30
+                                    },
+                                    data: device.name
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    type: 'value',
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            type: 'dashed'
+                                        }
+                                    }
+                                }
+                            ],
+                            series: [
+                                {
+                                    name: '设备数量',
+                                    type: 'bar',
+                                    stack: '总量',
+                                    clickbale: false,
+                                    itemStyle: {
+                                        normal: {
+                                            barBorderRadius: 5,
+                                            label: {
+                                                show: true,
+                                                textStyle: {
+                                                    fontSize: '12',
+                                                    fontFamily: '微软雅黑',
+                                                    fontWeight: 'bold'
+                                                },
+                                                position: 'insideTop',
+                                                formatter: "{c}"
+                                            }
+                                        }
+                                    },
+                                    tooltip: {
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        trigger: 'item',
+                                        enterable: true,
+                                        position: function (p) {
+                                            return [p[0] - 30, p[1] + 10];
+                                        },
+                                        formatter: function (params, ticket, callback) {
+                                            var res = '<a style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                                    + '\'' + 'host_list/' + params.name + '\',' + '\'newwindow,' + '\',' + '\''
+                                                    + 'height=600,width=860,top=20,left=20,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no' + '\'' + ')">'
+                                                    + params.name + '</a>' + ':' + params.value;
+                                            setTimeout(function () {
+                                                callback(ticket, res);
+                                            }, 500);
+                                            return '正在加载,请稍等...';
+                                        }
+                                    },
+
+                                    data: device.host_num
+                                },
+                                {
+                                    name: '异常数量',
+                                    type: 'bar',
+                                    stack: '总量',
+                                    itemStyle: {
+                                        normal: {
+                                            barBorderRadius: 5,
+                                            label: {
+                                                show: true,
+                                                textStyle: {
+                                                    fontSize: '12',
+                                                    fontFamily: '微软雅黑',
+                                                    fontWeight: 'bold'
+                                                },
+                                                position: 'top',
+                                                formatter: function (params) {
+                                                    if (params.data != 0) {
+                                                        return params.data
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    tooltip: {
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        trigger: 'item',
+                                        enterable: true,
+                                        position: function (p) {
+                                            return [p[0] - 30, p[1] + 10];
+                                        },
+                                        formatter: function (params, ticket, callback) {
+                                            var res = '<a style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                                    + '\'' + 'trigger_list/' + params.name + '\',' + '\'newwindow,' + '\',' + '\''
+                                                    + 'height=600,width=860,top=20,left=20,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no' + '\'' + ')">'
+                                                    + params.name + '</a>' + ':' + params.value;
+                                            setTimeout(function () {
+                                                callback(ticket, res);
+                                            }, 500);
+                                            return '正在加载,请稍等...';
+                                        }
+                                    },
+                                    data: device.problem
+                                }
+                            ]
+                        };
+                        // 为echarts对象加载数据
+                        myChart.setOption(option);
+                    }
+            )
+        }
+        function internet_data() {
+            require.config({
+                paths: path
+            });
+            require(
+                    [
+                        'echarts',
+                        'echarts/chart/bar'
+                    ],
+                    function (ec) {
+                        var myChart = ec.init(document.getElementById('main_internet'));
+                        var internet = {
+                            name: [],
+                            invalue: [],
+                            outvalue: [],
+                            num: 0
+                        };
+                        var urls = "/trigger/internet_lastvalue/";
+                        $.ajax(
+                                {
+                                    type: "get",
+                                    url: urls,
+                                    async: false,
+                                    cache: false,
+                                    success: function (data) {
+                                        var len = data.length;
+                                        internet.num = len;
+                                        for (var i = len - 1; i >= 0; i--) {
+                                            internet.name.push(data[i]['company']);
+                                            internet.invalue.push(data[i]['invalue']);
+                                            internet.outvalue.push(data[i]['outvalue']);
+                                        }
+                                        //console.log(internet);
+                                    }
+                                }
+                        );
+                        var option = {
+                            backgroundColor: '#FCFCFC',
+                            color: ['rgba(65,105,225,0.8)', 'rgba(0,139,0,0.8)'],
+                            title: {
+                                text: '互联网流量',
+                                subtext: '[单位:Mbits,共' + internet.num + '条]',
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                }
+                            },
+                            grid: {
+                                x: '10%',
+                                y: '15%',
+                                x2: '10%'
+                                //y2: '20%'
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.5)',
+                                trigger: 'item',
+                                enterable: true,
+                                axlisPointer: {type: 'shadow'},
+                                position: function (p) {
+                                    return [p[0] - 30, p[1] + 10];
+                                },
+                                formatter: function (params, ticket, callback) {
+                                    var res = '<a style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                            + '\'' + 'line_history/' + params.name + '互联网' + '\',' + '\'newwindow,' + '\',' + '\''
+                                            + 'height=600,width=860,top=20,left=20,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no' + '\'' + ')">'
+                                            + params.name + '</a>' + ':' + params.value;
+                                    setTimeout(function () {
+                                        callback(ticket, res);
+                                    }, 500);
+                                    return '正在加载,请稍等...';
+                                }
+                            },
+
+                            legend: {
+                                x: 'right',
+                                y: 'top',
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                },
+                                data: ['流入', '流出']
+                            },
+                            toolbox: {
+                                show: true,
+                                orient: 'vertical',
+                                x: 'right',
+                                y: 'bottom',
+                                feature: {
+                                    restore: {show: true},
+                                    saveAsImage: {show: true}
+                                }
+                            },
+                            calculable: true,
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            type: 'dashed'
+                                        }
+                                    },
+                                    splitArea: {show: true},
+                                    axisLabel: {
+                                        interval: 0,
+                                        rotate: -30
+                                    },
+                                    data: internet.name
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    type: 'value',
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            type: 'dashed'
+                                        }
+                                    }
+                                }
+                            ],
+                            series: [
+                                {
+                                    name: '流出',
+                                    type: 'bar',
+                                    stack: '总量',
+                                    itemStyle: {
+                                        normal: {
+                                            barBorderRadius: 5,
+                                            label: {
+                                                show: true,
+                                                textStyle: {
+                                                    fontSize: '10',
+                                                    fontFamily: '微软雅黑'
+                                                    //fontWeight: 'bold'
+                                                },
+                                                position: 'inside',
+                                                formatter: '{c}'
+                                            }
+                                        }
+                                    },
+                                    data: internet.outvalue
+                                },
+                                {
+                                    name: '流入',
+                                    type: 'bar',
+                                    stack: '总量',
+                                    clickbale: false,
+                                    itemStyle: {
+                                        normal: {
+                                            barBorderRadius: 5,
+                                            label: {
+                                                show: true,
+                                                textStyle: {
+                                                    fontSize: '10',
+                                                    fontFamily: '微软雅黑'
+                                                    //fontWeight: 'bold'
+                                                },
+                                                position: 'inside',
+                                                formatter: '{c}'
+                                            }
+                                        }
+                                    },
+                                    data: internet.invalue
+                                }
+                            ]
+                        };
+                        // 为echarts对象加载数据
+                        myChart.setOption(option);
+                    }
+            );
+        }
+        function video_status() {
+            //$.getJSON('/trigger/video_status/',
+            $.ajax(
+                    {
+                        type: "get",
+                        url: "/trigger/video_status/",
+                        async: false,
+                        cache: false,
+                        success: function (data) {
+                            //console.log(data);
+                            if (data.syn == 0) {
+                                $('#v_status').html("共" + data.total + "方，" + "运行中<b style='color: red'>" + data.active + "</b>方。");
+                            }
+                            else {
+                                $('#v_status').html("共" + data.total + "方，正在同步数据...");
+                            }
+                        }
+                    }
+            )
+        }
+        setTimeout('zhuanxian_status()', t1);
+        setTimeout('zhuanxian_data()', t1);
+        setTimeout('internet_data()', t1);
+        setTimeout('device_data()', t1);
+        setTimeout('video_status()', t1);
+        setInterval('zhuanxian_status()', t2);
+        setInterval('zhuanxian_data()', t2);
+        setInterval('internet_data()', t3);
+        setInterval('device_data()', t3);
+        setInterval('video_status()', t2);
+    </script>
+{% endblock %}

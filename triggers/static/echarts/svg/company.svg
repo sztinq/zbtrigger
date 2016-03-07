@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="842px" height="600px" viewBox="0 0 841.891 595.275" enable-background="new 0 0 841.891 595.275"
+	 xml:space="preserve">
+<circle name="唐山DC" fill="black" cx="-80" cy="80" r="10"/>
+<circle name="唐山1-100" fill="gray" cx="20" cy="80" r="8"/>
+<circle name="唐山2-100" fill="gray" cx="140" cy="80" r="8"/>
+<circle name="承德电信6" fill="gray" cx="260" cy="80" r="8"/>
+<circle name="抚顺电信6" fill="gray" cx="380" cy="80" r="8"/>
+<circle name="双鸭山电信6" fill="gray" cx="500" cy="80" r="8"/>
+<circle name="丰润电信2" fill="gray" cx="620" cy="80" r="8"/>
+<circle name="山西联通4" fill="gray" cx="740" cy="80" r="8"/>
+<circle name="嘉天电信2" fill="gray" cx="860" cy="80" r="8"/>
+
+<circle name="青岛移动2" fill="gray" cx="20" cy="160" r="8"/>
+<circle name="川锅移动2" fill="gray" cx="140" cy="160" r="8"/>
+<circle name="凌源电信2" fill="gray" cx="260" cy="160" r="8"/>
+<circle name="上海电信2" fill="gray" cx="380" cy="160" r="8"/>
+<circle name="舟山移动2" fill="gray" cx="500" cy="160" r="8"/>
+<circle name="浙江移动2" fill="gray" cx="620" cy="160" r="8"/>
+<circle name="杭州电信2" fill="gray" cx="740" cy="160" r="8"/>
+<circle name="电商联通2" fill="gray" cx="860" cy="160" r="8"/>
+<circle name="唐山联通Internet-100" fill="gray" cx="20" cy="240" r="8"/>
+<circle name="唐山电信Internet-20" fill="gray" cx="260" cy="240" r="8"/>
+<line fill="gray" stroke="gray" stroke-miterlimit="10" x1="-100" y1="295" x2="880" y2="295"/>
+
+<circle name="天津区" fill="black" cx="-80" cy="320" r="10"/>
+<circle name="天津捷威移动6" fill="gray" cx="20" cy="320" r="10"/>
+<circle name="龙港电信2" fill="gray" cx="140" cy="320" r="8"/>
+<circle name="天津建龙移动2" fill="gray" cx="260" cy="320" r="8"/>
+<circle name="茂联电信2" fill="gray" cx="500" cy="320" r="8"/>
+<circle name="祥威电信100" fill="gray" cx="620" cy="320" r="8"/>
+<circle name="祥嘉电信100" fill="gray" cx="740" cy="320" r="8"/>
+
+<circle name="北京区" fill="black" cx="-80" cy="420" r="10"/>
+<circle name="总部电信6" fill="gray" cx="20" cy="420" r="10"/>
+<circle name="总裁楼移动100" fill="gray" cx="140" cy="420" r="8"/>
+<circle name="矿业移动100" fill="gray" cx="260" cy="420" r="8"/>
+<circle name="志能祥赢联通100" fill="gray" cx="500" cy="420" r="8"/>
+<circle name="洪祥航运电信2" fill="gray" cx="620" cy="420" r="8"/>
+<circle name="北京联通Internet-52" fill="gray" cx="860" cy="420" r="8"/>
+
+<circle name="吉林区" fill="black" cx="-80" cy="520" r="10"/>
+<circle name="吉林联通10" fill="gray" cx="20" cy="520" r="10"/>
+<circle name="长春电信2" fill="gray" cx="140" cy="520" r="8"/>
+<circle name="明城联通20" fill="gray" cx="260" cy="520" r="8"/>
+
+
+</svg>

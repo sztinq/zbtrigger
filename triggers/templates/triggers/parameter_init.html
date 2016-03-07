@@ -1,0 +1,25 @@
+{% extends "triggers/bootstrap.html" %}
+{% block content %}
+<div class="posts">
+        <section class="post">
+            <header class="post-header">
+                <h1 class="post-title">服务器参数初始化完成！</h1>
+            </header>
+        </section>
+</div>
+<div class="container">
+    <table class="table table-bordered table-hover table-responsive table-striped">
+        <tr class="active">
+            <th>服务器IP</th>
+            <th>状态</th>
+        </tr>
+        {% for s in server_status %}
+            <tr>
+                <td>{{ s.serverip }}</td>
+                <td>{{ s.status }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<a class="pure-button" href="{% url 'triggers:index' %}">返回首页</a>
+{% endblock %}

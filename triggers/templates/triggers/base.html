@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="30">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example that shows off a blog page with a list of posts.">
+
+    <title>建龙集团网络监控平台</title>
+    <link rel="stylesheet" href="{% static 'style/pure-min.css' %}">
+    <link rel="stylesheet" href="{% static 'style/base-min.css' %}">
+    <link rel="stylesheet" href="{% static 'style/color.css' %}">
+    <link rel="stylesheet" href="{% static 'style/tables.css' %}">
+    <!--[if gt IE 8]>
+        <link rel="stylesheet" href="{% static 'style/grids-responsive-min.css' %}">
+        <link rel="stylesheet" href="{% static 'style/blog.css' %}">
+    <![endif]-->
+    <!--[if lte IE 8]><!-->
+        <link rel="stylesheet" href="{% static 'style/grids-responsive-old-ie-min.css' %}">
+        <link rel="stylesheet" href="{% static 'style/blog-old-ie.css' %}">
+    <!--![endif]-->
+
+</head>
+<body>
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-5">
+        <div class="header">
+            <h1 class="brand-title">建龙集团网络监控平台</h1>
+            <h2 class="brand-tagline"> Ejianlong.com</h2>
+            <nav class="nav" >
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="{% url 'triggers:index' %}">首页</a>
+                    </li>
+                    <li  class="nav-item">
+                        <a class="pure-button" href="{% url 'triggers:zhuanxian' %}">集团专线</a>
+                    </li>
+                    <li  class="nav-item">
+                        <a class="pure-button" href="{% url 'triggers:video' %}">视频会议</a>
+                    </li>
+                    <li  class="nav-item">
+                        <a class="pure-button" href="{% url 'triggers:item_value' %}">线路流量</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://nmdc.ejianlong.com" target="_blank">数据中心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://nmbj.ejianlong.com" target="_blank">北京总部</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://nmts.ejianlong.com" target="_blank">唐山建龙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://nmcd.ejianlong.com/zabbix/maps.php?sysmapid=3&fullscreen=1" target="_blank">承德建龙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://nmjl.ejianlong.com" target="_blank">吉林建龙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://nmhlj.ejianlong.com/zabbix/maps.php?sysmapid=2&fullscreen=1" target="_blank">黑龙江建龙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://nmfs.ejianlong.com" target="_blank">抚顺新钢铁</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="content pure-u-1 pure-u-md-3-5">
+        <div>
+            {% block content %}
+            {% endblock %}
+            <div class="footer">
+                <div class="pure-menu" align="right">
+                    <ul>
+                        <a href="#">关于</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

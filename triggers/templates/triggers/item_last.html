@@ -1,0 +1,64 @@
+{% extends "triggers/bootstrap.html" %}
+{% block content %}
+<div class="container">
+   <div class="row">
+      <div class="col-lg-5">
+        <h3 class="page-header">各公司互联网出口实时速度</h3>
+      </div>
+   </div>
+</div>
+<div class="container">
+            <table class="table table-bordered table-hover table-responsive table-striped">
+                <thead>
+                        <tr class="active">
+                            <th>线路</th>
+                            <th>上传</th>
+                            <th>下载</th>
+                            <th>更新时间</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for v in v_internet  %}
+                        <tr>
+                            <td><a href="{% url 'triggers:history' v.company v.description %}">{{ v.description }}</a></td>
+                            <td>{{ v.outvalue }}</td>
+                            <td>{{ v.invalue }}</td>
+                            <td>{{ v.clock }}</td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+</div>
+<div class="container">
+    <div class="row">
+      <div class="col-lg-5">
+        <h3 class="page-header"> 集团专线实时速度</h3>
+      </div>
+    </div>
+</div>
+<div class="container">
+            <table class="table table-bordered table-hover table-responsive table-striped">
+                <thead>
+                        <tr class="active">
+                            <th>线路</th>
+                            <th>上传</th>
+                            <th>下载</th>
+                            <th>更新时间</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for v in v_zhuanxian  %}
+                        <tr>
+                            <td><a href="{% url 'triggers:history' v.company v.description %}">{{ v.description }}</a></td>
+                            <td>{{ v.outvalue }}</td>
+                            <td>{{ v.invalue }}</td>
+                            <td>{{ v.clock }}</td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+  </div>
+<div class="container" align="right">
+      <a class="btn btn-default" href="{% url 'triggers:index' %}">返回首页</a>
+</div>
+{% endblock %}

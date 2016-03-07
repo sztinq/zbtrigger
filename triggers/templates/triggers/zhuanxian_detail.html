@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% load staticfiles %}
+{% load pagination_tags %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5">
+            <h3 class="page-header">{{ z_tail.company }}专线详细信息</h3>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table table-bordered table-hover table-responsive table-striped">
+            <tr>
+                <td align="right">专线名称：</td>
+                <td>{{ z_tail.hostname }}</td>
+            </tr>
+            <tr>
+                <td align="right">专线IP：</td>
+                <td>{{ z_tail.hostip }}</td>
+            </tr>
+            <tr>
+                <td align="right">专线号：</td>
+                <td>{{ z_tail.zhuanxianhao }}</td>
+            </tr>
+            <tr>
+                <td align="right">管理员：</td>
+                <td>{{ z_tail.manager }}</td>
+            </tr>
+            <tr>
+                <td align="right">联系方式：</td>
+                <td>{{ z_tail.managerphone }}</td>
+            </tr>
+            <tr>
+                <td align="right">运营商：</td>
+                <td>{{ z_tail.yunyingshang }}</td>
+            </tr>
+            <tr>
+                <td align="right">报障热线：</td>
+                <td>{{ z_tail.hotphone }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="container" align="right">
+    <a class="btn btn-default" href="javascript:window.opener=null;window.close();">关闭</a>
+</div>
+</body>

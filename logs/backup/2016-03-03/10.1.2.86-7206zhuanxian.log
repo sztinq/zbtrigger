@@ -1,0 +1,196 @@
+show running-config
+Building configuration...
+
+Current configuration : 4325 bytes
+!
+version 12.3
+service timestamps debug datetime msec
+service timestamps log datetime msec localtime
+no service password-encryption
+!
+hostname 7206zhuanxian
+!
+boot-start-marker
+boot-end-marker
+!
+logging monitor informational
+enable secret 5 $1$wHht$6mOGfACNgVHBqndywn8xV0
+!
+aaa new-model
+!
+!
+aaa authentication login default group tacacs+ group radius line
+aaa authentication enable default group tacacs+ enable
+aaa authorization exec default group tacacs+ if-authenticated 
+aaa authorization commands 1 default group tacacs+ if-authenticated 
+aaa authorization commands 15 default group tacacs+ if-authenticated 
+aaa authorization network default group radius 
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+aaa session-id common
+ip subnet-zero
+!
+!
+ip cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+class-map match-all other
+  match not access-group name video
+  match not access-group name erp
+class-map match-all erp
+  match access-group name erp
+  match access-group name bj_sys
+class-map match-all video
+  match access-group name video
+!
+!
+policy-map p_tsdc
+  class video
+   set dscp cs7
+   police cir 4000000 bc 500000
+  class erp
+   set dscp cs4
+   police cir 2000000 bc 250000
+!
+!
+!
+!
+interface Loopback1
+ ip address 10.0.3.13 255.255.255.255
+!
+interface GigabitEthernet0/1
+ description link to TSDC
+ ip address 10.1.2.121 255.255.255.252
+ service-policy input p_tsdc
+ service-policy output p_tsdc
+ duplex auto
+ speed auto
+ media-type rj45
+ no negotiation auto
+!
+interface GigabitEthernet0/2
+ description link to 3560 G0/21
+ ip address 10.1.2.125 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+ no negotiation auto
+!
+interface GigabitEthernet0/3
+ description link to 4506-1 G2/48
+ ip address 10.1.2.86 255.255.255.252
+ ip ospf network point-to-point
+ duplex auto
+ speed auto
+ media-type rj45
+ no negotiation auto
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.0.3.13 0.0.0.0 area 0
+ network 10.1.2.121 0.0.0.0 area 0
+!
+router ospf 100
+ log-adjacency-changes
+ redistribute connected subnets
+ redistribute static subnets
+ redistribute bgp 65007 subnets
+ network 10.1.2.86 0.0.0.0 area 1
+ network 10.1.2.125 0.0.0.0 area 1
+!
+router bgp 65007
+ no synchronization
+ bgp log-neighbor-changes
+ network 10.1.0.0 mask 255.255.0.0
+ network 10.7.0.0 mask 255.255.0.0
+ network 10.59.0.0 mask 255.255.240.0
+ neighbor 10.0.3.2 remote-as 65001
+ neighbor 10.0.3.2 ebgp-multihop 2
+ neighbor 10.0.3.2 update-source Loopback1
+ no auto-summary
+!
+ip classless
+ip route 10.1.0.0 255.255.0.0 Null0
+no ip http server
+!
+!
+!
+ip access-list extended bj_sys
+ permit ip host 10.1.19.7 any
+ permit ip host 10.1.19.19 any
+ permit ip host 10.1.18.20 any
+ permit ip host 10.1.19.95 any
+ permit ip host 10.1.19.98 any
+ permit ip host 10.1.19.155 any
+ permit ip host 10.1.19.175 any
+ permit ip host 10.1.19.218 any
+ip access-list extended erp
+ permit ip 10.1.0.0 0.0.255.255 10.68.2.0 0.0.0.255
+ permit ip 10.1.0.0 0.0.255.255 10.68.4.0 0.0.0.255
+ permit ip 10.1.0.0 0.0.255.255 10.68.6.0 0.0.0.255
+ permit ip 10.1.0.0 0.0.255.255 10.68.3.0 0.0.0.255
+ permit ip 10.7.0.0 0.0.255.255 10.68.6.0 0.0.0.255
+ permit ip 10.59.0.0 0.0.240.255 10.68.6.0 0.0.0.255
+ip access-list extended video
+ permit ip host 10.1.0.132 any
+ permit ip host 10.1.0.133 any
+ permit ip host 10.1.0.194 any
+ permit ip host 10.1.0.195 any
+ permit ip host 10.1.2.121 any
+ permit ip host 10.0.3.13 any
+logging history informational
+logging facility local4
+logging source-interface GigabitEthernet0/3
+logging 10.1.3.3
+logging 10.68.7.103
+!
+snmp-server community public RO
+snmp-server location Beijing
+snmp-server enable traps tty
+snmp-server host 10.1.18.30 public 
+snmp-server host 10.1.18.31 public 
+snmp-server host 10.1.18.40 public 
+snmp-server host 10.1.3.3 public 
+tacacs-server host 10.1.3.4
+tacacs-server directed-request
+tacacs-server key ejianlong
+!
+radius-server host 10.1.18.10 auth-port 1812 acct-port 1813 key ejianlong
+radius-server host 10.1.18.15 auth-port 1812 acct-port 1813 key ejianlong
+radius-server retransmit 1
+!
+!
+!
+!
+gatekeeper
+ shutdown
+!
+!
+line con 0
+ transport preferred all
+ transport output all
+ stopbits 1
+line aux 0
+line vty 0 4
+ password cisco7206
+ transport preferred all
+ transport input all
+ transport output all
+!
+!
+end
+
+7206zhuanxian#

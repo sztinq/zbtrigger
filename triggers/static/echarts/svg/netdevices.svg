@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="842px" height="600px" viewBox="0 0 841.891 595.275" enable-background="new 0 0 841.891 595.275"
+	 xml:space="preserve">
+<circle name="唐山DC" fill="black" cx="-80" cy="80" r="10"/>
+<circle name="ERP核心" fill="gray" cx="20" cy="80" r="8"/>
+<circle name="ERP汇聚1" fill="gray" cx="140" cy="80" r="8"/>
+<circle name="ERP汇聚2" fill="gray" cx="260" cy="80" r="8"/>
+<circle name="专线路由器1" fill="gray" cx="380" cy="80" r="8"/>
+<circle name="专线路由器2" fill="gray" cx="500" cy="80" r="8"/>
+<circle name="ERP防火墙" fill="gray" cx="620" cy="80" r="8"/>
+<circle name="ERP-DMZ交换机" fill="gray" cx="740" cy="80" r="8"/>
+<circle name="ERP-F5" fill="gray" cx="860" cy="80" r="8"/>
+<circle name="电商防火墙" fill="gray" cx="20" cy="160" r="8"/>
+<circle name="电商核心主" fill="gray" cx="140" cy="160" r="8"/>
+<circle name="电商核心从" fill="gray" cx="260" cy="160" r="8"/>
+<circle name="电商接入主" fill="gray" cx="380" cy="160" r="8"/>
+<circle name="电商接入从" fill="gray" cx="500" cy="160" r="8"/>
+<circle name="电商F5" fill="gray" cx="620" cy="160" r="8"/>
+
+<circle name="北京区" fill="black" cx="-80" cy="260" r="10"/>
+<circle name="老楼核心1" fill="gray" cx="20" cy="260" r="10"/>
+<circle name="老楼核心2" fill="gray" cx="140" cy="260" r="8"/>
+<circle name="总裁楼核心" fill="gray" cx="260" cy="260" r="8"/>
+<circle name="北京专线路由器" fill="gray" cx="500" cy="260" r="8"/>
+<circle name="北京互联网路由器" fill="gray" cx="620" cy="260" r="8"/>
+<circle name="北京互联网防火墙" fill="gray" cx="740" cy="260" r="8"/>
+<circle name="3号楼2层" fill="gray" cx="20" cy="340" r="10"/>
+<circle name="3号楼4层1" fill="gray" cx="140" cy="340" r="8"/>
+<circle name="3号楼4层2" fill="gray" cx="260" cy="340" r="8"/>
+<circle name="3号楼6层1" fill="gray" cx="380" cy="340" r="8"/>
+<circle name="3号楼6层2" fill="gray" cx="500" cy="340" r="8"/>
+<circle name="3号楼8层1" fill="gray" cx="620" cy="340" r="8"/>
+<circle name="3号楼8层2" fill="gray" cx="740" cy="340" r="8"/>
+<circle name="3号楼10层" fill="gray" cx="860" cy="340" r="8"/>
+<circle name="4号楼1层" fill="gray" cx="20" cy="420" r="10"/>
+<circle name="4号楼3层" fill="gray" cx="140" cy="420" r="8"/>
+<circle name="4号楼5层" fill="gray" cx="260" cy="420" r="8"/>
+<circle name="4号楼7层1" fill="gray" cx="380" cy="420" r="8"/>
+<circle name="4号楼7层2" fill="gray" cx="500" cy="420" r="8"/>
+<circle name="4号楼9层" fill="gray" cx="620" cy="420" r="8"/>
+<circle name="总裁楼北2" fill="gray" cx="20" cy="500" r="8"/>
+<circle name="总裁楼北4" fill="gray" cx="140" cy="500" r="8"/>
+<circle name="总裁楼南2" fill="gray" cx="260" cy="500" r="8"/>
+<circle name="总裁楼南4" fill="gray" cx="380" cy="500" r="8"/>
+</svg>

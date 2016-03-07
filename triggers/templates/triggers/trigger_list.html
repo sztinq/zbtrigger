@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% load staticfiles %}
+{% load pagination_tags %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+            <h4>《{{ servername }}》异常设备列表</h4>
+</div>
+
+<div class="container">
+    <table class="table table-bordered table-hover table-responsive table-striped">
+        <tr class="active">
+            <th>设备名称</th>
+            <th>设备IP</th>
+            <th>异常描述</th>
+            <th>异常时间</th>
+        </tr>
+        {% autopaginate trigger_list 10 %}
+        {% for t in trigger_list %}
+            <tr>
+                <td>{{ t.hostname }}</td>
+                <td>{{ t.hostip }}</td>
+                <td>{{ t.description|cut:"{HOST.NAME}"|cut:"-"|cut:"on"|cut:"is" }}</td>
+                <td>{{ t.lastchange }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% paginate %}
+</div>
+<div class="container" align="right">
+        <a class="btn btn-default" href="javascript:window.opener=null;window.close();">关闭</a>
+</div>
+</body>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% load staticfiles %}
+{% load pagination_tags %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h4>《{{ servername }}》设备列表</h4>
+</div>
+<div class="container">
+    <form class="form-inline" action="." method="GET">
+        <div class="form-group">
+            <label class="sr-only" for="q_hostname">路由器</label>
+            <div class="input-group">
+                <div class="input-group-addon">设备名称：</div>
+                <input class="form-control" type="text" name="q_hostname"
+                       value="{% if q_hostname %} {{ q_hostname }}{% endif %}">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">IP地址：</div>
+                <input class="form-control" type="text" name="q_ip" value="{% if q_ip %} {{ q_ip }}{% endif %}">
+            </div>
+            <button class="btn btn-default" type="submit">查询</button>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <table class="table table-bordered table-hover table-responsive table-striped">
+        <thead>
+        <tr class="active">
+            <th>设备ID</th>
+            <th>设备名称</th>
+            <th>设备IP地址</th>
+            <th>设备状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% autopaginate host_list 10 %}
+        {% for h in host_list %}
+            <tr>
+                <td>{{ h.hostid }}</td>
+                <td>{{ h.hostname }}</td>
+                <td>{{ h.hostip }}</td>
+                {% if h.status == 0 %}
+                    <td>正常</td>
+                {% else %}
+                    <td>{{ h.status }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% paginate %}
+</div>
+</body>

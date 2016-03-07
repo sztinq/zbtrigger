@@ -1,0 +1,355 @@
+show running-config
+: Saved
+:
+PIX Version 6.3(4)
+interface ethernet0 100full
+interface ethernet1 100full
+interface ethernet2 100full
+interface ethernet3 100full
+interface ethernet4 100full
+interface ethernet5 100full
+nameif ethernet0 outside security0
+nameif ethernet1 inside1 security99
+nameif ethernet2 DMZ security50
+nameif ethernet3 outside_lt security0
+nameif ethernet4 inside3 security80
+nameif ethernet5 inside2 security70
+enable password IvXcDmcLw6TwL3Bz encrypted
+passwd 2KFQnbNIdI.2KYOU encrypted
+hostname BJ-PIX525
+domain-name showrun
+clock timezone UTC 8
+no fixup protocol dns
+fixup protocol ftp 21
+no fixup protocol h323 h225 1720
+no fixup protocol h323 ras 1718-1719
+<--- More --->              fixup protocol http 80
+fixup protocol rsh 514
+fixup protocol rtsp 554
+no fixup protocol sip 5060
+no fixup protocol sip udp 5060
+fixup protocol skinny 2000
+no fixup protocol smtp 25
+fixup protocol sqlnet 1521
+fixup protocol tftp 69
+names
+object-group network lt_network 
+  network-object 60.0.0.0 255.224.0.0 
+  network-object 60.208.0.0 255.240.0.0 
+  network-object 61.128.0.0 255.192.0.0 
+  network-object 202.96.0.0 255.252.0.0 
+  network-object 202.102.0.0 255.255.0.0 
+  network-object 202.106.0.0 255.255.0.0 
+  network-object 202.107.0.0 255.255.128.0 
+  network-object 202.108.0.0 255.255.0.0 
+  network-object 202.110.0.0 255.254.0.0 
+  network-object 218.7.0.0 255.255.0.0 
+  network-object 218.12.0.0 255.255.0.0 
+  network-object 218.8.0.0 255.252.0.0 
+  network-object 218.24.0.0 255.252.0.0 
+<--- More --->                network-object 218.56.0.0 255.252.0.0 
+  network-object 218.60.0.0 255.254.0.0 
+  network-object 221.0.0.0 255.240.0.0 
+  network-object 221.192.0.0 255.224.0.0 
+  network-object 222.128.0.0 255.240.0.0 
+  network-object 222.160.0.0 255.252.0.0 
+object-group network test 
+access-list ACL_Outside permit ip any host 114.255.85.41 
+access-list ACL_Outside permit icmp any any 
+access-list ACL_Outside permit udp any any eq isakmp 
+access-list ACL_Outside permit ip any host 114.255.85.42 
+access-list ACL_DMZ permit udp host 10.1.1.66 any eq domain 
+access-list ACL_DMZ permit ip host 10.1.1.67 any 
+access-list ACL_DMZ permit ip host 10.1.1.70 any 
+access-list ACL_DMZ permit tcp host 10.1.1.79 any eq smtp 
+access-list ACL_DMZ permit icmp any any 
+access-list ACL_DMZ permit ip host 10.1.1.66 any 
+access-list ACL_DMZ permit ip host 10.1.1.79 any 
+access-list ACL_DMZ permit ip host 10.1.1.80 any 
+access-list ACL_DMZ permit ip host 10.1.1.68 any 
+access-list ACL_DMZ permit ip host 10.1.1.81 host 10.1.19.6 
+access-list ACL_DMZ permit ip host 10.1.1.69 any 
+access-list ACL_DMZ permit ip host 10.1.1.82 any 
+access-list ACL_DMZ permit ip host 10.1.1.71 any 
+<--- More --->              access-list ACL_DMZ permit ip host 10.1.1.72 any 
+access-list ACL_DMZ permit ip host 10.1.1.74 any 
+access-list ACL_DMZ permit ip host 10.1.1.76 any 
+access-list ACL_DMZ permit ip any host 10.1.1.66 
+access-list ACL_DMZ permit ip any host 10.1.1.70 
+access-list ACL_DMZ permit ip host 10.1.3.18 any 
+access-list ACL_DMZ permit ip any host 10.1.3.18 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.2.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.3.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.4.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.5.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.1.0.128 255.255.255.192 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.1.2.0 255.255.255.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.6.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.1.0 255.255.255.0 10.8.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.8.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.9.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.2.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.3.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.4.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.5.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.6.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+<--- More --->              access-list No_NAT permit ip 10.7.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.8.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.9.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list No_NAT permit ip 10.14.0.0 255.255.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.4.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.3.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.2.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.5.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.6.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.8.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.13.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.32.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.32.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.68.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list No_NAT permit ip 10.9.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip host 10.13.14.15 10.1.255.0 255.255.255.0 
+access-list No_NAT permit ip 10.68.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.7.0.0 255.255.0.0 10.68.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.7.0.0 255.255.0.0 10.2.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.7.0.0 255.255.0.0 10.16.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.7.0.0 255.255.0.0 10.12.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.16.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.12.0.0 255.255.0.0 10.7.0.0 255.255.0.0 
+<--- More --->              access-list No_NAT permit ip 10.7.0.0 255.255.0.0 10.1.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.1.253.0 255.255.255.0 
+access-list No_NAT permit ip 10.6.0.0 255.255.0.0 10.1.253.0 255.255.255.0 
+access-list No_NAT permit ip 10.0.0.0 255.0.0.0 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.19.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.68.0.0 255.255.0.0 10.4.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.4.0.0 255.255.0.0 10.68.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.68.0.0 255.255.0.0 10.1.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.68.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.69.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.69.0.0 255.255.0.0 10.1.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.32.0.0 255.255.0.0 10.1.0.0 255.255.0.0 
+access-list No_NAT permit ip 10.67.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list No_NAT permit ip 10.1.1.0 255.255.255.192 10.1.1.64 255.255.255.192 
+access-list No_NAT permit ip 10.1.0.0 255.255.0.0 10.1.3.16 255.255.255.240 
+access-list BJ_JL_VPN permit ip 10.1.0.0 255.255.0.0 10.3.0.0 255.255.0.0 
+access-list WEB permit ip 10.1.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.2.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.3.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.4.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.5.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.6.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.9.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.8.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+<--- More --->              access-list WEB permit ip 10.1.255.0 255.255.255.0 10.1.0.0 255.255.0.0 
+access-list WEB permit ip 10.1.255.0 255.255.255.0 10.8.0.0 255.255.0.0 
+access-list WEB permit ip 10.1.255.0 255.255.255.0 10.9.0.0 255.255.0.0 
+access-list WEB permit ip 10.1.255.0 255.255.255.0 10.68.0.0 255.255.0.0 
+access-list WEB permit ip 10.68.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.32.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip host 10.13.14.15 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.1.255.0 255.255.255.0 host 10.13.14.15 
+access-list WEB permit ip 10.69.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list WEB permit ip 10.67.0.0 255.255.0.0 10.1.255.0 255.255.255.0 
+access-list No_NAT_DMZ permit ip any 10.3.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.2.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.4.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.5.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.6.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.8.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.1.255.0 255.255.255.0 
+access-list No_NAT_DMZ permit ip any 10.14.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.32.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.9.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.1.253.0 255.255.255.0 
+access-list No_NAT_DMZ permit ip any 10.17.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.68.0.0 255.255.0.0 
+access-list No_NAT_DMZ permit ip any 10.19.0.0 255.255.0.0 
+<--- More --->              access-list ACL_Inisde2 permit tcp any host 10.1.1.5 
+access-list BJ_TS_VPN permit ip 10.1.0.0 255.255.0.0 10.68.0.0 255.255.0.0 
+access-list BJ_TS_VPN permit ip 10.1.0.0 255.255.0.0 10.1.1.0 255.255.255.192 
+access-list BJ_TS_VPN permit ip 10.7.0.0 255.255.0.0 10.68.0.0 255.255.0.0 
+access-list BJ_TS_VPN permit ip 10.7.0.0 255.255.0.0 10.1.1.0 255.255.255.192 
+access-list BJ_TS_VPN permit ip 10.59.0.0 255.255.240.0 10.68.0.0 255.255.0.0 
+access-list BJ_TS_VPN permit ip 10.59.0.0 255.255.240.0 10.1.1.0 255.255.255.192 
+access-list BJ_HLJ_VPN permit ip 10.1.0.0 255.255.0.0 10.4.0.0 255.255.0.0 
+access-list BJ_HLJ_VPN permit ip 10.68.0.0 255.255.0.0 10.4.0.0 255.255.0.0 
+access-list BJ_CD_VPN permit ip 10.1.0.0 255.255.0.0 10.5.0.0 255.255.0.0 
+access-list lt_nat permit ip 10.1.0.0 255.255.0.0 object-group lt_network 
+access-list BJ_FS_VPN permit ip 10.1.0.0 255.255.0.0 10.6.0.0 255.255.0.0 
+access-list lt_no_nat permit ip 10.1.0.0 255.255.0.0 any 
+access-list BJ_YF_VPN permit ip 10.1.1.0 255.255.255.0 10.8.0.0 255.255.0.0 
+access-list BJ_ZJ_VPN permit ip 10.1.0.0 255.255.0.0 10.9.0.0 255.255.0.0 
+access-list acl-in deny ip any host 119.188.116.5 
+access-list acl-in deny ip any host 60.222.223.63 
+access-list acl-in permit ip any any 
+access-list jinzhifangwenwaiwang deny ip host 10.1.25.95 any 
+access-list jinzhifangwenwaiwang deny ip host 10.1.36.58 any 
+access-list jinzhifangwenwaiwang deny ip host 10.1.38.153 any 
+access-list jinzhifangwenwaiwang deny ip host 10.1.38.152 any 
+access-list jinzhifangwenwaiwang deny ip host 10.1.95.206 any 
+access-list jinzhifangwenwaiwang permit ip any any 
+<--- More --->              pager lines 24
+logging on
+logging timestamp
+logging trap informational
+logging host inside1 10.1.18.244 17/1514
+mtu outside 1500
+mtu inside1 1500
+mtu DMZ 1500
+mtu outside_lt 1500
+mtu inside3 1500
+mtu inside2 1500
+ip address outside 125.35.84.6 255.255.255.252
+ip address inside1 10.1.2.102 255.255.255.252
+ip address DMZ 10.1.3.17 255.255.255.240
+no ip address outside_lt
+no ip address inside3
+ip address inside2 10.7.0.201 255.255.255.252
+ip audit info action alarm
+ip audit attack action alarm
+ip local pool VPN_Client 10.1.255.1-10.1.255.254 mask 255.255.255.0
+pdm history enable
+arp timeout 14400
+global (outside) 1 interface
+global (DMZ) 1 interface
+<--- More --->              nat (inside1) 0 access-list No_NAT
+nat (inside1) 1 10.1.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.2.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.3.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.4.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.5.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.6.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.8.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.9.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.12.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.13.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.14.0.0 255.255.0.0 0 0
+nat (inside1) 1 10.32.0.0 255.255.0.0 0 0
+nat (DMZ) 0 access-list No_NAT_DMZ
+nat (DMZ) 1 10.1.3.16 255.255.255.240 0 0
+nat (inside2) 1 10.7.0.0 255.255.0.0 0 0
+static (inside1,outside) 114.255.85.41 10.1.0.133 netmask 255.255.255.255 0 0 
+static (inside1,outside) 114.255.85.42 10.1.0.132 netmask 255.255.255.255 0 0 
+access-group ACL_Outside in interface outside
+access-group jinzhifangwenwaiwang in interface inside1
+access-group ACL_DMZ in interface DMZ
+router ospf 100
+  network 10.1.2.102 255.255.255.255 area 1 
+  network 10.1.3.16 255.255.255.240 area 1 
+<--- More --->                network 10.1.255.0 255.255.255.192 area 1 
+  router-id 10.1.2.102
+  log-adj-changes
+  redistribute connected subnets
+  redistribute static subnets
+  default-information originate
+route outside 0.0.0.0 0.0.0.0 125.35.84.5 1
+timeout xlate 3:00:00
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 rpc 0:10:00 h225 1:00:00
+timeout h323 0:05:00 mgcp 0:05:00 sip 0:30:00 sip_media 0:02:00
+timeout uauth 0:05:00 absolute
+aaa-server TACACS+ protocol tacacs+ 
+aaa-server TACACS+ max-failed-attempts 3 
+aaa-server TACACS+ deadtime 10 
+aaa-server TACACS+ (inside1) host 10.1.3.4 ejianlong timeout 10
+aaa-server RADIUS protocol radius 
+aaa-server RADIUS max-failed-attempts 3 
+aaa-server RADIUS deadtime 10 
+aaa-server RADIUS (inside1) host 10.1.18.10 ejianlong timeout 10
+aaa-server RADIUS (inside1) host 10.1.18.15 ejianlong timeout 10
+aaa-server LOCAL protocol local 
+aaa authentication telnet console TACACS+
+snmp-server host inside1 10.1.18.13
+snmp-server host inside1 10.1.18.16
+<--- More --->              snmp-server host inside1 10.1.18.244
+snmp-server host inside1 10.1.18.30
+snmp-server host inside1 10.1.18.31
+snmp-server host inside1 10.1.18.40
+snmp-server host inside1 10.1.3.3
+snmp-server host inside1 10.1.38.12
+no snmp-server location
+no snmp-server contact
+snmp-server community public
+no snmp-server enable traps
+floodguard enable
+sysopt connection permit-ipsec
+auth-prompt prompt "Please input your Name and Password." 
+auth-prompt accept "Login Success!" 
+auth-prompt reject "Login Error,login again!" 
+crypto ipsec transform-set Client_Set esp-aes esp-sha-hmac 
+crypto ipsec transform-set VPN_Set esp-des esp-sha-hmac 
+crypto ipsec transform-set BJ_YF_Set ah-md5-hmac esp-3des 
+crypto dynamic-map dynmap 100 set transform-set Client_Set
+crypto map VPN_Map 20 ipsec-isakmp
+crypto map VPN_Map 20 match address BJ_TS_VPN
+crypto map VPN_Map 20 set peer 60.2.163.162
+crypto map VPN_Map 20 set transform-set VPN_Set
+crypto map VPN_Map 30 ipsec-isakmp
+<--- More --->              crypto map VPN_Map 30 match address BJ_JL_VPN
+crypto map VPN_Map 30 set peer 218.62.81.166
+crypto map VPN_Map 30 set transform-set VPN_Set
+crypto map VPN_Map 40 ipsec-isakmp
+crypto map VPN_Map 40 match address BJ_HLJ_VPN
+crypto map VPN_Map 40 set peer 218.10.105.190
+crypto map VPN_Map 40 set transform-set VPN_Set
+crypto map VPN_Map 50 ipsec-isakmp
+crypto map VPN_Map 50 match address BJ_CD_VPN
+crypto map VPN_Map 50 set peer 121.26.206.161
+crypto map VPN_Map 50 set transform-set VPN_Set
+crypto map VPN_Map 60 ipsec-isakmp
+crypto map VPN_Map 60 match address BJ_FS_VPN
+crypto map VPN_Map 60 set peer 218.24.31.147
+crypto map VPN_Map 60 set transform-set VPN_Set
+crypto map VPN_Map 80 ipsec-isakmp
+crypto map VPN_Map 80 match address BJ_YF_VPN
+crypto map VPN_Map 80 set peer 220.189.204.90
+crypto map VPN_Map 80 set transform-set BJ_YF_Set
+crypto map VPN_Map 90 ipsec-isakmp
+crypto map VPN_Map 90 match address BJ_ZJ_VPN
+crypto map VPN_Map 90 set peer 61.164.45.122
+crypto map VPN_Map 90 set transform-set VPN_Set
+crypto map VPN_Map 100 ipsec-isakmp dynamic dynmap
+<--- More --->              crypto map VPN_Map client configuration address initiate
+crypto map VPN_Map client configuration address respond
+crypto map VPN_Map client authentication RADIUS 
+crypto map VPN_Map interface outside
+isakmp enable outside
+isakmp key ******** address 218.62.81.166 netmask 255.255.255.255 no-xauth 
+isakmp key ******** address 220.189.204.90 netmask 255.255.255.255 no-xauth no-config-mode 
+isakmp key ******** address 121.26.206.161 netmask 255.255.255.255 no-xauth 
+isakmp key ******** address 61.164.45.122 netmask 255.255.255.255 no-xauth 
+isakmp key ******** address 218.10.105.190 netmask 255.255.255.255 no-xauth 
+isakmp key ******** address 60.2.163.162 netmask 255.255.255.255 no-xauth 
+isakmp key ******** address 0.0.0.0 netmask 0.0.0.0 
+isakmp key ******** address 218.24.31.147 netmask 255.255.255.255 no-xauth 
+isakmp identity address
+isakmp client configuration address-pool local VPN_Client outside
+isakmp nat-traversal 20
+isakmp policy 20 authentication pre-share
+isakmp policy 20 encryption des
+isakmp policy 20 hash sha
+isakmp policy 20 group 2
+isakmp policy 20 lifetime 86400
+isakmp policy 100 authentication pre-share
+isakmp policy 100 encryption aes
+isakmp policy 100 hash sha
+<--- More --->              isakmp policy 100 group 2
+isakmp policy 100 lifetime 7200
+vpngroup jlbj address-pool VPN_Client
+vpngroup jlbj dns-server 10.1.1.67
+vpngroup jlbj split-tunnel WEB
+vpngroup jlbj idle-time 7200
+vpngroup jlbj password ********
+vpngroup jlbj1 idle-time 1800
+telnet 10.1.0.0 255.255.0.0 inside1
+telnet 10.0.0.0 255.0.0.0 inside1
+telnet timeout 5
+ssh 10.1.0.0 255.255.0.0 inside1
+ssh timeout 30
+console timeout 0
+terminal width 80
+Cryptochecksum:4cd12a03ce77ff042cbad489afc5c3e0
+: end
+BJ-PIX525# 

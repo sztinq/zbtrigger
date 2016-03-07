@@ -1,0 +1,51 @@
+{% extends "triggers/bootstrap.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <h3 class="page-header">对比完成！</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table table-bordered table-hover table-responsive table-striped">
+            <thead>
+            <tr class="active">
+                <th>文件名</th>
+                <th>原文件</th>
+                <th>新文件</th>
+            </tr>
+            </thead>
+            {% for r in result %}
+                {% if r.status != 0 %}
+                    <tbody>
+                    <tr>
+                        <td>{{ r.file }}</td>
+                        <td>
+                            {% for f1 in r.str_old %}
+                                {{ f1 }}<br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for f2 in r.str_new %}
+                                {{ f2 }}<br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    </tbody>
+                {% else %}
+                    <tbody>
+                    <tr>
+                        <td>{{ r.file }}</td>
+                        <td>正常</td>
+                        <td>正常</td>
+                    </tr>
+                    </tbody>
+                {% endif %}
+            {% endfor %}
+        </table>
+
+
+        <a class="pure-button" href="{% url 'triggers:index' %}">返回首页</a>
+    </div>
+{% endblock %}

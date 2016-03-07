@@ -1,0 +1,31 @@
+{% extends "triggers/base.html" %}
+{% block content %}
+<div class="posts">
+        <section class="post">
+            {% if h_data %}
+            <header class="post-header">
+                <h3 class="post-title"><<{{ item_description }}>>5分钟内的流量如下：</h3>
+            </header>
+            <table class="pure-table" width="800" border="0">
+                        <tr>
+                            <th>流入速度</th>
+                            <th>流出速度</th>
+                            <th>时间</th>
+                        </tr>
+                         {% for h in h_data  %}
+                        <tr>
+                            <td align="center">{{ h.h_data_in }}</td>
+                            <td align="center">{{ h.h_data_out }}</td>
+                            <td align="center">{{ h.h_clock }}</td>
+                        </tr>
+                        {% endfor %}
+            </table>
+            {% else %}
+                <header class="post-header">
+                     <h3 class="post-title"><<{{ item_description }}>>历史数据不存在！</h3>
+                 </header>
+            {% endif %}
+        </section>
+        <a class="pure-button" href="{% url 'triggers:item_value' %}">线路流量</a> <a class="pure-button" href="{% url 'triggers:index' %}">返回首页</a>
+</div><!-- /.blog-post -->
+{% endblock %}

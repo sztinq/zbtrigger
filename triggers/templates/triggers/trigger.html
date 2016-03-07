@@ -1,0 +1,36 @@
+{% extends "triggers/bootstrap.html" %}
+{% load pagination_tags %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <h3 class="page-header">《{{ servername }}》异常设备列表</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table table-bordered table-hover table-responsive table-striped">
+            <tr>
+                <th>设备名称</th>
+                <th>设备IP</th>
+                <th>异常描述</th>
+                <th>异常时间</th>
+            </tr>
+            {% autopaginate trigger_list 10 %}
+            {% for t in trigger_list %}
+                <tr>
+                    <td>{{ t.hostname }}</td>
+                    <td>{{ t.hostip }}</td>
+                    <td>{{ t.description|cut:"{HOST.NAME}"|cut:"-"|cut:"on"|cut:"is" }}</td>
+                    <td>{{ t.lastchange }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% paginate %}
+    </div>
+
+    <div class="container" align="right">
+        <a class="btn btn-default" href="{% url 'triggers:index' %}">返回首页</a>
+    </div>
+{% endblock %}

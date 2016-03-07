@@ -1,0 +1,329 @@
+show running-config
+Building configuration...
+
+Current configuration : 7163 bytes
+!
+! Last configuration change at 13:36:44 GMT Tue Nov 17 2015 by 100530
+! NVRAM config last updated at 13:36:45 GMT Tue Nov 17 2015 by 100530
+!
+version 12.1
+no service pad
+service timestamps debug datetime localtime
+service timestamps log datetime msec localtime
+service password-encryption
+!
+hostname BJ2950_2_4F7
+!
+logging buffered 8192 debugging
+aaa new-model
+aaa authentication login default group tacacs+ group radius line
+aaa authentication enable default group tacacs+ enable
+aaa authorization exec default group tacacs+ if-authenticated
+aaa authorization commands 1 default group tacacs+ if-authenticated
+aaa authorization commands 15 default group tacacs+ if-authenticated
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+enable secret 5 $1$WOEA$3JJKDEiAm0glPGceB99J7.
+!
+clock timezone GMT 8
+ip subnet-zero
+!
+no ip domain-lookup
+!
+spanning-tree mode pvst
+no spanning-tree optimize bpdu transmission
+spanning-tree extend system-id
+dot1x system-auth-control
+!
+mac access-list extended linshi
+ deny   host 904c.e5e0.cb5a any
+ permit any any
+mac access-list extended vlan12
+ deny   host 60eb.699f.610d any
+ permit any any
+!
+!
+!
+!
+interface Port-channel1
+ switchport mode trunk
+ flowcontrol send off
+!
+interface FastEthernet0/1
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface FastEthernet0/2
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/5
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/6
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/7
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/8
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/9
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/10
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/11
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/12
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/13
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/14
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/15
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/16
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/17
+ switchport access vlan 307
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/18
+ switchport access vlan 306
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/19
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/20
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/21
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/22
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/23
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/24
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/25
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/26
+ description TO_HANGYUN_PRINTER
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/27
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/28
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/29
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/30
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/31
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/32
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/33
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/34
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/35
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/36
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/37
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/38
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/39
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/40
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/41
+ switchport access vlan 500
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/42
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/43
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/44
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/45
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/46
+ description To_hongxianghangyun_clx_3170
+ switchport access vlan 12
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/47
+ switchport mode trunk
+ channel-group 1 mode on
+ spanning-tree portfast
+!
+interface FastEthernet0/48
+ switchport mode trunk
+ channel-group 1 mode on
+ spanning-tree portfast
+!
+interface GigabitEthernet0/1
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ switchport mode trunk
+!
+interface Vlan1
+ ip address 10.1.0.22 255.255.255.192
+ no ip route-cache
+!
+no ip http server
+logging history informational
+logging trap debugging
+logging facility local2
+logging source-interface Vlan1
+logging 10.1.18.10
+logging 10.1.3.3
+snmp-server community public RO
+snmp-server location Beijing
+snmp-server host 10.1.18.10 public 
+tacacs-server host 10.1.3.4
+tacacs-server key 7 070A2B454F07150A1915
+radius-server host 10.1.18.17 auth-port 1812 acct-port 1813 key 7 08244647081709181C0C
+radius-server host 10.1.18.10 auth-port 1812 acct-port 1813
+radius-server retransmit 1
+radius-server key 7 08244647081709181C0C
+!
+line con 0
+line vty 0 4
+ password 7 08244647081709181C0C
+line vty 5 15
+!
+!
+end
+
+BJ2950_2_4F7#

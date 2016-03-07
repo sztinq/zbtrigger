@@ -1,0 +1,14 @@
+{% extends "triggers/bootstrap.html" %}
+
+{% block content %}
+    <div class="container">
+   <div class="row">
+      <div class="col-lg-5">
+        <h3 class="page-header">Item 同步完成！</h3>
+      </div>
+   </div>
+</div>
+<div class="container" align="right">
+      <a class="btn btn-default" href="{% url 'triggers:index' %}">返回首页</a>
+</div>
+{% endblock %}

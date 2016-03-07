@@ -1,0 +1,70 @@
+{% extends "triggers/bootstrap.html" %}
+{% load pagination_tags %}
+{% block content %}
+<div class="container">
+   <div class="row">
+      <div class="col-lg-5">
+        <h3 class="page-header">集团视频会议状态列表</h3>
+      </div>
+   </div>
+</div>
+<div class="container">
+                     {% if v_num.active != 0 %}
+                     <p class="lead">
+                         <h class="text-danger"> 当前有<b>{{ v_num.active }}</b>方正在召开视频会议：</h>
+                     </p>
+                     <table class="table table-bordered table-hover table-responsive table-striped">
+                                <thead>
+                                     <tr class="active">
+                                         <th>公司</th>
+                                         <th>会议室</th>
+                                         <th>视频终端IP</th>
+                                         <th>会议状态</th>
+                                     </tr>
+                                </thead>
+                                <tbody>
+                                     {% for t in v_meeting %}
+                                     <tr class="alert-danger">
+                                         <td align="center">{{ t.company }}</td>
+                                         <td align="center">{{ t.hostname }}</td>
+                                         <td align="center">{{ t.hostip }}</td>
+                                         <td align="center">{{ t.description|cut:"{HOST.NAME}"|cut:"-" }}</td>
+                                     </tr>
+                                     {% endfor %}
+                                </tbody>
+                            </table>
+                     {% endif %}
+</div>
+<div class="container">
+    <p class="lead">
+      <h4>详细视频会议终端列表，共有<b>{{ v_num.total }}</b>方，其中<b>{{ v_num.active }}</b>方正在召开视频会议：</h4>
+    </p>
+    <table class="table table-bordered table-hover table-responsive table-striped">
+                       <thead>
+                            <tr class="active">
+                                <th>公司</th>
+                                <th>会议室</th>
+                                <th>视频终端IP</th>
+                                <th>会议状态</th>
+                                <th>上次会议结束时间</th>
+                             </tr>
+                       </thead>
+                        <tbody>
+                            {% autopaginate v_host 10 %}
+                            {% for t in v_host %}
+                                    <tr>
+                                        <td align="center">{{ t.company }}</td>
+                                        <td align="center">{{ t.hostname }}</td>
+                                        <td align="center">{{ t.hostip }}</td>
+                                        <td align="center">{{ t.description|cut:"{HOST.NAME}"|cut:"-" }}</td>
+                                        <td align="center">{{ t.lastchange }}</td>
+                                    </tr>
+                            {% endfor %}
+                        </tbody>
+    </table>
+     {% paginate %}
+</div>
+<div class="container" align="right">
+      <a class="btn btn-default" href="{% url 'triggers:index' %}">返回首页</a>
+</div>
+{% endblock %}

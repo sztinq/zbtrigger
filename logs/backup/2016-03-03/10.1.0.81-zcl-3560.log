@@ -1,0 +1,407 @@
+show running-config
+Building configuration...
+
+Current configuration : 10024 bytes
+!
+! Last configuration change at 10:43:20 GMT Fri Dec 25 2015 by 100530
+! NVRAM config last updated at 10:43:21 GMT Fri Dec 25 2015 by 100530
+!
+version 12.2
+no service pad
+service timestamps debug datetime localtime
+service timestamps log datetime msec localtime
+service password-encryption
+service sequence-numbers
+!
+hostname zcl-3560
+!
+logging buffered 64000 debugging
+logging rate-limit 10000
+enable secret 5 $1$48DE$XkbkpkVRKnt6WPKh9hgCU1
+!
+aaa new-model
+aaa authentication login default group tacacs+ group radius line
+aaa authentication enable default group tacacs+ enable
+aaa authorization exec default group tacacs+ if-authenticated 
+aaa authorization commands 1 default group tacacs+ if-authenticated 
+aaa authorization commands 15 default group tacacs+ if-authenticated 
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+!
+aaa session-id common
+clock timezone GMT 8
+ip subnet-zero
+ip routing
+no ip domain-lookup
+no ip dhcp conflict logging
+ip dhcp excluded-address 10.1.36.1 10.1.36.20
+ip dhcp excluded-address 10.1.37.1 10.1.37.20
+ip dhcp excluded-address 10.1.38.1 10.1.38.20
+ip dhcp excluded-address 10.1.35.1 10.1.35.33
+ip dhcp excluded-address 10.1.40.0 10.1.40.20
+ip dhcp excluded-address 10.1.36.52
+ip dhcp excluded-address 10.1.90.0 10.1.90.30
+ip dhcp excluded-address 10.1.91.0 10.1.91.30
+ip dhcp excluded-address 10.1.92.0 10.1.92.30
+ip dhcp excluded-address 10.1.93.0 10.1.93.30
+ip dhcp excluded-address 10.1.36.180
+ip dhcp excluded-address 10.1.36.199
+!
+ip dhcp pool vlan35_dhcp
+   network 10.1.35.0 255.255.255.0
+   default-router 10.1.35.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+ip dhcp pool vlan36_dhcp
+   network 10.1.36.0 255.255.255.0
+   default-router 10.1.36.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+ip dhcp pool vlan37_dhcp
+   network 10.1.37.0 255.255.255.0
+   default-router 10.1.37.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+ip dhcp pool vlan38_dhcp
+   network 10.1.38.0 255.255.255.0
+   default-router 10.1.38.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+ip dhcp pool vlan88_dhcp
+   network 10.1.88.0 255.255.255.0
+   default-router 10.1.88.1 
+   dns-server 10.1.1.67 202.106.0.20 
+!
+ip dhcp pool vlan40_dhcp
+   network 10.1.40.0 255.255.255.0
+   default-router 10.1.40.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+ip dhcp pool vlan300_dhcp
+   network 10.1.90.0 255.255.255.128
+   default-router 10.1.90.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+ip dhcp pool vlan301_dhcp
+   network 10.1.91.0 255.255.255.0
+   default-router 10.1.91.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+ip dhcp pool vlan302_dhcp
+   network 10.1.92.0 255.255.255.0
+   default-router 10.1.92.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+ip dhcp pool vlan303_dhcp
+   network 10.1.93.0 255.255.255.0
+   default-router 10.1.93.1 
+   dns-server 10.1.1.67 202.106.46.151 
+!
+!
+mls qos
+!
+!
+no file verify auto
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+class-map match-all c_video
+  match access-group name dc_video
+class-map match-all c_erp
+  match access-group name dc_erp
+!
+!
+policy-map p_6m
+  class c_erp
+    police 2000000 1000000 exceed-action policed-dscp-transmit
+   set precedence 5
+  class c_video
+    police 1500000 1000000 exceed-action policed-dscp-transmit
+   set dscp cs7
+!
+!
+!
+interface Port-channel1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel4
+ description To_S4
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel5
+ switchport access vlan 35
+ switchport trunk encapsulation dot1q
+ switchport mode access
+!
+interface GigabitEthernet0/1
+ description To_core_4506_02
+ no switchport
+ ip address 10.1.2.90 255.255.255.252
+ ip ospf network point-to-point
+!
+interface GigabitEthernet0/2
+ description To_core_4506_01
+ no switchport
+ ip address 10.1.2.86 255.255.255.252
+ ip ospf network point-to-point
+ duplex full
+!
+interface GigabitEthernet0/3
+ switchport access vlan 35
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ channel-group 5 mode active
+!
+interface GigabitEthernet0/4
+ switchport access vlan 35
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ channel-group 5 mode active
+!
+interface GigabitEthernet0/5
+ switchport access vlan 150
+ switchport mode access
+!
+interface GigabitEthernet0/6
+ switchport access vlan 150
+ switchport mode access
+!
+interface GigabitEthernet0/7
+ switchport access vlan 150
+ switchport mode access
+!
+interface GigabitEthernet0/8
+ switchport access vlan 150
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/9
+ description to_shipinmanager
+ switchport access vlan 39
+ switchport mode access
+!
+interface GigabitEthernet0/10
+ description To_hysyb_2960_1
+ switchport access vlan 40
+ switchport mode access
+!
+interface GigabitEthernet0/11
+ description link to zhinengxiangying&DBS
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet0/12
+ description to 2950
+ switchport access vlan 39
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/13
+ switchport access vlan 39
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/14
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet0/15
+ switchport access vlan 39
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/16
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet0/17
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet0/18
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet0/19
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 4 mode on
+!
+interface GigabitEthernet0/20
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 4 mode on
+!
+interface GigabitEthernet0/21
+ description link to TangshanDC
+ no switchport
+ ip address 10.1.2.126 255.255.255.252
+!
+interface GigabitEthernet0/22
+ description link to beijingsoho
+ no switchport
+ ip address 10.1.2.129 255.255.255.252
+!
+interface GigabitEthernet0/23
+ description To_QDYF_10_C3560_01
+ no switchport
+ ip address 10.1.2.113 255.255.255.252
+!
+interface GigabitEthernet0/24
+ description To_TJJW_16_C2821_WL_01
+ no switchport
+ ip address 10.1.2.109 255.255.255.252
+!
+interface GigabitEthernet0/25
+ switchport mode access
+!
+interface GigabitEthernet0/26
+ switchport mode access
+!
+interface GigabitEthernet0/27
+!
+interface GigabitEthernet0/28
+!
+interface Vlan1
+ ip address 10.1.0.81 255.255.255.240
+!
+interface Vlan35
+ ip address 10.1.35.1 255.255.255.0
+!
+interface Vlan36
+ ip address 10.1.36.1 255.255.255.0
+!
+interface Vlan37
+ ip address 10.1.37.1 255.255.255.0
+!
+interface Vlan38
+ ip address 10.1.38.1 255.255.255.0
+!
+interface Vlan39
+ ip address 10.1.39.1 255.255.255.0
+!
+interface Vlan40
+ ip address 10.1.40.1 255.255.255.0
+!
+interface Vlan88
+ ip address 10.1.88.1 255.255.255.0
+!
+interface Vlan150
+ ip address 10.1.0.193 255.255.255.240
+!
+interface Vlan300
+ ip address 10.1.90.1 255.255.255.128
+!
+interface Vlan301
+ ip address 10.1.91.1 255.255.255.0
+!
+interface Vlan302
+ ip address 10.1.92.1 255.255.255.0
+!
+interface Vlan303
+ ip address 10.1.93.1 255.255.255.0
+!
+router ospf 100
+ router-id 10.1.0.81
+ log-adjacency-changes
+ redistribute connected subnets
+ redistribute static subnets
+ network 10.1.2.90 0.0.0.0 area 1
+ network 10.1.2.126 0.0.0.0 area 1
+!
+ip classless
+ip route 10.59.0.0 255.255.240.0 10.1.2.130
+no ip http server
+!
+!
+ip access-list extended TSDC
+ deny   tcp host 10.1.20.146 host 10.68.3.2 eq smtp
+ deny   tcp host 10.1.31.253 host 10.68.3.2 eq smtp
+ permit ip any any
+ip access-list extended TSDC-1
+ permit ip host 10.1.19.98 any
+ permit ip host 10.1.19.173 any
+ permit ip any host 10.68.6.6
+ permit ip any 10.68.4.0 0.0.0.255
+ permit ip host 10.1.19.92 any
+ permit ip host 10.1.19.17 any
+ permit ip any 10.68.1.0 0.0.0.255
+ permit ip host 10.1.1.25 host 10.68.2.2
+ permit ip 10.1.1.0 0.0.0.255 any
+ permit ip host 10.1.0.132 any
+ deny   ip any any
+ip access-list extended con_access
+ permit ospf any any
+ permit icmp any any
+ permit tcp any host 10.1.1.36 eq www
+ permit tcp any host 10.1.1.80 eq www
+ permit tcp any host 10.1.1.80 eq pop3
+ permit tcp any host 10.1.1.80 eq smtp
+ permit ip any 10.1.0.0 0.0.0.255
+ permit ip any 10.8.0.0 0.0.255.255
+ deny   ip any any
+ip access-list extended dc_erp
+ permit ip any 10.68.6.0 0.0.0.255
+ permit ip any 10.68.4.0 0.0.0.255
+ permit ip any 10.68.2.0 0.0.0.255
+ permit ip any 10.1.1.0 0.0.0.63
+ deny   ip any any
+ip access-list extended dc_video
+ permit ip any 10.68.0.128 0.0.0.63
+ deny   ip any any
+!
+logging trap debugging
+logging facility local2
+logging source-interface GigabitEthernet0/1
+logging 10.1.1.35
+logging 10.1.3.3
+snmp-server community jlsnmp RO
+snmp-server community private RW
+snmp-server community public RO
+snmp-server location Beijing
+snmp-server contact liuheng(15911010436)
+snmp-server enable traps tty
+snmp-server enable traps syslog
+snmp-server host 10.1.18.10 public 
+tacacs-server host 10.1.3.4
+tacacs-server directed-request
+tacacs-server key 7 0001190F055507090126
+radius-server host 10.1.18.10 auth-port 1812 acct-port 1813 key 7 110C130C161C07030A2D
+radius-server host 10.1.18.15 auth-port 1812 acct-port 1813 key 7 09494400180B1B1D050B
+radius-server host 10.1.18.10 auth-port 1645 acct-port 1646
+radius-server source-ports 1645-1646
+radius-server retransmit 1
+radius-server key 7 0001190F055507090126
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 15 0
+line vty 0 4
+ exec-timeout 5 0
+ password 7 13061E010803577F7D74
+line vty 5 15
+ exec-timeout 5 0
+ password 7 05080F1C2243
+!
+end
+
+zcl-3560#

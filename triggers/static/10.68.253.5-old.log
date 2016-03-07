@@ -1,0 +1,479 @@
+IP:10.68.253.5
+:<SR6608-2>dis curr
+#
+ version 5.20, Release 2420P11
+#
+ sysname SR6608-21111
+#
+ clock timezone GMT+8 add 08:00:00
+#
+ firewall enable slot 0
+ firewall enable slot 3
+#
+ domain default enable tsdc
+#
+ telnet server enable
+#
+ ip ttl-expires enable
+ ip unreachables enable
+#
+ lldp enable
+#
+ qos pql 1 default-queue bottom
+ qos pql 1 queue top queue-length 100
+ qos pql 1 queue middle queue-length 200
+ qos pql 1 queue normal queue-length 300
+ qos pql 1 queue bottom queue-length 400
+ qos pql 1 protocol ip acl 3100 queue top
+ qos pql 1 protocol ip acl 3106 queue normal
+#
+acl number 2000 name localroute
+ rule 0 permit source 10.1.0.0 0.0.255.255
+ rule 1 permit source 10.8.0.0 0.0.255.255
+ rule 2 permit source 10.16.0.0 0.0.255.255
+ rule 3 permit source 10.17.0.0 0.0.255.255
+ rule 4 permit source 10.18.0.0 0.0.255.255
+ rule 5 permit source 10.6.0.0 0.0.255.255
+ rule 6 permit source 10.2.0.0 0.0.255.255
+ rule 7 permit source 10.12.0.0 0.0.255.255
+ rule 8 permit source 10.34.0.0 0.0.255.255
+ rule 100 deny
+acl number 2001
+ rule 0 deny source 10.68.3.2 0
+ rule 5 permit
+acl number 2003 name osred
+ rule 0 permit source 10.68.6.0 0.0.0.63
+ rule 1 permit source 10.68.0.128 0.0.0.63
+ rule 2 permit source 10.68.4.0 0.0.0.255
+ rule 3 permit source 10.68.2.0 0.0.0.255
+ rule 4 permit source 10.68.1.0 0.0.0.255
+ rule 5 permit source 10.68.6.64 0.0.0.63
+ rule 6 permit source 10.68.6.128 0.0.0.63
+ rule 7 permit source 10.68.63.0 0.0.0.255
+ rule 8 permit source 10.68.7.0 0.0.0.255
+ rule 9 permit source 10.68.8.0 0.0.0.255
+ rule 10 permit source 10.68.3.0 0.0.0.255
+ rule 11 permit source 10.68.9.0 0.0.0.255
+ rule 12 permit source 10.1.1.0 0.0.0.63
+ rule 13 permit source 10.68.5.0 0.0.0.255
+ rule 100 deny
+#
+acl number 3100 name dc_video
+ rule 1 permit ip source 10.1.0.131 0
+ rule 2 permit ip source 10.1.0.132 0
+ rule 3 permit ip source 10.1.0.133 0
+ rule 4 permit ip source 10.1.0.134 0
+ rule 5 permit ip source 10.1.0.194 0
+ rule 6 permit ip source 10.1.0.195 0
+ rule 7 permit ip source 10.2.0.130 0
+ rule 8 permit ip source 10.2.0.131 0
+ rule 9 permit ip source 10.2.0.132 0
+ rule 10 permit ip source 10.32.105.4 0
+ rule 11 permit ip source 10.32.105.5 0
+ rule 12 permit ip source 10.32.105.6 0
+ rule 13 permit ip source 10.3.11.43 0
+ rule 14 permit ip source 10.3.11.44 0
+ rule 15 permit ip source 10.4.0.130 0
+ rule 16 permit ip source 10.4.0.131 0
+ rule 17 permit ip source 10.4.0.132 0
+ rule 18 permit ip source 10.4.97.11 0
+ rule 19 permit ip source 10.4.0.141 0
+ rule 20 permit ip source 10.5.0.130 0
+ rule 21 permit ip source 10.5.0.131 0
+ rule 22 permit ip source 10.6.0.130 0
+ rule 23 permit ip source 10.6.0.131 0
+ rule 24 permit ip source 10.7.16.71 0
+ rule 25 permit ip source 10.7.19.100 0
+ rule 26 permit ip source 10.7.3.33 0
+ rule 27 permit ip source 10.8.0.130 0
+ rule 28 permit ip source 10.9.0.130 0
+ rule 29 permit ip source 10.10.0.130 0
+ rule 30 permit ip source 10.12.13.230 0
+ rule 31 permit ip source 10.13.0.130 0
+ rule 32 permit ip source 10.14.0.130 0
+ rule 33 permit ip source 10.15.0.130 0
+ rule 34 permit ip source 10.16.0.130 0
+ rule 35 permit ip source 10.17.0.130 0
+ rule 36 permit ip source 10.18.0.130 0
+ rule 37 permit ip source 10.18.0.131 0
+ rule 38 permit ip source 10.18.0.132 0
+ rule 40 permit ip source 10.19.0.130 0
+ rule 41 permit ip source 10.33.1.130 0
+ rule 42 permit ip source 10.59.0.130 0
+ rule 43 permit ip source 10.72.0.130 0
+ rule 44 permit ip source 10.72.18.130 0
+ rule 45 permit ip source 10.59.16.130 0
+ rule 46 permit ip source 10.0.3.0 0.0.0.255
+ rule 47 permit icmp
+ rule 48 permit ip source 10.20.0.130 0
+ rule 49 permit ip source 10.34.0.131 0
+ rule 50 permit ip source 10.34.0.132 0
+ rule 500 deny ip
+acl number 3101 name dc_erp
+ rule 1 permit ip destination 10.68.2.0 0.0.0.255
+ rule 2 permit ip destination 10.68.4.0 0.0.0.255
+ rule 3 permit ip destination 10.68.6.0 0.0.0.64
+ rule 4 permit ip destination 10.1.1.36 0
+ rule 5 permit ip destination 10.68.7.100 0
+ rule 6 permit ip destination 10.68.3.0 0.0.0.255
+ rule 500 deny ip
+acl number 3102 name bj_trend
+ rule 1 permit ip destination 10.1.18.19 0
+ rule 2 deny ip
+acl number 3103 name bj_sys
+ rule 1 permit ip source 10.1.19.7 0
+ rule 2 permit ip source 10.1.19.19 0
+ rule 3 permit ip source 10.1.18.20 0
+ rule 4 permit ip source 10.1.19.95 0
+ rule 5 permit ip source 10.1.19.98 0
+ rule 6 permit ip source 10.1.19.155 0
+ rule 7 permit ip source 10.1.19.175 0
+ rule 8 permit ip source 10.1.19.218 0
+ rule 9 permit ip source 10.1.18.40 0
+acl number 3104 name dc_mail
+ rule 1 permit ip source 10.68.3.2 0
+ rule 2 permit ip source 10.68.3.5 0
+ rule 3 permit ip source 10.68.3.6 0
+ rule 10 deny ip
+acl number 3105 name mail_in
+ rule 1 permit ip destination 10.68.3.2 0
+acl number 3106 name dc_erp_out
+ rule 1 permit ip source 10.68.2.0 0.0.0.255
+ rule 2 permit ip source 10.68.4.0 0.0.0.255
+ rule 3 permit ip source 10.68.6.0 0.0.0.64
+ rule 4 permit ip source 10.68.7.100 0
+ rule 500 deny ip
+#
+vlan 1
+#
+hwtacacs scheme hwtac
+ primary authentication 10.68.7.104
+ primary authorization 10.68.7.104
+ primary accounting 10.68.7.104
+ key authentication ejianlong
+ key authorization ejianlong
+ key accounting ejianlong
+ user-name-format without-domain
+#
+domain system
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+domain tsdc
+ authentication login hwtacacs-scheme hwtac local
+ authorization login hwtacacs-scheme hwtac local
+ accounting login hwtacacs-scheme hwtac
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+#
+traffic classifier c_other operator and
+ if-match not acl 3100
+ if-match not acl 3101
+ if-match not acl 3103
+traffic classifier c_video operator and
+ if-match acl 3100
+traffic classifier c_trend operator and
+ if-match acl 3102
+traffic classifier c_erp operator and
+ if-match acl 3101
+ if-match acl 3103
+traffic classifier c_mail operator and
+ if-match acl 3104
+#
+traffic behavior b_erp2m
+ remark dscp cs4
+ car cir 300 cbs 37500 ebs 0 green pass red discard yellow pass
+traffic behavior b_mail1m
+ car cir 1000 cbs 187500 ebs 0 green pass red discard yellow pass
+traffic behavior b_mail2m
+ car cir 3000 cbs 375000 ebs 0 green pass red discard yellow pass
+traffic behavior b_erp10m
+ remark dscp cs4
+ car cir 3000 cbs 375000 ebs 0 green pass red discard yellow pass
+traffic behavior b_other
+ car cir 2000 cbs 187500 ebs 0 green pass red discard yellow pass
+traffic behavior b_erp6m
+ remark dscp cs4
+ car cir 2000 cbs 250000 ebs 0 green pass red discard yellow pass
+traffic behavior b_video10m
+ remark dscp cs7
+ car cir 4000 cbs 500000 ebs 0 green pass red remark-dscp-pass ef yellow pass
+traffic behavior b_video2m
+ remark dscp cs7
+ car cir 1700 cbs 212500 ebs 0 green pass red remark-dscp-pass ef yellow pass
+traffic behavior b_video6m
+ remark dscp cs7
+ car cir 4000 cbs 500000 ebs 0 green pass red remark-dscp-pass ef yellow pass
+traffic behavior b_trend
+ car cir 10 cbs 1875 ebs 0 green pass red discard yellow pass
+#
+qos policy p_out_10m
+ classifier c_video behavior b_video10m
+qos policy p_10m
+ classifier c_video behavior b_video10m
+ classifier c_erp behavior b_erp10m
+qos policy p_out_2m
+ classifier c_video behavior b_video2m
+qos policy p_out_6m
+ classifier c_video behavior b_video6m
+qos policy p_2m
+ classifier c_video behavior b_video2m
+ classifier c_erp behavior b_erp2m
+qos policy p_6m
+ classifier c_video behavior b_video6m
+ classifier c_erp behavior b_erp6m
+#
+user-group system
+#
+local-user admin
+ password simple jlktv4
+ authorization-attribute level 3
+ service-type telnet
+#
+interface Ethernet3/2/0
+ port link-mode route
+ description Link to beijing
+ ip address 10.1.2.122 255.255.255.252
+ qos apply policy p_6m inbound
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface Ethernet3/2/1
+ port link-mode route
+ description linshi-link-zhoushan
+ ip address 10.0.2.5 255.255.255.252
+ qos apply policy p_6m inbound
+ qos apply policy p_out_6m outbound
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface Ethernet3/2/2
+ port link-mode route
+ description Link to tianjin
+ ip address 10.0.2.9 255.255.255.252
+ qos apply policy p_6m inbound
+ qos apply policy p_out_6m outbound
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface Ethernet3/2/3
+ port link-mode route
+ description Link to fushun
+ ip address 10.0.2.13 255.255.255.252
+ qos apply policy p_6m inbound
+ qos apply policy p_out_6m outbound
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface Ethernet3/2/4
+ port link-mode route
+ description Link to yongkang
+ ip address 10.0.2.17 255.255.255.252
+ qos apply policy p_2m inbound
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface Ethernet3/2/5
+ port link-mode route
+ description dianxin Link to ZJJL
+ ip address 10.0.2.85 255.255.255.252
+ qos apply policy p_2m inbound
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface Ethernet3/2/6
+ port link-mode route
+ description link Tangshan local
+ ip address 10.0.1.53 255.255.255.252
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface Ethernet3/2/7
+ port link-mode route
+ description Link to shuangyashan
+ ip address 10.0.2.33 255.255.255.252
+ qos apply policy p_6m inbound
+ qos apply policy p_out_6m outbound
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface NULL0
+#
+interface LoopBack0
+ ip address 10.68.0.125 255.255.255.255
+#
+interface LoopBack1
+ ip address 10.0.3.2 255.255.255.255
+#
+interface GigabitEthernet3/0/0
+ port link-mode route
+#
+interface GigabitEthernet3/0/1
+ port link-mode route
+#
+interface GigabitEthernet3/1/0
+ port link-mode route
+ description link_to_S12508S_G2/2/0/33
+ ip address 10.68.253.5 255.255.255.252
+ ospf network-type p2p
+#
+interface GigabitEthernet3/1/1
+ port link-mode route
+ description link_to_SR6608-1_G3/1/1
+ ip address 10.68.253.10 255.255.255.252
+#
+interface GigabitEthernet3/1/2
+ port link-mode route
+ description link_to xinjiang a la er
+ ip address 10.0.2.77 255.255.255.252
+ ip netstream inbound
+ ip netstream outbound
+#
+interface GigabitEthernet3/1/3
+ port link-mode route
+ description teset shanxijianlonglantong
+ ip address 10.0.2.89 255.255.255.252
+ qos apply policy p_6m inbound
+ qos apply policy p_out_6m outbound
+ qos pq pql 1
+ ip netstream inbound
+ ip netstream outbound
+#
+interface M-GigabitEthernet0/0/0
+#
+bgp 65001
+ network 10.1.1.0 255.255.255.192
+ network 10.67.0.0 255.255.0.0
+ network 10.68.0.0 255.255.0.0
+ import-route static route-policy static
+ import-route ospf 10 route-policy osred
+ synchronization
+ peer 10.0.3.1 as-number 65001
+ peer 10.0.3.4 as-number 65002
+ peer 10.0.3.5 as-number 65003
+ peer 10.0.3.7 as-number 65004
+ peer 10.0.3.9 as-number 65005
+ peer 10.0.3.11 as-number 65006
+ peer 10.0.3.13 as-number 65007
+ peer 10.0.3.19 as-number 65010
+ peer 10.0.3.30 as-number 65015
+ peer 10.0.3.39 as-number 65020
+ peer 10.0.3.45 as-number 65023
+ peer 10.0.3.1 next-hop-local
+ peer 10.0.3.1 connect-interface LoopBack1
+ peer 10.0.3.4 ebgp-max-hop 2
+ peer 10.0.3.4 connect-interface LoopBack1
+ peer 10.0.3.5 ebgp-max-hop 2
+ peer 10.0.3.5 connect-interface LoopBack1
+ peer 10.0.3.7 ebgp-max-hop 2
+ peer 10.0.3.7 connect-interface LoopBack1
+ peer 10.0.3.9 ebgp-max-hop 2
+ peer 10.0.3.9 connect-interface LoopBack1
+ peer 10.0.3.11 ebgp-max-hop 2
+ peer 10.0.3.11 connect-interface LoopBack1
+ peer 10.0.3.13 ebgp-max-hop 2
+ peer 10.0.3.13 connect-interface LoopBack1
+ peer 10.0.3.19 ebgp-max-hop 2
+ peer 10.0.3.19 connect-interface LoopBack1
+ peer 10.0.3.30 ebgp-max-hop 2
+ peer 10.0.3.30 connect-interface LoopBack1
+ peer 10.0.3.39 ebgp-max-hop 2
+ peer 10.0.3.39 connect-interface LoopBack1
+ peer 10.0.3.45 ebgp-max-hop 2
+ peer 10.0.3.45 connect-interface LoopBack1
+#
+ospf 1
+ area 0.0.0.0
+  network 10.0.3.2 0.0.0.0
+  network 10.0.2.17 0.0.0.0
+  network 10.0.2.13 0.0.0.0
+  network 10.0.2.9 0.0.0.0
+  network 10.0.2.5 0.0.0.0
+  network 10.0.2.21 0.0.0.0
+  network 10.0.2.1 0.0.0.0
+  network 10.0.2.53 0.0.0.0
+  network 10.1.2.122 0.0.0.0
+  network 10.0.2.33 0.0.0.0
+  network 10.0.2.77 0.0.0.0
+  network 10.0.1.53 0.0.0.0
+  network 10.0.2.89 0.0.0.0
+#
+ospf 10 router-id 10.68.0.125
+ import-route direct
+ import-route static
+ import-route ospf 1
+ import-route bgp
+ silent-interface all
+ undo silent-interface GigabitEthernet3/1/0
+ undo silent-interface GigabitEthernet3/1/1
+ spf-schedule-interval 1 200 500
+ bandwidth-reference 10000
+ area 0.0.0.0
+  network 10.68.253.5 0.0.0.0
+  network 10.68.0.125 0.0.0.0
+  network 10.68.253.10 0.0.0.0
+#
+route-policy import_conn permit node 1
+ if-match interface Ethernet3/2/0 Ethernet3/2/1 Ethernet3/2/2 Ethernet3/2/3 Ethernet3/2/4 Ethernet3/2/5 Ethernet3/2/6 GigabitEthernet3/1/3 GigabitEthernet3/1/2 Ethernet3/2/7
+route-policy bgp_os permit node 1
+ if-match acl 2000
+ apply cost 200
+route-policy bgp_os permit node 2
+ apply cost 400
+route-policy static permit node 1
+ if-match ip-prefix static
+route-policy osred permit node 1
+ if-match acl 2003
+#
+ ip ip-prefix static index 40 permit 10.9.0.0 16
+ ip ip-prefix static index 41 permit 10.16.0.0 16
+ ip ip-prefix static index 42 permit 10.17.0.0 16
+ ip ip-prefix static index 43 permit 10.18.0.0 16
+ ip ip-prefix static index 44 permit 10.19.0.0 16
+ ip ip-prefix static index 45 permit 10.20.0.0 16
+ ip ip-prefix static index 46 permit 10.68.3.0 24
+ ip ip-prefix static index 60 permit 10.34.0.0 16
+#
+ ip route-static 10.0.2.80 255.255.255.252 10.0.2.10
+ ip route-static 10.9.0.0 255.255.0.0 10.0.2.86
+ ip route-static 10.67.0.0 255.255.0.0 10.68.253.6
+ ip route-static 10.68.0.0 255.255.0.0 NULL0
+ ip route-static 202.106.110.156 255.255.255.255 10.1.2.121
+#
+ info-center loghost 10.68.7.103 facility local5
+#
+ snmp-agent
+ snmp-agent local-engineid 800063A2033CE5A655871F
+ snmp-agent community read public
+ snmp-agent community write private
+ snmp-agent sys-info version all
+ snmp-agent target-host trap address udp-domain 10.1.18.10 params securityname public
+ snmp-agent target-host trap address udp-domain 10.68.7.100 params securityname public
+ snmp-agent trap queue-size 500
+ snmp-agent trap life 600
+#
+ ip netstream timeout active 1
+ ip netstream export host 10.68.7.101 9996
+ ip netstream export source interface GigabitEthernet3/1/0
+#
+ ntp-service unicast-peer 10.68.2.50
+#
+user-interface con 0
+user-interface aux 0
+user-interface vty 0 4
+ authentication-mode scheme
+ user privilege level 3
+#
+return
+<SR6608-2>

@@ -1,0 +1,15 @@
+body { padding-top: 20px; }
+thead {
+    text-align: center;
+}
+tbody {
+    text-align: center;
+}
+th {
+    text-align: center;
+}
+
+input {
+    width: 50%;
+}
+

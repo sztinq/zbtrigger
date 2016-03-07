@@ -1,0 +1,2 @@
+433: description To_PeiZhi_22
+891:snmp-server enable traps syslogsssss

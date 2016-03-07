@@ -1,0 +1,67 @@
+{% extends "triggers/bootstrap.html" %}
+{% load pagination_tags %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <h3 class="page-header">集团专线状态列表</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <p class="lead">
+            <h class="text-danger">当前有<b>{{ z_num.problem_num }}</b>条发生故障：</h>
+        </p>
+        {% if z_num.problem_num != 0 %}
+            <table class="table table-bordered table-hover table-responsive table-striped">
+                <thead>
+                <tr class="active">
+                    <th>专线名称</th>
+                    <th>专线IP</th>
+                    <th>专线状态</th>
+                    <th>故障时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for t in z_problem %}
+                    <tr class="alert-danger">
+                        <td><a class="post-author"
+                               href="{% url 'triggers:zhuanxian_detail' t.hostip %}">{{ t.hostname }}</a></td>
+                        <td>{{ t.hostip }}</td>
+                        <td>{{ t.description|cut:"{HOST.NAME}"|cut:"-" }}</td>
+                        <td>{{ t.lastchange }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <p class="lead">详细专线列表，共有{{ z_num.total }}条，其中故障{{ z_num.problem_num }}条：</p>
+        <table class="table table-bordered table-hover table-responsive table-striped">
+            <thead>
+            <tr>
+                <th>专线名称</th>
+                <th>专线IP</th>
+                <th>专线状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% autopaginate z_host 10 %}
+            {% for t in z_host %}
+                <tr class="pure-table pure-table-striped">
+                    <td><a class="post-author"
+                           href="{% url 'triggers:zhuanxian_detail' t.hostip %}">{{ t.hostname }}</a></td>
+                    <td>{{ t.hostip }}</td>
+                    <td>{{ t.description|cut:"{HOST.NAME}"|cut:"-" }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        {% paginate %}
+    </div>
+
+    <div class="container" align="right">
+        <a class="btn btn-default" href="{% url 'triggers:index' %}">返回首页</a>
+    </div>
+{% endblock %}

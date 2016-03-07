@@ -1,0 +1,62 @@
+{% extends "triggers/bootstrap.html" %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>欢迎
+            <small>使用建龙集团网络监控平台！在这里您可以实时了解整个集团的网络运行状况！</small>
+        </h1>
+    </div>
+
+    <div class="container bs-docs-container">
+        <div class="col-md-12" role="main">
+            <div class="bs-docs-section">
+                <div class="row">
+                    <div class="col-sm-6 col-md-12">
+                        <table class="table table-bordered table-hover table-responsive table-striped">
+                            <thead>
+                            <tr class="active">
+                                <th>序号</th>
+                                <th>公司</th>
+                                <th>设备数量</th>
+                                <th>异常数量</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for h in index_list %}
+                                <tr>
+                                    <td>{{ h.id }}</td>
+                                    <td>{{ h.servername }}</td>
+                                    <td>
+                                        {% if h.hostnum == 0 %}
+                                            正在同步数据...
+                                        {% else %}
+                                            <a href="{% url 'triggers:host_list2' h.servername h.hostnum %}" target="_blank" >{{ h.hostnum }}</a>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if h.problemnum == 0 and index_result.status == 0 %}
+                                            正在同步数据...
+                                        {% elif  h.problemnum == 0 and index_result.status != 0 %}
+                                            {{ h.problemnum }}
+                                        {% else %}
+                                            <a href="{% url 'triggers:trigger_list2' h.servername%}" target="_blank">{{ h.problemnum }}</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr class="active">
+                                <td colspan="2" align="center"><strong>汇 总</strong></td>
+                                <td align="center"><strong>{{ index_result.h_total }}</strong></td>
+                                <td align="center"><strong>{{ index_result.p_total }}</strong></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

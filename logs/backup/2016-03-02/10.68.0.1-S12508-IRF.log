@@ -1,0 +1,1294 @@
+display current-configuration
+#
+ version 5.20, Release 1238
+#
+ sysname S12508-IRF
+#
+ clock timezone GMT+8 add 08:00:00
+#
+ info-center source default channel 2 trap state off
+ info-center loghost source Vlan-interface1
+ info-center loghost 10.1.3.3 facility local3
+ info-center loghost 10.68.7.100
+ info-center loghost 10.68.7.103 facility local5
+#
+ irf domain 10
+ irf mac-address persistent always
+ undo irf auto-update enable
+ undo irf link-delay
+ irf member 1 priority 5
+ irf member 2 priority 2
+#
+ domain default enable tsdc
+#
+ router id 10.68.0.124
+#
+ telnet server enable
+#
+ ip ttl-expires enable
+ ip unreachables enable
+#
+ lldp enable
+ lldp compliance cdp
+#
+ mirroring-group 1 local
+ mirroring-group 2 local
+ mirroring-group 5 local
+#
+ forward-path check enable
+ hardware-failure-protection aggregation
+ hardware-failure-detection chip isolate
+ hardware-failure-detection board isolate
+ hardware-failure-detection forwarding isolate
+#
+acl number 2102
+#
+acl number 3012
+acl number 3100 name vlan800
+ rule 1 permit ip source 10.68.7.102 0
+ rule 2 permit ip source 10.68.7.100 0
+ rule 3 permit ip source 10.68.7.101 0
+ rule 10 deny ip
+acl number 3101 name ERPDB
+ rule 0 permit icmp
+ rule 1 permit ip source 10.1.19.98 0 destination 10.68.1.0 0.0.0.255
+ rule 3 permit tcp source 10.68.2.69 0 destination 10.68.1.23 0 destination-port eq 1521
+ rule 4 permit tcp source 10.1.19.218 0 destination 10.68.1.0 0.0.0.255 destination-port eq 1521
+ rule 5 permit ip source 10.1.18.20 0 destination 10.68.1.0 0.0.0.255
+ rule 6 permit ip source 10.1.19.155 0 destination 10.68.1.0 0.0.0.255
+ rule 7 permit ip source 10.1.19.173 0 destination 10.68.1.0 0.0.0.255
+ rule 8 permit ip source 10.1.19.95 0 destination 10.68.1.0 0.0.0.255
+ rule 9 permit ip source 10.68.7.240 0.0.0.15 destination 10.68.1.0 0.0.0.255
+ rule 10 permit ip source 10.68.255.0 0.0.0.63 destination 10.68.1.0 0.0.0.255
+ rule 11 permit ip source 10.68.1.0 0.0.0.255 destination 10.68.1.0 0.0.0.255
+ rule 12 permit ip source 10.68.4.0 0.0.0.255 destination 10.68.1.0 0.0.0.255
+ rule 13 permit ip source 10.68.6.125 0 destination 10.68.1.0 0.0.0.255
+ rule 14 permit tcp source 10.68.2.66 0 destination 10.68.1.0 0.0.0.255 destination-port eq 1521
+ rule 15 permit ip source 10.68.2.22 0 destination 10.68.1.21 0
+ rule 16 permit tcp source 10.69.1.11 0 destination 10.68.1.23 0 destination-port range 7840 8096
+ rule 17 permit udp source 10.68.2.50 0 source-port eq ntp destination 10.68.1.0 0.0.0.255
+ rule 18 permit ip source 10.69.4.12 0 destination 10.68.1.23 0
+ rule 19 permit ip source 10.69.4.13 0 destination 10.68.1.23 0
+ rule 20 permit ip source 10.69.4.23 0 destination 10.68.1.23 0
+ rule 21 permit ip source 10.69.4.24 0 destination 10.68.1.23 0
+ rule 48 permit tcp source 10.68.3.2 0 source-port eq smtp destination 10.68.1.21 0
+ rule 49 permit tcp source 10.68.2.70 0 destination 10.68.1.23 0 destination-port eq 1521
+ rule 51 permit ip source 10.69.1.11 0 destination 10.68.1.0 0.0.0.255
+ rule 52 permit tcp source 10.69.1.11 0 destination 10.68.1.21 0 destination-port range 7840 8096
+ rule 53 permit tcp source 10.69.1.11 0 destination 10.68.1.21 0 destination-port eq 22
+ rule 54 permit tcp source 10.69.1.11 0 source-port eq 22 destination 10.68.1.21 0
+ rule 56 permit ip source 10.69.1.111 0 destination 10.68.1.21 0
+ rule 61 permit tcp source 10.68.3.2 0 source-port eq smtp destination 10.68.1.22 0
+ rule 62 permit tcp source 10.68.2.69 0 destination 10.68.1.21 0 destination-port eq 1521
+ rule 63 permit tcp source 10.68.2.69 0 destination 10.68.1.22 0 destination-port eq 1521
+ rule 64 permit ip source 10.32.13.231 0 destination 10.68.1.21 0
+ rule 65 permit ip source 10.32.13.231 0 destination 10.68.1.22 0
+ rule 66 permit tcp source 10.68.2.21 0 source-port eq 22 destination 10.68.1.21 0
+ rule 67 permit tcp source 10.1.18.103 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 68 permit tcp source 10.1.18.100 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 69 permit tcp source 10.1.18.101 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 70 permit tcp source 10.1.18.102 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 71 permit tcp source 10.1.18.104 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 72 permit tcp source 10.1.18.105 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 73 permit tcp source 10.1.18.106 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 74 permit tcp source 10.1.18.107 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 75 permit tcp source 10.1.18.108 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 76 permit tcp source 10.1.18.109 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 77 permit ip source 10.69.4.12 0 destination 10.68.1.21 0
+ rule 78 permit ip source 10.69.4.13 0 destination 10.68.1.21 0
+ rule 79 permit ip source 10.69.4.23 0 destination 10.68.1.21 0
+ rule 80 permit ip source 10.69.4.24 0 destination 10.68.1.21 0
+ rule 81 permit ip source 10.69.4.12 0 destination 10.68.1.22 0
+ rule 82 permit ip source 10.69.4.13 0 destination 10.68.1.22 0
+ rule 83 permit ip source 10.69.4.23 0 destination 10.68.1.22 0
+ rule 84 permit ip source 10.69.4.24 0 destination 10.68.1.22 0
+ rule 85 permit tcp source 10.32.1.151 0 destination 10.68.1.23 0 destination-port eq 1521
+ rule 86 permit tcp source 10.1.19.153 0 destination 10.68.2.63 0 destination-port eq 6379
+ rule 87 permit tcp source 10.32.13.231 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 88 permit tcp source 10.32.13.231 0 destination 10.68.1.2 0 destination-port eq 22
+ rule 89 permit tcp source 10.68.6.66 0 destination 10.68.1.21 0 destination-port eq 1521
+ rule 90 permit tcp source 10.68.6.66 0 destination 10.68.1.21 0 destination-port eq 22
+ rule 91 permit tcp source 10.68.6.66 0 destination 10.68.1.22 0 destination-port eq 1521
+ rule 92 permit tcp source 10.68.6.66 0 destination 10.68.1.22 0 destination-port eq 22
+ rule 93 permit tcp source 10.68.6.66 0 destination 10.68.1.23 0 destination-port eq 1521
+ rule 94 permit tcp source 10.68.6.66 0 destination 10.68.1.23 0 destination-port eq 22
+ rule 95 permit tcp source 10.32.13.100 0 destination 10.68.1.21 0 destination-port eq 22
+ rule 96 permit tcp source 10.32.13.100 0 destination 10.68.1.22 0 destination-port eq 22
+ rule 97 permit tcp source 10.68.6.66 0 destination 10.68.1.21 0 destination-port eq 10050
+ rule 98 permit tcp source 10.68.6.66 0 destination 10.68.1.22 0 destination-port eq 10050
+ rule 99 permit tcp source 10.68.6.66 0 source-port range 10051 10052 destination 10.68.1.21 0
+ rule 100 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.1.22 0
+ rule 101 permit tcp source 10.68.6.66 0 source-port eq 10051 destination 10.68.1.22 0
+ rule 102 permit tcp source 10.68.12.14 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 103 permit tcp source 10.68.12.11 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 104 permit tcp source 10.68.12.12 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 105 permit tcp source 10.68.12.13 0 destination 10.68.1.2 0 destination-port eq 1521
+ rule 300 deny ip
+acl number 3102 name ERPAP
+ rule 0 permit icmp
+ rule 1 permit ip source 10.68.1.0 0.0.0.255 destination 10.68.4.0 0.0.0.255
+ rule 3 permit ip source 10.68.3.0 0.0.0.255 destination 10.68.4.0 0.0.0.255
+ rule 5 permit ip source 10.68.6.0 0.0.0.15 destination 10.68.4.0 0.0.0.255
+ rule 6 permit ip source 10.68.6.125 0 destination 10.68.4.0 0.0.0.255
+ rule 7 permit ip source 10.68.7.240 0.0.0.15 destination 10.68.4.0 0.0.0.255
+ rule 8 permit ip source 10.68.255.0 0.0.0.63 destination 10.68.4.0 0.0.0.255
+ rule 9 permit ip source 10.6.1.17 0 destination 10.68.4.31 0
+ rule 10 permit ip source 10.6.1.17 0 destination 10.68.4.32 0
+ rule 11 permit tcp source 10.1.80.2 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 12 permit tcp source 10.1.80.2 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 13 permit tcp source 10.2.1.4 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 14 permit tcp source 10.2.1.4 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 15 permit ip source 10.1.19.98 0 destination 10.68.4.0 0.0.0.255
+ rule 17 permit tcp source 10.4.1.18 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 18 permit tcp source 10.4.1.18 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 19 permit ip source 10.1.18.20 0 destination 10.68.4.0 0.0.0.255
+ rule 20 permit ip source 10.1.19.155 0 destination 10.68.4.0 0.0.0.255
+ rule 21 permit ip source 10.1.19.173 0 destination 10.68.4.0 0.0.0.255
+ rule 22 permit ip source 10.1.19.95 0 destination 10.68.4.0 0.0.0.255
+ rule 23 permit tcp source 10.4.94.34 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 24 permit tcp source 10.4.94.34 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 25 permit tcp source 10.5.1.7 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 26 permit tcp source 10.5.1.7 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 27 permit tcp source 10.6.1.25 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 28 permit tcp source 10.6.1.25 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 29 permit tcp source 10.7.3.1 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 30 permit tcp source 10.7.3.1 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 31 permit tcp source 10.8.1.15 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 32 permit tcp source 10.8.1.15 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 33 permit tcp source 10.10.100.9 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 34 permit tcp source 10.10.100.9 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 35 permit tcp source 10.10.100.4 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 36 permit tcp source 10.13.1.66 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 37 permit tcp source 10.13.1.66 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 38 permit tcp source 10.14.1.5 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 39 permit tcp source 10.14.1.5 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 44 permit tcp source 10.2.101.11 0 source-port eq www destination 10.68.4.31 0
+ rule 45 permit tcp source 10.2.101.11 0 source-port eq 1299 destination 10.68.4.31 0
+ rule 46 permit tcp source 10.2.101.11 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 47 permit tcp source 10.2.101.11 0 destination 10.68.4.31 0 destination-port eq 1299
+ rule 48 permit tcp source 10.2.101.11 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 49 permit tcp source 10.2.101.13 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 50 permit tcp source 10.2.101.13 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 51 permit tcp source 10.2.101.2 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 52 permit tcp source 10.2.101.2 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 53 permit tcp source 10.2.101.3 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 54 permit tcp source 10.2.101.3 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 55 permit tcp source 10.2.101.32 0 source-port eq www destination 10.68.4.31 0
+ rule 56 permit tcp source 10.2.101.32 0 source-port eq 8090 destination 10.68.4.31 0
+ rule 57 permit tcp source 10.2.101.32 0 source-port eq www destination 10.68.4.32 0
+ rule 58 permit tcp source 10.2.101.32 0 source-port eq 8090 destination 10.68.4.32 0
+ rule 59 permit tcp source 10.2.101.32 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 60 permit tcp source 10.2.101.32 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 61 permit tcp source 10.2.101.6 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 62 permit tcp source 10.2.101.6 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 63 permit tcp source 10.16.1.2 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 64 permit tcp source 10.16.1.2 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 65 permit tcp source 10.17.1.74 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 66 permit tcp source 10.17.1.74 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 67 permit tcp source 10.2.114.100 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 68 permit tcp source 10.2.114.100 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 69 permit tcp source 10.2.115.1 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 71 permit tcp source 10.2.115.104 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 72 permit tcp source 10.2.115.63 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 73 permit tcp source 10.2.115.63 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 74 permit tcp source 10.2.115.64 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 75 permit tcp source 10.2.115.64 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 76 permit tcp source 10.2.116.100 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 77 permit tcp source 10.2.116.100 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 78 permit tcp source 10.2.116.100 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 79 permit tcp source 10.2.117.4 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 80 permit tcp source 10.2.122.48 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 81 permit tcp source 10.2.122.48 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 82 permit tcp source 10.2.122.58 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 83 permit tcp source 10.2.122.58 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 84 permit tcp source 10.4.1.10 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 85 permit tcp source 10.4.1.10 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 86 permit tcp source 10.4.1.15 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 87 permit tcp source 10.4.1.15 0 source-port eq www destination 10.68.4.31 0
+ rule 88 permit tcp source 10.4.1.15 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 89 permit tcp source 10.2.101.32 0 destination 10.68.4.31 0 destination-port eq www
+ rule 90 permit tcp source 10.2.101.32 0 destination 10.68.4.31 0 destination-port range 8001 8020
+ rule 91 permit tcp source 10.2.101.32 0 destination 10.68.4.32 0 destination-port eq www
+ rule 92 permit tcp source 10.2.101.32 0 destination 10.68.4.32 0 destination-port range 8001 8020
+ rule 93 permit tcp source 10.5.1.12 0 source-port eq 8688 destination 10.68.4.31 0
+ rule 95 permit tcp source 10.5.1.12 0 source-port eq 8688 destination 10.68.4.32 0
+ rule 97 permit tcp source 10.5.1.12 0 destination 10.68.4.31 0 destination-port eq www
+ rule 98 permit tcp source 10.5.1.12 0 destination 10.68.4.31 0 destination-port range 8001 8020
+ rule 99 permit tcp source 10.5.1.12 0 destination 10.68.4.32 0 destination-port eq www
+ rule 100 permit tcp source 10.5.1.12 0 destination 10.68.4.32 0 destination-port range 8001 8020
+ rule 101 permit tcp source 10.5.1.12 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 102 permit tcp source 10.5.1.12 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 103 permit tcp source 10.5.1.16 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 104 permit tcp source 10.5.1.16 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 105 permit tcp source 10.5.1.5 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 107 permit tcp source 10.5.1.9 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 108 permit tcp source 10.5.1.9 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 109 permit tcp source 10.5.11.0 0.0.0.255 destination 10.68.4.31 0 destination-port eq 8002
+ rule 110 permit tcp source 10.5.11.0 0.0.0.255 destination 10.68.4.32 0 destination-port eq 8002
+ rule 111 permit tcp source 10.5.17.0 0 destination 10.68.4.31 0 destination-port eq 8002
+ rule 112 permit tcp source 10.5.17.0 0.0.0.255 destination 10.68.4.32 0 destination-port eq 8002
+ rule 113 permit tcp source 10.5.23.0 0 destination 10.68.4.31 0 destination-port eq 8002
+ rule 114 permit tcp source 10.5.23.0 0.0.0.255 destination 10.68.4.32 0 destination-port eq 8002
+ rule 115 permit tcp source 10.6.1.18 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 116 permit tcp source 10.6.1.18 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 118 permit tcp source 10.6.1.5 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 119 permit tcp source 10.6.1.6 0 source-port eq 1433 destination 10.68.4.0 0.0.0.255
+ rule 120 permit tcp source 10.6.30.0 0 destination 10.68.4.31 0 destination-port eq 8004
+ rule 121 permit tcp source 10.6.30.0 0.0.0.255 destination 10.68.4.32 0 destination-port eq 8004
+ rule 123 permit tcp source 10.6.30.100 0 source-port eq 8090 destination 10.68.4.31 0
+ rule 125 permit tcp source 10.6.30.100 0 source-port eq 8090 destination 10.68.4.32 0
+ rule 126 permit tcp source 10.6.30.100 0 destination 10.68.4.31 0 destination-port eq www
+ rule 127 permit tcp source 10.6.30.100 0 destination 10.68.4.31 0 destination-port range 8001 8020
+ rule 128 permit tcp source 10.6.30.100 0 destination 10.68.4.32 0 destination-port eq www
+ rule 129 permit tcp source 10.6.30.100 0 destination 10.68.4.32 0 destination-port range 8001 8020
+ rule 130 permit tcp source 10.6.30.100 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 131 permit tcp source 10.6.30.100 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 133 permit tcp source 10.4.1.14 0 source-port eq 8086 destination 10.68.4.31 0
+ rule 134 permit tcp source 10.4.1.14 0 source-port eq 8090 destination 10.68.4.31 0
+ rule 135 permit tcp source 10.4.1.14 0 source-port eq 8086 destination 10.68.4.32 0
+ rule 136 permit tcp source 10.4.1.14 0 source-port eq 8090 destination 10.68.4.32 0
+ rule 137 permit tcp source 10.4.1.14 0 destination 10.68.4.31 0 destination-port eq www
+ rule 138 permit tcp source 10.4.1.14 0 destination 10.68.4.31 0 destination-port range 8001 8020
+ rule 139 permit tcp source 10.4.1.14 0 destination 10.68.4.32 0 destination-port eq www
+ rule 140 permit tcp source 10.4.1.14 0 destination 10.68.4.32 0 destination-port range 8001 8020
+ rule 141 permit tcp source 10.4.1.14 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 142 permit tcp source 10.4.1.14 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 143 permit tcp source 10.18.1.4 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 144 permit tcp source 10.18.1.4 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 145 permit tcp source 10.19.17.6 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 146 permit tcp source 10.19.17.6 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 147 permit tcp source 10.32.100.88 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 148 permit tcp source 10.32.100.88 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 149 permit tcp source 10.68.3.101 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 150 permit tcp source 10.68.3.101 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 151 permit tcp source 10.68.2.0 0.0.0.255 destination 10.68.4.31 0 destination-port eq 61616
+ rule 152 permit tcp source 10.68.2.0 0.0.0.255 destination 10.68.4.32 0 destination-port eq 61616
+ rule 158 permit ip source 10.2.116.100 0 destination 10.68.4.31 0
+ rule 159 permit ip source 10.2.116.100 0 destination 10.68.4.32 0
+ rule 160 permit tcp source 10.5.1.2 0 source-port eq 1433 destination 10.68.4.0 0.0.0.255
+ rule 161 permit tcp source 10.32.1.89 0 source-port eq 1521 destination 10.68.4.0 0.0.0.255
+ rule 162 permit tcp source 10.5.1.12 0 source-port eq 1433 destination 10.68.4.0 0.0.0.255
+ rule 163 permit tcp source 10.6.1.19 0 source-port eq 1433 destination 10.68.4.0 0.0.0.255
+ rule 164 permit tcp source 10.6.1.23 0 source-port eq 1433 destination 10.68.4.0 0.0.0.255
+ rule 167 permit tcp source 10.2.116.100 0 source-port eq 1433 destination 10.68.4.0 0.0.0.255
+ rule 168 permit tcp source 10.4.1.11 0 source-port eq 1433 destination 10.68.4.0 0.0.0.255
+ rule 169 permit tcp source 10.68.3.0 0.0.0.255 destination 10.68.4.31 0 destination-port eq 61616
+ rule 170 permit tcp source 10.68.3.0 0.0.0.255 destination 10.68.4.32 0 destination-port eq 61616
+ rule 171 permit tcp source 10.68.13.0 0.0.0.255 destination 10.68.4.31 0 destination-port eq 61616
+ rule 172 permit tcp source 10.68.13.0 0.0.0.255 destination 10.68.4.32 0 destination-port eq 61616
+ rule 173 permit ip source 10.69.4.12 0 destination 10.68.4.0 0.0.0.255
+ rule 174 permit ip source 10.69.4.13 0 destination 10.68.4.0 0.0.0.255
+ rule 175 permit ip source 10.68.3.2 0 destination 10.68.4.0 0.0.0.255
+ rule 176 permit ip source 10.68.3.5 0 destination 10.68.4.0 0.0.0.255
+ rule 177 permit ip source 10.68.3.6 0 destination 10.68.4.0 0.0.0.255
+ rule 178 permit ip source 10.69.4.23 0 destination 10.68.4.0 0.0.0.255
+ rule 179 permit ip source 10.69.4.24 0 destination 10.68.4.0 0.0.0.255
+ rule 180 permit tcp source 10.5.1.12 0 source-port eq 8080 destination 10.68.4.31 0
+ rule 181 permit tcp source 10.5.1.12 0 source-port eq 8080 destination 10.68.4.32 0
+ rule 182 permit udp source 10.68.6.62 0 source-port eq dns destination 10.68.4.0 0.0.0.255
+ rule 183 permit ip source 10.69.4.52 0 destination 10.68.4.0 0.0.0.255
+ rule 184 permit tcp source 10.10.100.4 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 190 permit tcp source 10.2.101.11 0 source-port eq www destination 10.68.4.32 0
+ rule 191 permit tcp source 10.5.1.9 0 source-port eq www destination 10.68.4.31 0
+ rule 192 permit tcp source 10.5.1.9 0 source-port eq www destination 10.68.4.32 0
+ rule 196 permit tcp source 10.2.101.31 0 source-port eq www destination 10.68.4.31 0
+ rule 197 permit tcp source 10.2.101.31 0 source-port eq 8090 destination 10.68.4.31 0
+ rule 198 permit tcp source 10.2.101.31 0 source-port eq www destination 10.68.4.32 0
+ rule 199 permit tcp source 10.2.101.31 0 source-port eq 8090 destination 10.68.4.32 0
+ rule 200 permit tcp source 10.2.101.31 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 201 permit tcp source 10.2.101.31 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 202 permit tcp source 10.2.101.31 0 destination 10.68.4.31 0 destination-port eq www
+ rule 203 permit tcp source 10.2.101.31 0 destination 10.68.4.31 0 destination-port range 8001 8020
+ rule 204 permit tcp source 10.2.101.31 0 destination 10.68.4.32 0 destination-port eq www
+ rule 205 permit tcp source 10.2.101.31 0 destination 10.68.4.32 0 destination-port range 8001 8020
+ rule 208 permit ip source 10.2.101.11 0 destination 10.68.4.31 0
+ rule 209 permit ip source 10.2.101.11 0 destination 10.68.4.32 0
+ rule 210 permit ip source 10.4.1.13 0 destination 10.68.4.31 0
+ rule 211 permit ip source 10.4.1.13 0 destination 10.68.4.32 0
+ rule 213 permit tcp source 10.2.101.32 0 source-port eq 8099 destination 10.68.4.31 0
+ rule 214 permit tcp source 10.2.101.32 0 source-port eq 8099 destination 10.68.4.32 0
+ rule 218 permit tcp source 10.5.11.8 0 destination 10.68.4.31 0 destination-port range 8001 8020
+ rule 219 permit tcp source 10.5.11.8 0 destination 10.68.4.32 0 destination-port range 8001 8020
+ rule 221 permit tcp source 10.68.6.133 0 source-port eq 5432 destination 10.68.4.17 0
+ rule 222 permit tcp source 10.68.6.133 0 source-port eq 5432 destination 10.68.4.18 0
+ rule 229 permit tcp source 10.6.1.32 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 230 permit tcp source 10.6.1.33 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 231 permit tcp source 10.6.1.34 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 232 permit tcp source 10.6.1.32 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 233 permit tcp source 10.6.1.33 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 234 permit tcp source 10.6.1.34 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 237 permit tcp source 10.6.1.34 0 destination 10.68.4.31 0 destination-port range 8001 8010
+ rule 240 permit tcp source 10.6.1.34 0 destination 10.68.4.32 0 destination-port range 8001 8010
+ rule 243 permit ip source 10.67.4.14 0 destination 10.68.4.31 0
+ rule 244 permit ip source 10.67.4.14 0 destination 10.68.4.32 0
+ rule 245 permit ip source 10.67.4.24 0 destination 10.68.4.31 0
+ rule 246 permit ip source 10.67.4.24 0 destination 10.68.4.32 0
+ rule 247 permit tcp source 10.32.1.151 0 source-port eq www destination 10.68.4.17 0
+ rule 248 permit tcp source 10.32.1.151 0 source-port eq www destination 10.68.4.18 0
+ rule 249 permit tcp source 10.32.1.151 0 source-port eq www destination 10.68.4.31 0
+ rule 250 permit tcp source 10.32.1.151 0 source-port eq www destination 10.68.4.32 0
+ rule 251 permit tcp source 10.32.1.151 0 source-port eq www destination 10.68.4.33 0
+ rule 252 permit tcp source 10.32.1.151 0 source-port eq www destination 10.68.4.34 0
+ rule 259 permit tcp source 10.68.3.44 0 destination 10.68.4.17 0 destination-port range 8001 8003
+ rule 260 permit tcp source 10.68.3.44 0 destination 10.68.4.18 0 destination-port range 8001 8003
+ rule 261 permit tcp source 10.68.3.44 0 destination 10.68.4.17 0 destination-port eq 8006
+ rule 262 permit tcp source 10.68.3.44 0 destination 10.68.4.18 0 destination-port eq 8006
+ rule 263 permit tcp source 10.68.3.44 0 destination 10.68.4.31 0 destination-port range 8011 8015
+ rule 264 permit tcp source 10.68.3.44 0 destination 10.68.4.32 0 destination-port range 8011 8015
+ rule 265 permit tcp source 10.68.3.44 0 destination 10.68.4.33 0 destination-port eq 8013
+ rule 266 permit tcp source 10.68.3.44 0 destination 10.68.4.34 0 destination-port eq 8013
+ rule 267 permit tcp source 10.68.3.44 0 destination 10.68.4.33 0 destination-port eq 8015
+ rule 268 permit tcp source 10.68.3.44 0 destination 10.68.4.34 0 destination-port eq 8015
+ rule 271 permit tcp source 10.8.1.25 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 272 permit tcp source 10.8.1.25 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 273 permit tcp source 10.6.1.34 0 destination 10.68.4.31 0 destination-port eq 8014
+ rule 274 permit tcp source 10.6.1.34 0 destination 10.68.4.32 0 destination-port eq 8014
+ rule 275 permit tcp source 10.2.101.10 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 276 permit tcp source 10.2.101.10 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 278 permit ip source 10.67.1.0 0.0.0.255 destination 10.68.4.0 0.0.0.255
+ rule 279 permit ip source 10.67.2.0 0.0.0.255 destination 10.68.4.0 0.0.0.255
+ rule 280 permit ip source 10.67.4.0 0.0.0.255 destination 10.68.4.0 0.0.0.255
+ rule 281 permit tcp source 10.8.1.25 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 282 permit tcp source 10.8.1.25 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 283 permit tcp source 10.68.6.130 0 source-port eq www destination 10.68.4.17 0
+ rule 284 permit tcp source 10.68.3.27 0 destination 10.68.4.4 0 destination-port eq 3060
+ rule 285 permit tcp source 10.68.3.30 0 destination 10.68.4.4 0 destination-port eq 3060
+ rule 286 permit tcp source 10.68.3.113 0 destination 10.68.4.4 0 destination-port eq 3060
+ rule 287 permit tcp source 10.68.2.66 0 destination 10.68.4.4 0 destination-port eq 3060
+ rule 295 permit tcp source 10.6.1.31 0 source-port eq 8080 destination 10.68.4.32 0
+ rule 296 permit tcp source 10.68.4.32 0 destination 10.6.1.31 0 destination-port eq 8080
+ rule 297 permit tcp source 10.6.1.31 0 source-port eq 8080 destination 10.68.4.31 0
+ rule 298 permit tcp source 10.68.6.131 0 source-port eq 61616 destination 10.68.4.17 0
+ rule 299 permit tcp source 10.68.6.131 0 source-port eq 61616 destination 10.68.4.18 0
+ rule 300 permit tcp source 10.68.6.131 0 source-port eq 61616 destination 10.68.4.31 0
+ rule 301 permit tcp source 10.68.6.131 0 source-port eq 61616 destination 10.68.4.32 0
+ rule 302 permit tcp source 10.68.6.131 0 source-port eq 61616 destination 10.68.4.33 0
+ rule 303 permit tcp source 10.68.6.131 0 source-port eq 61616 destination 10.68.4.34 0
+ rule 304 permit tcp source 10.68.2.50 0 source-port eq 22 destination 10.68.4.17 0
+ rule 305 permit tcp source 10.68.2.50 0 source-port eq 22 destination 10.68.4.18 0
+ rule 308 permit tcp source 10.68.2.55 0 destination 10.68.4.17 0 destination-port eq 873
+ rule 309 permit tcp source 10.68.2.55 0 destination 10.68.4.18 0 destination-port eq 873
+ rule 310 permit tcp source 10.68.2.55 0 destination 10.68.4.31 0 destination-port eq 873
+ rule 311 permit tcp source 10.68.2.55 0 destination 10.68.4.32 0 destination-port eq 873
+ rule 312 permit tcp source 10.68.2.55 0 destination 10.68.4.33 0 destination-port eq 873
+ rule 313 permit tcp source 10.68.2.55 0 destination 10.68.4.34 0 destination-port eq 873
+ rule 314 permit tcp source 10.68.2.50 0 destination 10.68.4.17 0 destination-port eq 22
+ rule 315 permit tcp source 10.68.2.50 0 destination 10.68.4.18 0 destination-port eq 22
+ rule 316 permit tcp source 10.68.2.50 0 destination 10.68.4.31 0 destination-port eq 22
+ rule 317 permit tcp source 10.68.2.50 0 destination 10.68.4.32 0 destination-port eq 22
+ rule 318 permit tcp source 10.68.2.50 0 destination 10.68.4.33 0 destination-port eq 22
+ rule 319 permit tcp source 10.68.2.50 0 destination 10.68.4.34 0 destination-port eq 22
+ rule 323 permit tcp source 10.68.2.50 0 source-port eq 873 destination 10.68.4.31 0
+ rule 324 permit tcp source 10.68.2.50 0 source-port eq 873 destination 10.68.4.32 0
+ rule 325 permit tcp source 10.68.2.50 0 source-port eq 873 destination 10.68.4.33 0
+ rule 326 permit tcp source 10.68.2.50 0 source-port eq 873 destination 10.68.4.34 0
+ rule 327 permit tcp source 10.68.4.31 0 destination 10.68.2.50 0 destination-port eq 873
+ rule 328 permit tcp source 10.68.4.32 0 destination 10.68.2.50 0 destination-port eq 873
+ rule 329 permit tcp source 10.68.4.33 0 destination 10.68.2.50 0 destination-port eq 873
+ rule 330 permit tcp source 10.68.4.34 0 destination 10.68.2.50 0 destination-port eq 873
+ rule 331 permit tcp source 10.68.2.50 0 source-port eq 22 destination 10.68.4.31 0
+ rule 332 permit tcp source 10.68.2.50 0 source-port eq 22 destination 10.68.4.32 0
+ rule 333 permit tcp source 10.68.2.50 0 source-port eq 22 destination 10.68.4.33 0
+ rule 334 permit tcp source 10.68.2.50 0 source-port eq 22 destination 10.68.4.34 0
+ rule 335 permit tcp source 10.68.2.66 0 destination 10.68.4.10 0 destination-port eq 6379
+ rule 336 permit tcp source 10.68.2.70 0 destination 10.68.4.10 0 destination-port eq 6379
+ rule 337 permit tcp source 10.68.2.50 0 destination 10.68.4.42 0 destination-port eq 22
+ rule 338 permit tcp source 10.68.4.42 0 destination 10.68.6.131 0 destination-port eq 61616
+ rule 339 permit tcp source 10.68.3.118 0 destination 10.68.12.11 0 destination-port eq 2181
+ rule 340 permit tcp source 10.68.3.118 0 destination 10.68.12.12 0 destination-port eq 2181
+ rule 341 permit tcp source 10.68.3.118 0 destination 10.68.12.13 0 destination-port eq 2181
+ rule 342 permit tcp source 10.68.2.70 0 destination 10.68.4.17 0 destination-port eq 8003
+ rule 343 permit tcp source 10.68.2.70 0 destination 10.68.4.18 0 destination-port eq 8003
+ rule 344 permit udp source 10.68.2.50 0 source-port eq ntp destination 10.68.4.0 0.0.0.255
+ rule 345 permit tcp source 116.58.219.223 0 source-port eq 8080 destination 10.68.4.31 0
+ rule 346 permit tcp source 116.58.219.223 0 source-port eq 8080 destination 10.68.4.32 0
+ rule 357 permit tcp source 10.69.1.11 0 source-port eq 1521 destination 10.68.4.31 0
+ rule 358 permit tcp source 10.69.1.11 0 source-port eq 1521 destination 10.68.4.32 0
+ rule 359 permit tcp source 10.69.1.11 0 source-port eq 1521 destination 10.68.4.33 0
+ rule 360 permit tcp source 10.69.1.11 0 source-port eq 1521 destination 10.68.4.34 0
+ rule 361 permit tcp source 10.69.1.21 0 source-port eq 1521 destination 10.68.4.31 0
+ rule 362 permit tcp source 10.69.1.21 0 source-port eq 1521 destination 10.68.4.32 0
+ rule 363 permit tcp source 10.69.1.21 0 source-port eq 1521 destination 10.68.4.33 0
+ rule 364 permit tcp source 10.69.1.21 0 source-port eq 1521 destination 10.68.4.34 0
+ rule 365 permit tcp source 10.67.7.11 0 source-port eq ftp destination 10.68.4.31 0
+ rule 366 permit tcp source 10.67.7.11 0 source-port eq ftp destination 10.68.4.32 0
+ rule 371 permit tcp source 10.68.3.8 0 source-port eq 9090
+ rule 372 permit ip destination 10.68.3.8 0
+ rule 374 permit tcp source 10.3.18.11 0 source-port eq 1521 destination 10.68.4.31 0
+ rule 375 permit tcp source 10.3.18.11 0 source-port eq 1521 destination 10.68.4.32 0
+ rule 376 permit tcp source 10.67.7.11 0 source-port eq ftp-data destination 10.68.4.31 0
+ rule 377 permit tcp source 10.67.7.11 0 source-port eq ftp-data destination 10.68.4.32 0
+ rule 378 permit tcp source 10.3.18.11 0 source-port eq 1521 destination 10.68.4.33 0
+ rule 379 permit tcp source 10.3.18.11 0 source-port eq 1521 destination 10.68.4.34 0
+ rule 380 permit tcp source 10.68.6.66 0 destination 10.68.4.31 0 destination-port range 8011 8016
+ rule 381 permit tcp source 10.68.6.66 0 destination 10.68.4.31 0 destination-port eq 22
+ rule 382 permit tcp source 10.68.6.66 0 destination 10.68.4.32 0 destination-port range 8011 8016
+ rule 383 permit tcp source 10.68.6.66 0 destination 10.68.4.32 0 destination-port eq 22
+ rule 384 permit tcp source 10.68.6.66 0 destination 10.68.4.33 0 destination-port range 8011 8016
+ rule 385 permit tcp source 10.68.6.66 0 destination 10.68.4.34 0 destination-port range 8011 8016
+ rule 386 permit tcp source 10.68.6.66 0 destination 10.68.4.17 0 destination-port range 8011 8016
+ rule 388 permit tcp source 10.68.6.66 0 destination 10.68.4.17 0 destination-port eq 22
+ rule 389 permit tcp source 10.68.6.66 0 destination 10.68.4.18 0 destination-port range 8001 8010
+ rule 390 permit tcp source 10.68.6.66 0 destination 10.68.4.18 0 destination-port eq 8013
+ rule 391 permit tcp source 10.68.6.66 0 destination 10.68.4.18 0 destination-port eq 22
+ rule 392 permit tcp source 10.32.13.100 0 destination 10.68.4.31 0 destination-port range 8011 8016
+ rule 393 permit tcp source 10.32.13.100 0 destination 10.68.4.31 0 destination-port eq 22
+ rule 394 permit tcp source 10.32.13.100 0 destination 10.68.4.32 0 destination-port range 8011 8016
+ rule 395 permit tcp source 10.32.13.100 0 destination 10.68.4.32 0 destination-port eq 22
+ rule 396 permit tcp source 10.32.13.100 0 destination 10.68.4.33 0 destination-port range 8011 8016
+ rule 397 permit tcp source 10.32.13.100 0 destination 10.68.4.34 0 destination-port range 8011 8016
+ rule 398 permit tcp source 10.32.13.100 0 destination 10.68.4.17 0 destination-port range 8011 8016
+ rule 399 permit tcp source 10.32.13.100 0 destination 10.68.4.17 0 destination-port eq 8013
+ rule 400 permit tcp source 10.32.13.100 0 destination 10.68.4.17 0 destination-port eq 22
+ rule 401 permit tcp source 10.32.13.100 0 destination 10.68.4.18 0 destination-port range 8001 8010
+ rule 402 permit tcp source 10.32.13.100 0 destination 10.68.4.18 0 destination-port eq 8013
+ rule 403 permit tcp source 10.32.13.100 0 destination 10.68.4.18 0 destination-port eq 22
+ rule 404 permit tcp source 10.32.13.100 0 destination 10.68.4.33 0 destination-port eq 22
+ rule 405 permit tcp source 10.32.13.100 0 destination 10.68.4.34 0 destination-port eq 22
+ rule 406 permit tcp source 10.32.13.100 0 destination 10.68.4.10 0 destination-port eq 22
+ rule 407 permit tcp source 10.32.13.100 0 destination 10.68.4.11 0 destination-port eq 22
+ rule 408 permit tcp source 10.32.13.100 0 destination 10.68.4.12 0 destination-port eq 22
+ rule 409 permit tcp source 10.32.13.100 0 destination 10.68.4.2 0 destination-port eq 22
+ rule 410 permit tcp source 10.32.13.100 0 destination 10.68.4.3 0 destination-port eq 22
+ rule 411 permit tcp source 10.32.13.100 0 destination 10.68.4.4 0 destination-port eq 22
+ rule 412 permit tcp source 10.68.6.66 0 destination 10.68.4.31 0 destination-port eq 61616
+ rule 413 permit tcp source 10.68.6.66 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 414 permit tcp source 10.68.6.66 0 destination 10.68.4.10 0 destination-port eq 6379
+ rule 415 permit tcp source 10.68.6.66 0 destination 10.68.4.11 0 destination-port eq 6379
+ rule 416 permit tcp source 10.68.6.66 0 destination 10.68.4.12 0 destination-port eq 6379
+ rule 417 permit tcp source 10.68.6.66 0 destination 10.68.4.2 0 destination-port eq 3060
+ rule 418 permit tcp source 10.68.6.66 0 destination 10.68.4.3 0 destination-port eq 3060
+ rule 419 permit tcp source 10.68.6.66 0 destination 10.68.4.4 0 destination-port eq 3060
+ rule 420 permit tcp source 10.68.6.66 0 destination 10.68.4.17 0 destination-port range 8001 8010
+ rule 421 permit tcp source 10.3.35.252 0 source-port eq 1433 destination 10.68.4.31 0
+ rule 422 permit tcp source 10.3.35.252 0 source-port eq 1433 destination 10.68.4.32 0
+ rule 423 permit tcp source 10.3.35.252 0 source-port eq 1433 destination 10.68.4.33 0
+ rule 424 permit tcp source 10.3.35.252 0 source-port eq 1433 destination 10.68.4.34 0
+ rule 425 permit tcp source 10.68.6.66 0 destination 10.68.4.2 0 destination-port eq 10050
+ rule 426 permit tcp source 10.68.6.66 0 destination 10.68.4.3 0 destination-port eq 10050
+ rule 427 permit tcp source 10.68.6.66 0 destination 10.68.4.4 0 destination-port eq 10050
+ rule 428 permit tcp source 10.68.6.66 0 destination 10.68.4.10 0 destination-port eq 10050
+ rule 429 permit tcp source 10.68.6.66 0 destination 10.68.4.11 0 destination-port eq 10050
+ rule 430 permit tcp source 10.68.6.66 0 destination 10.68.4.12 0 destination-port eq 10050
+ rule 431 permit tcp source 10.68.6.66 0 destination 10.68.4.17 0 destination-port eq 10050
+ rule 432 permit tcp source 10.68.6.66 0 destination 10.68.4.31 0 destination-port eq 10050
+ rule 433 permit tcp source 10.68.6.66 0 destination 10.68.4.32 0 destination-port eq 10050
+ rule 434 permit tcp source 10.68.6.66 0 destination 10.68.4.33 0 destination-port eq 10050
+ rule 436 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.2 0
+ rule 437 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.3 0
+ rule 438 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.4 0
+ rule 439 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.10 0
+ rule 440 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.11 0
+ rule 441 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.12 0
+ rule 442 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.17 0
+ rule 443 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.31 0
+ rule 444 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.32 0
+ rule 445 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.33 0
+ rule 446 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.34 0
+ rule 447 permit tcp source 10.68.6.66 0 source-port eq 10052 destination 10.68.4.18 0
+ rule 448 permit tcp source 10.68.6.66 0 source-port eq 10051 destination 10.68.4.31 0
+ rule 449 permit tcp source 10.68.6.66 0 source-port eq 10051 destination 10.68.4.32 0
+ rule 450 permit tcp source 10.68.6.66 0 source-port eq 10051 destination 10.68.4.33 0
+ rule 451 permit tcp source 10.68.6.66 0 source-port eq 10051 destination 10.68.4.34 0
+ rule 452 permit tcp source 10.68.6.66 0 source-port eq 10051 destination 10.68.4.17 0
+ rule 453 permit tcp source 10.68.6.66 0 source-port eq 10051 destination 10.68.4.18 0
+ rule 454 permit tcp source 10.68.6.66 0 destination 10.68.4.17 0 destination-port range 41701 41710
+ rule 455 permit tcp source 10.68.6.66 0 destination 10.68.4.18 0 destination-port range 41801 41810
+ rule 456 permit tcp source 10.68.6.66 0 destination 10.68.4.18 0 destination-port eq 41813
+ rule 457 permit tcp source 10.68.6.66 0 destination 10.68.4.17 0 destination-port eq 41713
+ rule 458 permit tcp source 10.68.6.66 0 destination 10.68.4.18 0 destination-port eq 10050
+ rule 459 permit tcp source 10.68.6.66 0 destination 10.68.4.34 0 destination-port eq 10050
+ rule 460 permit tcp source 10.68.6.66 0 destination 10.68.4.31 0 destination-port range 43111 43116
+ rule 461 permit tcp source 10.68.6.66 0 destination 10.68.4.32 0 destination-port range 43211 43216
+ rule 462 permit tcp source 10.68.6.66 0 destination 10.68.4.33 0 destination-port range 43311 43316
+ rule 463 permit tcp source 10.68.6.66 0 destination 10.68.4.34 0 destination-port range 43411 43416
+ rule 464 permit tcp source 10.3.18.11 0 destination 10.68.4.17 0 destination-port range 8001 8010
+ rule 465 permit tcp source 10.3.18.11 0 destination 10.68.4.18 0 destination-port range 8001 8010
+ rule 466 permit tcp source 10.3.18.14 0 destination 10.68.4.17 0 destination-port range 8001 8010
+ rule 467 permit tcp source 10.3.18.14 0 destination 10.68.4.18 0 destination-port range 8001 8010
+ rule 470 permit tcp source 10.68.6.66 0 destination 10.68.4.2 0 destination-port range 6021 6022
+ rule 471 permit tcp source 10.68.6.66 0 destination 10.68.4.3 0 destination-port range 6021 6022
+ rule 472 permit tcp source 10.68.3.74 0 destination 10.1.19.218 0 destination-port eq 3306
+ rule 473 permit tcp source 10.68.2.66 0 destination 10.68.4.9 0 destination-port eq 6379
+ rule 474 permit tcp source 10.68.6.66 0 destination 10.68.4.9 0 destination-port eq 6379
+ rule 475 permit tcp source 10.68.6.66 0 destination 10.68.4.2 0 destination-port eq 6379
+ rule 476 permit tcp source 10.68.6.66 0 destination 10.68.4.3 0 destination-port eq 6379
+ rule 477 permit tcp source 10.68.2.66 0 destination 10.68.4.5 0 destination-port eq 6379
+ rule 478 permit tcp source 10.68.2.70 0 destination 10.68.4.5 0 destination-port eq 6379
+ rule 479 permit tcp source 10.68.6.66 0 destination 10.68.4.5 0 destination-port eq 6379
+ rule 480 permit tcp source 10.68.6.66 0 destination 10.68.4.2 0 destination-port eq 2049
+ rule 481 permit tcp source 10.68.6.66 0 destination 10.68.4.3 0 destination-port eq 2049
+ rule 482 permit tcp source 10.68.6.66 0 destination 10.68.4.6 0 destination-port eq 2049
+ rule 483 permit tcp source 10.68.3.47 0 destination 10.68.4.4 0 destination-port eq 3060
+ rule 484 permit tcp source 10.4.1.13 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 485 permit tcp source 10.6.1.31 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 486 permit tcp source 10.6.1.17 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 489 permit tcp source 10.2.12.58 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 490 permit tcp source 10.2.114.50 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 491 permit tcp source 10.2.114.51 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 492 permit tcp source 10.2.115.1 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 493 permit tcp source 10.2.117.4 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 494 permit tcp source 10.2.116.112 0 destination 10.68.4.32 0 destination-port eq 61616
+ rule 500 deny ip
+acl number 3103
+ rule 10 permit ip source 10.68.1.8 0 destination 10.68.2.51 0
+ rule 15 permit ip source 10.1.18.20 0 destination 10.68.2.51 0
+ rule 25 deny ip destination 10.68.2.51 0
+ rule 10000 permit ip
+#
+vlan 1
+ description Management-VLAN
+#
+vlan 2
+ description Management-VLAN-to-cunchu
+#
+vlan 100
+ description video&audio
+#
+vlan 101
+ description Apply Server-VLAN
+#
+vlan 102
+ description Test Server and DB Server-VLAN
+#
+vlan 103
+ description virtual manage
+ name VM
+#
+vlan 104
+ description virtual storage
+ name VS
+#
+vlan 105
+#
+vlan 112
+ description DWFWDB Server-VLAN
+#
+vlan 113
+ description DWFWDBTEST Server-VLAN
+#
+vlan 201
+ description DB Server-VLAN
+#
+vlan 255
+ name testvpn
+#
+vlan 301
+ description DMZ-VLAN
+ name DMZ
+#
+vlan 302
+ description DNS and F5 Apply-VLAN
+#
+vlan 303
+ description Storage standby-VLAN
+#
+vlan 304
+ description Zongtu VLAN
+#
+vlan 499
+ description old erp test
+#
+vlan 500
+ name subcompany server
+#
+vlan 800
+ description Administration Server-VLAN
+#
+vlan 801
+ description internet service server
+#
+vlan 802
+ description PiX525 DMZ
+#
+vlan 900
+ description S125-M_to_SR66-1
+#
+vlan 901
+ description S125-S_to_SR66-2
+#
+vlan 902
+ description route to ASA5520
+#
+vlan 903
+ description route to PIX525
+#
+vlan 990
+ name Dianshanhulian
+#
+hwtacacs scheme hwtac
+ primary authentication 10.68.7.104
+ primary authorization 10.68.7.104
+ primary accounting 10.68.7.104
+ key authentication ejianlong
+ key authorization ejianlong
+ key accounting ejianlong
+ user-name-format without-domain
+#
+domain system
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+domain tsdc
+ authentication login hwtacacs-scheme hwtac local
+ authorization login hwtacacs-scheme hwtac local
+ accounting login hwtacacs-scheme hwtac
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+#
+user-group system
+#
+local-user admin
+ password simple jlktv4
+ authorization-attribute level 3
+ service-type telnet
+local-user tsdc
+ password simple tsdc
+ authorization-attribute level 1
+ service-type telnet
+#
+interface Bridge-Aggregation1
+ description TSDCHX_to_TSDCJR-60C
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ link-aggregation mode dynamic
+ mad enable
+#
+interface Bridge-Aggregation2
+ description TSDCHX_to_TSDCJR-56C
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ link-aggregation mode dynamic
+ mad enable
+#
+interface Bridge-Aggregation3
+ port link-type trunk
+ undo port trunk permit vlan 1
+ port trunk permit vlan 301 802
+ link-aggregation mode dynamic
+ mad enable
+#
+interface Bridge-Aggregation85
+ shutdown
+#
+interface Bridge-Aggregation86
+ shutdown
+#
+interface NULL0
+#
+interface LoopBack0
+ ip address 10.68.0.124 255.255.255.255
+#
+interface Vlan-interface1
+ description Management-VLAN
+ ip address 10.68.0.1 255.255.255.224
+#
+interface Vlan-interface2
+ description Management-VLAN-to-cunchu
+ ip address 10.68.0.193 255.255.255.192
+#
+interface Vlan-interface100
+ description video&audio
+ ip address 10.68.0.129 255.255.255.192
+#
+interface Vlan-interface101
+ description Apply Server-VLAN
+ ip address 10.68.4.1 255.255.255.0
+ packet-filter 3102 outbound
+#
+interface Vlan-interface102
+ description Test Server and DB Server-VLAN
+ ip address 10.68.2.1 255.255.255.0
+#
+interface Vlan-interface103
+ description virtual manage
+ ip address 10.68.10.1 255.255.255.0
+#
+interface Vlan-interface104
+ description virtual storage
+ ip address 10.68.11.1 255.255.255.0
+#
+interface Vlan-interface105
+ ip address 10.68.5.1 255.255.255.0
+#
+interface Vlan-interface112
+ description DWFWDB-VLAN
+ ip address 10.68.12.1 255.255.255.0
+#
+interface Vlan-interface113
+ description DWFWDBTEST-VLAN
+ ip address 10.68.14.1 255.255.255.0
+#
+interface Vlan-interface201
+ description DB Server-VLAN
+ ip address 10.68.1.1 255.255.255.0
+ packet-filter 3101 outbound
+#
+interface Vlan-interface255
+ shutdown
+ ip address 10.68.255.1 255.255.255.192
+#
+interface Vlan-interface301
+ shutdown
+#
+interface Vlan-interface302
+ description DNS and F5 Apply-VLAN
+ ip address 10.68.6.1 255.255.255.192
+#
+interface Vlan-interface303
+ description Storage standby-VLAN
+ ip address 10.68.6.65 255.255.255.192
+#
+interface Vlan-interface304
+ description Zongtu VLAN
+ ip address 10.68.6.129 255.255.255.192
+#
+interface Vlan-interface499
+ description old erp test
+ ip address 10.1.1.1 255.255.255.192
+#
+interface Vlan-interface500
+ description subcompany server
+ ip address 10.68.63.1 255.255.255.0
+#
+interface Vlan-interface800
+ description Administration Server-vlan
+ ip address 10.68.7.1 255.255.255.0
+#
+interface Vlan-interface801
+ ip address 10.68.8.1 255.255.255.0
+#
+interface Vlan-interface900
+ description S125-M_to_SR66-1
+ ip address 10.68.253.2 255.255.255.252
+ ospf network-type p2p
+#
+interface Vlan-interface901
+ description S125-S_to_SR66-2
+ ip address 10.68.253.6 255.255.255.252
+ ospf network-type p2p
+#
+interface Vlan-interface902
+ description link to ASA5520
+ ip address 10.68.253.14 255.255.255.252
+#
+interface Vlan-interface903
+ description link to pix525
+ ip address 10.68.253.18 255.255.255.252
+#
+interface Vlan-interface990
+ description link to dianzishangwu
+ ip address 10.68.253.35 255.255.255.248
+#
+interface GigabitEthernet1/2/0/4
+ description link to jiankongshi video@audio
+ port link-type trunk
+ port trunk permit vlan all
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/5
+ port access vlan 800
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/6
+ port access vlan 800
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/7
+ port link-type trunk
+ undo port trunk permit vlan 1
+ port trunk permit vlan 301 802
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/8
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/9
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/10
+ description link tangshan video&audio
+ port access vlan 100
+ mirroring-group 5 mirroring-port both
+#
+interface GigabitEthernet1/2/0/11
+ description link to xinjiang a la er
+ port access vlan 100
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/12
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/13
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/14
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/15
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/16
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/17
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/18
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/19
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/20
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/21
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/22
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/23
+ description link to 56C-M G1/0/48
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/24
+ description link to 60C-M G1/0/1
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ mirroring-group 1 mirroring-port both
+ port link-aggregation group 2
+#
+interface GigabitEthernet1/2/0/25
+ description link to 56C-s G2/0/48
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ mirroring-group 1 mirroring-port both
+ port link-aggregation group 1
+#
+interface GigabitEthernet1/2/0/26
+ description link to 60C-s G2/0/1
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ mirroring-group 1 mirroring-port both
+ port link-aggregation group 2
+#
+interface GigabitEthernet1/2/0/27
+ description To_DMZ3600V2_24_Citrix
+ port link-type trunk
+ port trunk permit vlan all
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/28
+ description link to TDA3000 monitor
+#
+interface GigabitEthernet1/2/0/29
+ description link to pix525
+ port access vlan 903
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/30
+ description link to C9 ASA5520 G0/2
+ port access vlan 990
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/31
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/32
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/33
+ description link to SR6608-1 G3/1/0
+ port access vlan 900
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/34
+ port access vlan 800
+ mirroring-group 5 monitor-port
+#
+interface GigabitEthernet1/2/0/35
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/36
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/37
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/38
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/39
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/40
+ description link to TDA3000 managerport
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/41
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/42
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/43
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/44
+ port access vlan 902
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet1/2/0/45
+ port access vlan 100
+ mirroring-group 1 mirroring-port both
+#
+interface GigabitEthernet2/2/0/4
+ description link to MCU
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/5
+ description link to beifenMGC251
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/6
+ description link to beifenMGC252
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/7
+ description link to beifenMCU
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/8
+ description link to SHIPIN_CMA
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/9
+ description link to SHIPIN_VBP
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/10
+ description link to SHIPIN_ceshibijiben
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/11
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/12
+ port access vlan 900
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/13
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/14
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/15
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/16
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/17
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/18
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/19
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/20
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/21
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/22
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/23
+ description link to 56C-M G1/0/1
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ mirroring-group 2 mirroring-port both
+ port link-aggregation group 1
+#
+interface GigabitEthernet2/2/0/24
+ description link to 60C-M G1/0/48
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ mirroring-group 2 mirroring-port both
+ port link-aggregation group 2
+#
+interface GigabitEthernet2/2/0/25
+ description link to 56C-s G2/0/1
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ mirroring-group 2 mirroring-port both
+ port link-aggregation group 1
+#
+interface GigabitEthernet2/2/0/26
+ description link to 60C-S G2/0/48
+ port link-type trunk
+ port trunk permit vlan 1 to 2 5 100 to 105 112 to 113 201 301 to 304 499 to 500 800 to 802 903
+ mirroring-group 2 mirroring-port both
+ port link-aggregation group 2
+#
+interface GigabitEthernet2/2/0/27
+ description link to ASA5520 inside
+ port access vlan 902
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/28
+ description link to TDA3000 monitor
+ mirroring-group 2 monitor-port
+#
+interface GigabitEthernet2/2/0/29
+ description To_DMZ3600V2_1_Citrix
+ mirroring-group 2 mirroring-port both
+ port link-aggregation group 3
+#
+interface GigabitEthernet2/2/0/30
+ description link to C8 ASA5520 G0/2
+ port access vlan 990
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/31
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/32
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/33
+ description link to SR6608-2 G3/1/0
+ port access vlan 901
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/34
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/35
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/36
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/37
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/38
+ port access vlan 100
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/39
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/40
+ port link-type trunk
+ port trunk permit vlan all
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/41
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/42
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/43
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/44
+ shutdown
+ mirroring-group 2 mirroring-port both
+#
+interface GigabitEthernet2/2/0/45
+ description Link Xinjianghakesu-video&audio zhuanxian
+ mirroring-group 2 mirroring-port both
+#
+interface M-Ethernet1/0/0/0
+ ip address 1.1.1.1 255.255.255.0
+#
+interface GigabitEthernet1/2/0/1
+ description Only_For_IRF-port
+#
+interface GigabitEthernet1/2/0/2
+ description Only_For_IRF-port
+#
+interface GigabitEthernet1/2/0/3
+ description Only_For_IRF-port
+#
+interface GigabitEthernet1/2/0/46
+ description Only_For_IRF-port
+#
+interface GigabitEthernet1/2/0/47
+ description Only_For_IRF-port
+#
+interface GigabitEthernet1/2/0/48
+ description Only_For_IRF-port
+#
+interface GigabitEthernet2/2/0/1
+ description Only_For_IRF-port
+#
+interface GigabitEthernet2/2/0/2
+ description Only_For_IRF-port
+#
+interface GigabitEthernet2/2/0/3
+ description Only_For_IRF-port
+#
+interface GigabitEthernet2/2/0/46
+ description Only_For_IRF-port
+#
+interface GigabitEthernet2/2/0/47
+ description Only_For_IRF-port
+#
+interface GigabitEthernet2/2/0/48
+ description Only_For_IRF-port
+#
+ospf 10
+ default-route-advertise
+ silent-interface all
+ undo silent-interface Vlan-interface1
+ undo silent-interface Vlan-interface900
+ undo silent-interface Vlan-interface100
+ undo silent-interface Vlan-interface2
+ undo silent-interface Vlan-interface101
+ undo silent-interface Vlan-interface102
+ undo silent-interface Vlan-interface201
+ undo silent-interface Vlan-interface302
+ undo silent-interface Vlan-interface303
+ undo silent-interface Vlan-interface902
+ undo silent-interface Vlan-interface499
+ undo silent-interface Vlan-interface304
+ undo silent-interface Vlan-interface903
+ undo silent-interface Vlan-interface901
+ spf-schedule-interval 1 200 500
+ bandwidth-reference 10000
+ area 0.0.0.0
+  network 10.68.253.2 0.0.0.0
+  network 10.68.253.6 0.0.0.0
+  network 10.68.0.124 0.0.0.0
+  network 10.68.0.193 0.0.0.0
+  network 10.68.0.129 0.0.0.0
+  network 10.68.1.1 0.0.0.0
+  network 10.68.2.1 0.0.0.0
+  network 10.68.3.1 0.0.0.0
+  network 10.68.4.1 0.0.0.0
+  network 10.68.6.1 0.0.0.0
+  network 10.68.6.65 0.0.0.0
+  network 10.68.7.1 0.0.0.0
+  network 10.68.0.1 0.0.0.0
+  network 10.68.0.4 0.0.0.0
+  network 10.68.63.1 0.0.0.0
+  network 10.68.62.1 0.0.0.0
+  network 10.68.253.14 0.0.0.0
+  network 10.1.1.1 0.0.0.0
+  network 10.68.6.129 0.0.0.0
+  network 10.68.8.1 0.0.0.0
+  network 10.68.253.18 0.0.0.0
+  network 10.68.10.1 0.0.0.0
+  network 10.68.5.1 0.0.0.0
+  network 10.68.11.1 0.0.0.0
+  network 10.68.12.1 0.0.0.0
+  network 10.68.14.1 0.0.0.0
+#
+route-policy static permit node 1
+#
+ ip route-static 0.0.0.0 0.0.0.0 10.68.253.13
+ ip route-static 10.2.1.10 255.255.255.255 10.68.253.13
+ ip route-static 10.2.70.0 255.255.255.0 10.68.253.13
+ ip route-static 10.7.16.0 255.255.255.0 10.68.253.13
+ ip route-static 10.7.64.0 255.255.248.0 10.68.253.13
+ ip route-static 10.7.80.0 255.255.255.0 10.68.253.13
+ ip route-static 10.7.96.0 255.255.248.0 10.68.253.13
+ ip route-static 10.7.112.0 255.255.240.0 10.68.253.13
+ ip route-static 10.9.0.128 255.255.255.192 10.58.253.13
+ ip route-static 10.9.100.1 255.255.255.255 10.68.253.13
+ ip route-static 10.14.200.1 255.255.255.255 10.68.253.13
+ ip route-static 10.15.200.1 255.255.255.255 10.68.253.13
+ ip route-static 10.18.200.1 255.255.255.255 10.68.253.13
+ ip route-static 10.33.100.1 255.255.255.255 10.68.253.13
+ ip route-static 10.67.0.0 255.255.0.0 10.68.253.33
+ ip route-static 10.68.3.0 255.255.255.0 10.68.253.13
+ ip route-static 10.68.8.0 255.255.255.0 10.68.253.13
+ ip route-static 10.68.9.0 255.255.255.0 10.68.253.13
+ ip route-static 10.68.253.20 255.255.255.252 10.68.253.13
+ ip route-static 10.68.253.24 255.255.255.252 10.68.253.13
+ ip route-static 10.68.254.0 255.255.255.0 10.68.253.17
+ ip route-static 10.68.255.0 255.255.255.192 10.68.253.13
+ ip route-static 10.72.0.0 255.255.240.0 10.68.253.13
+ ip route-static 10.73.254.1 255.255.255.255 10.68.253.13
+ ip route-static 10.74.11.0 255.255.255.0 10.68.253.13
+#
+ snmp-agent
+ snmp-agent local-engineid 800063A2033CE5A6719001
+ snmp-agent community read public
+ snmp-agent community write private
+ snmp-agent sys-info version all
+ snmp-agent target-host trap address udp-domain 10.68.7.100 params securityname public
+ snmp-agent trap queue-size 500
+ snmp-agent trap life 600
+#
+ ntp-service unicast-peer 10.68.2.50
+#
+user-interface con 1/0
+user-interface con 2/0
+user-interface aux 1/0
+user-interface aux 2/0
+user-interface vty 0 4
+ authentication-mode scheme
+ user privilege level 3
+#
+irf-port 1/1
+ port group interface GigabitEthernet1/2/0/1
+ port group interface GigabitEthernet1/2/0/2
+ port group interface GigabitEthernet1/2/0/3
+ port group interface GigabitEthernet1/2/0/46
+ port group interface GigabitEthernet1/2/0/47
+ port group interface GigabitEthernet1/2/0/48
+#
+irf-port 2/2
+ port group interface GigabitEthernet2/2/0/1
+ port group interface GigabitEthernet2/2/0/2
+ port group interface GigabitEthernet2/2/0/3
+ port group interface GigabitEthernet2/2/0/46
+ port group interface GigabitEthernet2/2/0/47
+ port group interface GigabitEthernet2/2/0/48
+#
+return
+<S12508-IRF>

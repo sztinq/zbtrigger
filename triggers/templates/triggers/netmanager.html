@@ -1,0 +1,345 @@
+{% extends "triggers/bootstrap.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 col-md-12">
+            <div class="page-header">
+                <h4>网络设备配置监控...
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-7">
+            <div id="main_netdevices" style="height:380px;width:652px" class="thumbnail"></div>
+        </div>
+        <div class="col-sm-6 col-md-5">
+            <div  style="height:380px;width:458px" class="thumbnail">
+            <h4>配置FTP同步</h4><h5 id="f_status"></h5>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var t1 = 1;//delay open time 0.001s
+        var t2 = 30000;//reflush time 30s
+        var t3 = 60000;//reflush time 60s
+        var path = {echarts: '/static/echarts'};
+        function netmanager() {
+            require.config({
+                paths: path
+            });
+            require(
+                    [
+                        'echarts',
+                        'echarts/chart/map'
+                    ],
+                    function (ec) {
+                        require('echarts/util/mapData/params').params.netdevices = {
+                            getGeoJson: function (callback) {
+                                $.ajax({
+                                    url: "/static/echarts/svg/netdevices.svg",
+                                    dataType: 'xml',
+                                    success: function (xml) {
+                                        callback(xml)
+                                    }
+                                });
+                            }
+                        };
+                        var myChart = ec.init(document.getElementById('main_netdevices'));
+                        var device_status = {
+                            normal: [],
+                            change: [],
+                            fault: [],
+                            error: [],
+                            num: 0
+                        };
+                        var url_netmanager = "/trigger/netmanager_status/";
+                        $.ajax(
+                                {
+                                    type: "get",
+                                    url: url_netmanager,
+                                    async: false,
+                                    cache: false,
+                                    success: function (data) {
+                                        var len = data.length;
+                                        for (var i = len - 1; i >= 0; i--) {
+                                            if (data[i]['change_status'] == '0' && data[i]['backup_status'] == '0') {
+                                                device_status.normal.push({
+                                                    name: data[i]['devicename'],
+                                                    value: '0'
+                                                });
+                                            }
+                                            if (data[i]['change_status'] == '1' && data[i]['backup_status'] == '0') {
+                                                device_status.change.push({
+                                                    name: data[i]['devicename'],
+                                                    value: '1'
+                                                });
+                                            }
+                                            if (data[i]['change_status'] == '0' && data[i]['backup_status'] == '1') {
+                                                device_status.fault.push({
+                                                    name: data[i]['devicename'],
+                                                    value: '2'
+                                                });
+                                            }
+                                            if (data[i]['change_status'] == '1' && data[i]['backup_status'] == '1') {
+                                                device_status.error.push({
+                                                    name: data[i]['devicename'],
+                                                    value: '3'
+                                                });
+                                            }
+
+                                        }
+                                        device_status.num = data.length;
+                                        //console.log(device_status);
+                                    }
+                                }
+                        );
+                        var option = {
+                            backgroundColor: '#FCFCFC',
+                            color: ['rgba(0,139,0,0.8)', 'rgba(255,48,48,0.8)', 'orange', 'rgba(65,105,225,0.8)'],
+                            title: {
+                                text: '配置备份与变更',
+                                subtext: '[共' + device_status.num + '台]',
+                                x: 'left',
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.5)',
+                                trigger: 'item',
+                                enterable: true,
+                                position: function (p) {
+                                    return [p[0] - 60, p[1] + 10];
+                                },
+                                formatter: function (params, ticket, callback) {
+                                    var res = '【<a  style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                            + '\'' + params.name + '\',' + '\'newwindow,' + '\',' + '\''
+                                            + 'height=600,width=860,top=20,left=20,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no' + '\'' + ')">'
+                                            + '配置变更...</a>】'+ '<br>' + '【<a style=' + '\'' + 'color:yellow' + '\'' + 'herf="/javascript" onClick="window.open('
+                                            + '\'' + params.name + '\',' + '\'newwindow,' + '\',' + '\''
+                                            + 'height=500,width=800,top=20,left=20,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,status=no' + '\'' + ')">'
+                                            + '配置信息...</a>】';
+                                    setTimeout(function () {
+                                        callback(ticket, res);
+                                    }, 500);
+                                    return '正在加载,请稍等...';
+                                }
+                            },
+                            legend: {
+                                x: 'right',
+                                data: ['正常', '备份失败', '配置变更'],
+                                selectedMode: 'single',
+                                selected: {
+                                    '备份失败': true,
+                                    '配置变更': true
+                                },
+                                textStyle: {
+                                    color: '#6C6C6C'
+                                }
+                            },
+                            toolbox: {
+                                show: false,
+                                orient: 'vertical',
+                                x: 'right',
+                                y: 'bottom',
+                                feature: {
+                                    restore: {show: true},
+                                    saveAsImage: {show: true}
+                                }
+                            },
+                            series: [
+                                {
+                                    name: '正常',
+                                    type: 'map',
+                                    mapType: 'netdevices',
+                                    hoverable: false,
+                                    clickable: false,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {show: true}
+                                        }
+                                        //emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    geoCoord: {
+                                        'S12508-IRF': [20, 80],
+                                        'S5800-60C-IRF': [140, 80],
+                                        'S5800-56C-IRF': [260, 80],
+                                        'SR6608-1': [380, 80],
+                                        'SR6608-2': [500, 80],
+                                        'ERPASA5520': [620, 80],
+                                        'DMZ3600V2': [740, 80],
+                                        'S7603-Master': [860, 80],
+                                        'S7603-Slave': [20, 160],
+                                        'S5500-52C-Master': [140, 160],
+                                        'S5500-52C-Slave': [260, 160],
+                                        'ECASA5520': [380, 160],
+                                        'Beijing4506_1': [20, 260],
+                                        'Beijing4506_2': [140, 260],
+                                        'zcl-3560': [260, 260],
+                                        '7206zhuanxian': [500, 260],
+                                        'BJInternet7206': [620, 260],
+                                        '3F2': [20, 340],
+                                        '3F4-1': [140, 340],
+                                        '3F4-2': [260, 340],
+                                        '3F6-1': [380, 340],
+                                        '3F6-2': [500, 340],
+                                        '3F8-1': [620, 340],
+                                        '3F8-2': [740, 340],
+                                        '3F10': [860, 340],
+                                        '4F1': [20, 420],
+                                        '4F3': [140, 420],
+                                        '4F5': [260, 420],
+                                        '4F7-1': [380, 420],
+                                        '4F7-2': [500, 420],
+                                        '4F9': [620, 420],
+                                        'zcn2': [20, 500],
+                                        'zcn4': [140, 500],
+                                        'zcs2': [260, 500],
+                                        'zcs4': [380, 500]
+
+                                    },
+                                    textFixed: {
+                                        '唐山DC': [0, 20],
+                                        'ERP核心': [0, 20],
+                                        'ERP汇聚1': [0, 20],
+                                        'ERP汇聚2': [0, 20],
+                                        '专线路由器1': [0, 20],
+                                        '专线路由器2': [0, 20],
+                                        'ERP防火墙': [0, 20],
+                                        'ERP-DMZ交换机': [10, 20],
+                                        'ERP-F5': [10, 20],
+                                        '电商防火墙': [0, 20],
+                                        '电商核心主': [0, 20],
+                                        '电商核心从': [0, 20],
+                                        '电商接入主': [0, 20],
+                                        '电商接入从': [0, 20],
+                                        '电商F5': [0, 20],
+                                        '北京区': [0, 20],
+                                        '老楼核心1': [0, 20],
+                                        '老楼核心2': [0, 20],
+                                        '总裁楼核心': [0, 20],
+                                        '北京专线路由器': [-25, 20],
+                                        '北京互联网路由器': [0, 20],
+                                        '北京互联网防火墙': [30, 20],
+                                        '3号楼2层': [0, 20],
+                                        '3号楼4层1': [0, 20],
+                                        '3号楼4层2': [0, 20],
+                                        '3号楼6层1': [0, 20],
+                                        '3号楼6层2': [0, 20],
+                                        '3号楼8层1': [0, 20],
+                                        '3号楼8层2': [0, 20],
+                                        '3号楼10层': [0, 20],
+                                        '4号楼1层': [0, 20],
+                                        '4号楼3层': [0, 20],
+                                        '4号楼5层': [0, 20],
+                                        '4号楼7层1': [0, 20],
+                                        '4号楼7层2': [0, 20],
+                                        '4号楼9层': [0, 20],
+                                        '总裁楼北2': [0, 20],
+                                        '总裁楼北4': [0, 20],
+                                        '总裁楼南2': [0, 20],
+                                        '总裁楼南4': [0, 20]
+                                    },
+                                    markPoint: {
+                                        symbol: 'circle',
+                                        symbolSize: 5,
+                                        effect: {
+                                            show: true,
+                                            shadowBlur: 10
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                label: {show: false}
+                                            }
+                                        },
+                                        data: device_status.normal
+                                    }
+                                },
+                                {
+                                    name: '备份失败',
+                                    type: 'map',
+                                    mapType: 'netdevices',
+                                    hoverable: false,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {show: true}
+                                        },
+                                        emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    markPoint: {
+                                        symbol: 'circle',
+                                        symbolSize: 5,
+                                        effect: {
+                                            show: true,
+                                            shadowBlur: 10
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                label: {show: false}
+                                            }
+                                        },
+                                        data: device_status.fault
+                                    }
+                                },
+                                {
+                                    name: '配置变更',
+                                    type: 'map',
+                                    mapType: 'netdevices',
+                                    hoverable: false,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {show: true}
+                                        },
+                                        emphasis: {label: {show: true}}
+                                    },
+                                    data: [],
+                                    markPoint: {
+                                        symbol: 'circle',
+                                        symbolSize: 5,
+                                        effect: {
+                                            show: true,
+                                            shadowBlur: 10
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                label: {show: false}
+                                            }
+                                        },
+                                        data: device_status.change
+                                    }
+                                }
+                            ]
+                        };
+                        // 为echarts对象加载数据
+                        myChart.setOption(option);
+                    }
+            );
+        }
+        function ftp_status() {
+            //$.getJSON('/trigger/video_status/',
+            $.ajax(
+                    {
+                        type: "get",
+                        url: "/trigger/ftp_status/",
+                        async: false,
+                        cache: false,
+                        success: function (data) {
+                            //console.log(data);
+                            if (data.status == 0) {
+                                $('#f_status').html("同步成功，共<b style='color: red'>" + data.file_num + "</b>个文件。");
+                            }
+                            else {
+                                $('#f_status').html("同步失败");
+                            }
+                        }
+                    }
+            )
+        }
+        setTimeout('netmanager()', t1);
+        setTimeout('ftp_status()', t1);
+        setInterval('netmanager()', t2);
+        setInterval('ftp_status()', t2);
+    </script>
+{% endblock %}

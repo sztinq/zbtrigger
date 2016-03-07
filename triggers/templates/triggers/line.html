@@ -1,0 +1,135 @@
+{% extends "triggers/bootstrap.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>欢迎<small>使用建龙集团网络监控平台！在这里您可以实时了解整个集团的网络运行状况！</small></h1>
+</div>
+
+<div class="container bs-docs-container">
+        <div class="col-md-5" role="main">
+        </div>
+        <div class="col-md-7" role="main">
+            <div class="bs-docs-section" >
+                <div class="row">
+                    <div class="col-sm-6 col-md-12">
+                        <div id="main" style="height:400px" class="thumbnail"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: '/static/echarts'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/map',
+                'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+
+                require('echarts/util/mapData/params').params.line = {
+                    getGeoJson: function (callback) {
+                        $.ajax({
+                            url: "/static/echarts/svg/line.svg",
+                            dataType: 'xml',
+                            success: function(xml) {
+                                callback(xml)
+                            }
+                        });
+                    }
+                };
+
+                var myChart = ec.init(document.getElementById('main'));
+
+                var option = {
+                    //backgroundColor:'#eee',
+                    title : {
+                        text : '集团专线',
+                        textStyle: {
+                            color: '#000'
+                        }
+                    },
+                    color: ['red', 'blue', 'green'],
+                    legend: {
+                        data: ['唐山', '北京']
+                    },
+                    toolbox: {
+                        show : false,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    series : [
+                        {
+                            name: '专线',
+            type: 'map',
+            mapType: 'line',
+            hoverable: false,
+            //roam:true,
+            // itemStyle:{
+            //    normal:{label:{show:true}}
+                // emphasis:{label:{show:true}}
+            //},
+            data: [],
+            geoCoord: {
+                '唐山': [265, 170],
+                '北京': [180, 175]
+            },
+            markPoint : {
+                symbolSize : 3,
+                data : [
+                    {name: '唐山'},
+                    {name: '北京'}
+                ]
+            },
+            markLine : {
+                smooth:true,
+                effect : {
+                    show: true,
+                    scaleSize: 1,
+                    period: 20,
+                    color: '#fff',
+                    shadowBlur: 5
+                },
+                // symbol: ['none'],
+                itemStyle : {
+                    normal: {
+                        borderWidth:1,
+                        lineStyle: {
+                            type: 'solid'
+                        }
+                    }
+                },
+                data : [
+                    [
+                        {name:'唐山'},
+                        {name:'北京'}
+                    ]
+                ]
+            }
+        }
+
+
+    ]
+};
+
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+    </script>
+
+{% endblock %}

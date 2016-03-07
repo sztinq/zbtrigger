@@ -1,0 +1,9 @@
+dispay current-configuration
+          ^
+ % Unrecognized command found at '^' position.
+<SR6608-2>111
+
+rule 491 permit tcp source 10.2.114.51 0 destination 10.68.4.32 0 destination-port eq 61616
+rule 492 permit tcp source 10.2.115.1 0 destination 10.68.4.32 0 destination-port eq 61616
+rule 493 permit tcp source 10.2.117.4 0 destination 10.68.4.32 0 destination-port eq 61616
+rule 494 permit tcp source 10.2.116.112 0 destination 10.68.4.32 0 destination-port eq 61616

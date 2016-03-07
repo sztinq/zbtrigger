@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>django表单处理</title>
+  <style type="text/css">
+    body, div {
+      padding: 0;
+      margin: 0;
+    }
+    #container {
+      width: 1070px;
+      margin: 0 auto;
+    }
+    .wrap {
+      width: 360px;
+      height: 48px;
+      margin: 0 auto;
+    }
+    .wrap form input {
+      width: 240px;
+      height: 24px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div class="wrap">
+      <form action="." class="crawl" method="GET">
+        IP<input type="text" name="q_ip" value= {{ q_ip }}>
+          <p>name<input type="text" name="q_hostname" value= "{{ q_hostname|escape }}"></p>
+        <button type="submit">
+          查询
+        </button>
+      </form>
+      {% if host_list %}
+        <table class="pure-table" width="800" border="0">
+                        <tr>
+                            <th>设备ID</th>
+                            <th>设备名称</th>
+                            <th>设备IP地址</th>
+                            <th>设备状态</th>
+                        </tr>
+                        {% for h in host_list  %}
+                        <tr>
+                            <td align="center">{{ h.hostid }}</td>
+                            <td align="center">{{ h.hostname }}</td>
+                            <td align="center">{{ h.hostip }}</td>
+                            {% if h.status == 0 %}
+                                <td align="center">正常</td>
+                                {% else %}
+                                <td align="center">{{ h.status }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+        </table>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

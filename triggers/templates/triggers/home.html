@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>欢迎光临 自强学堂！</title>
+<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<div id="list"> 学习 </div>
+<div id='dict'></div>
+<script type="text/javascript">
+    // alert("涂伟忠提示您：注意页面上内容的变化。");
+
+    //列表
+    //var List = {{ List|safe }};
+    //document.write(List[0]);
+    function list_data() {
+        var res = [];
+        var List = {{ List|safe }};
+        var len = List.length;
+        //document.write(List.length);
+        while (len--) {
+            //document.write(List[len]);
+            res.push(List[len])
+        }
+        return res;
+    }
+    document.write(list_data());
+    //下面的代码把List的每一部分放到头部和尾部
+    //$('#list').prepend(List[0]);
+   // $('#list').append(List[1]);
+
+    //console.log('--- 遍历 List 方法 1 ---')
+    //for(i in List){
+    //    document.write(List[i]);
+    //}
+
+    //console.log('--- 遍历 List 方法 2 ---')
+    //for (var i = List.length - 1; i >= 0; i--) {
+    //for (var i = 0; i++; i < List.length) {
+        // 鼠标右键，审核元素，选择 console可以看到输入的值
+        //document.write(i);
+        //document.write(List[i]);
+    //}
+    var List = {{ List|safe }};
+    console.log('--- 同时遍历索引和内容，使用 jQuery.each() 方法 ---')
+    $.each(List, function(index, item){
+        console.log(index);
+        console.log(item);
+    });
+
+
+    // 字典
+    var Dict = {{ Dict|safe }};
+    console.log("--- 两种字典的取值方式  ---")
+    console.log(Dict['site']);
+    console.log(Dict.author);
+
+    console.log("---  遍历字典  ---");
+    for(i in Dict) {
+        console.log(i + Dict[i]);//注意，此处 i 为键值
+    }
+</script>
+</body>
+</html>

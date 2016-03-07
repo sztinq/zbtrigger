@@ -1,0 +1,32 @@
+{% extends "triggers/base.html" %}
+{% block content %}
+<div class="posts">
+        <section class="post">
+            <header class="post-header">
+                <h3 class="post-title">{{ v_detail.company }}视频会议终端详细信息</h5>
+            </header>
+                <div class="post-description">
+                <p>
+                       <table class="pure-table" width="80%" border="0">
+                             <tr >
+                                 <td align="right">视频终端：</td>
+                                 <td>{{ v_detail.hostname }}</td>
+                             </tr>
+                             <tr>
+                                <td align="right">视频终端IP：</td>
+                                <td>{{ v_detail.hostip }}</td>
+                             </tr>
+                             <tr>
+                                <td align="right">管理员：</td>
+                                <td>{{ v_detail.manager }}</td>
+                             </tr>
+                            <tr>
+                                <td align="right">联系方式：</td>
+                                <td>{{ v_detail.managerphone }}</td>
+                             </tr>
+                        </table>
+                </p>
+        </section>
+        <a class="pure-button" href="{% url 'triggers:video' %}">集团视频会议状态监控</a>  <a class="pure-button" href="{% url 'triggers:index' %}">返回首页</a>
+</div>
+{% endblock %}

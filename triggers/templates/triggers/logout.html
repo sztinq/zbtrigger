@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-8">
+            <div class="page-header">
+                <h3>登出成功！
+                </h3>
+            </div>
+        </div>
+    </div>
+     <a class="pure-button" href="{% url 'triggers:login_view' %}">返回登陆</a>
+</div>
+</body>
+</html>

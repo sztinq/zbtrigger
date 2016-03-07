@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/triggers/management/commands/clear_history.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/management/commands/item_last.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/bootstrap.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/compare.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/history.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/home.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/host.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/host_init.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/index.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/item_init.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/line.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/parameter_init.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/pic1.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/trigger.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/trigger_init.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/video.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/zhuanxian.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/triggers/templates/triggers/zhuanxian_detail.html" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

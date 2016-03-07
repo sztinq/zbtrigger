@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="30">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'style/pure-min.css' %}">
+
+    <title>建龙集团网络监控平台</title>
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{% static 'style/side-menu-old-ie.css' %}">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="{% static 'style/side-menu.css' %}">
+    <!--<![endif]-->
+
+</head>
+<body>
+<div id="layout" >
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+    <div id="menu">
+        <div class="pure-menu pure-menu-open">
+            <h4 class="pure-menu-heading">建龙网络监控</h4>
+            <h4 class="brand-tagline"> Ejianlong.com</h4>
+                <ul>
+                     <li><a href="{% url 'triggers:index' %}">首页</a></li>
+                     <li><a href="{% url 'triggers:zhuanxian' %}">集团专线</a></li>
+                     <li> <a href="{% url 'triggers:video' %}">视频会议</a></li>
+                    <li><a href="{% url 'triggers:item_last' %}">线路流量</a></li>
+                    <li><a href="http://nmdc.ejianlong.com" target="_blank">数据中心</a> </li>
+                    <li> <a href="http://nmbj.ejianlong.com" target="_blank">北京总部</a>
+                    </li>
+                    <li> <a href="http://nmts.ejianlong.com" target="_blank">唐山建龙</a>
+                    </li>
+                    <li><a href="http://nmcd.ejianlong.com/zabbix/maps.php?sysmapid=3&fullscreen=1" target="_blank">承德建龙</a>
+                    </li>
+                    <li><a href="http://nmjl.ejianlong.com" target="_blank">吉林建龙</a>
+                    </li>
+                    <li><a href="http://nmhlj.ejianlong.com/zabbix/maps.php?sysmapid=2&fullscreen=1" target="_blank">黑龙江建龙</a>
+                    </li>
+                    <li><a href="http://nmfs.ejianlong.com" target="_blank">抚顺新钢铁</a>
+                    </li>
+                </ul>
+        </div>
+    </div>
+
+    <div id="main">
+        <div>
+            {% block content %}
+            {% endblock %}
+            <div class="footer">
+                <div class="pure-menu" align="right">
+                    <ul>
+                        <a href="#">关于</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

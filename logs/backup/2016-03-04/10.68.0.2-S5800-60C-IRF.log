@@ -1,0 +1,888 @@
+display current-configuration
+#
+ version 5.20, Release 1808P02
+#
+ sysname S5800-60C-IRF
+#
+ clock timezone GMT+8 add 08:00:00
+#
+ irf domain 20
+ irf mac-address persistent timer
+ irf auto-update enable
+ undo irf link-delay
+ irf member 1 priority 10
+#
+ domain default enable system
+#
+ telnet server enable
+#
+ ip ttl-expires enable
+ ip unreachables enable
+#
+ lldp compliance cdp
+#
+ mirroring-group 1 local
+ mirroring-group 2 local
+#
+ acfp server enable
+#
+ acsei server enable
+#
+ undo password-recovery enable
+#
+acl number 3001
+ rule 1 permit ip source 10.1.19.19 0 destination 10.68.2.51 0
+ rule 2 permit ip source 10.1.19.103 0 destination 10.68.2.51 0
+ rule 3 permit ip source 10.68.1.8 0 destination 10.68.2.51 0
+ rule 100 deny ip
+#
+vlan 1
+ description Management-VLAN
+#
+vlan 2
+ description Management-VLAN-to-cunchu
+#
+vlan 100
+ description Video-VLAN
+#
+vlan 101
+ description Apply Server-VLAN
+#
+vlan 102
+ description Test Server and DB Server-VLAN
+#
+vlan 105
+#
+vlan 201
+ description DB Server-VLAN
+#
+vlan 301
+ description DMZ-VLAN
+#
+vlan 302
+ description DNS and F5 Apply-VLAN
+#
+vlan 303
+ description Storage standby-VLAN
+#
+vlan 304
+ description Zongtu VLAN
+#
+vlan 497
+ description DB Server-VLAN xintiaoxian
+#
+vlan 498
+ description DB Server-VLAN xintiaoxian
+#
+vlan 1000
+ description link_to_SecBladeIPS
+#
+radius scheme system
+ server-type extended
+ primary authentication 127.0.0.1 1645
+ primary accounting 127.0.0.1 1646
+ user-name-format without-domain
+#
+domain system
+ access-limit disable
+ state active
+ idle-cut disable
+ self-service-url disable
+#
+user-group system
+ group-attribute allow-guest
+#
+local-user admin
+ password cipher $c$3$l1DLxuwrPh9R0gV8Jocd/HGHqqov/16mLA==
+ authorization-attribute level 3
+ service-type telnet
+#
+interface Bridge-Aggregation1
+ description TSDCJR-60C_to_TSDCHX
+ port link-type trunk
+ port trunk permit vlan 1 to 2 100 to 105 201 301 to 304 499 to 500 800 to 802 903
+ link-aggregation mode dynamic
+ mad enable
+#
+interface Bridge-Aggregation10
+ description link 10.68.1.3
+ port access vlan 201
+#
+interface Bridge-Aggregation20
+ description DB Server xintiao
+ port access vlan 497
+#
+interface Bridge-Aggregation30
+ description DB Server juhe-- 10.68.1.5
+ port access vlan 201
+#
+interface Bridge-Aggregation31
+ description link 10.68.2.18
+ port access vlan 102
+#
+interface Bridge-Aggregation32
+ description link to 10.68.1.21
+ port access vlan 201
+#
+interface Bridge-Aggregation33
+ description link to 10.68.1.22
+ port access vlan 201
+#
+interface Bridge-Aggregation40
+ description DB Server xintiao
+ port access vlan 497
+#
+interface Bridge-Aggregation51
+ description link to 10.68.4.12
+ port access vlan 101
+#
+interface Bridge-Aggregation53
+ description link to 10.68.4.6
+ port access vlan 101
+#
+interface Bridge-Aggregation54
+ description application server--10.68.2.81
+ port access vlan 102
+#
+interface Bridge-Aggregation55
+ description application server--10.68.2.82
+ port access vlan 102
+#
+interface Bridge-Aggregation56
+ description link 10.68.6.125
+ port access vlan 303
+#
+interface Bridge-Aggregation57
+ description Link to 10.68.4.2 test
+ port access vlan 101
+#
+interface Bridge-Aggregation61
+ description link to 10.68.4.32
+ port access vlan 101
+#
+interface Bridge-Aggregation62
+ description link to 10.68.4.31
+ port access vlan 101
+#
+interface Bridge-Aggregation63
+ description link to 10.68.4.18
+ port access vlan 101
+#
+interface Bridge-Aggregation64
+ description link to 10.68.4.17
+ port access vlan 101
+#
+interface Bridge-Aggregation65
+ description link to 10.68.1.16
+ port access vlan 201
+#
+interface Bridge-Aggregation66
+ description link 10.68.1.2
+ port access vlan 201
+#
+interface Bridge-Aggregation70
+ description link to 10.68.6.67
+ port access vlan 303
+#
+interface Bridge-Aggregation75
+ description test 2 application server--10.68.2.22
+ port access vlan 102
+#
+interface Bridge-Aggregation76
+ description test 1 liucheng server--10.68.2.42
+ port access vlan 102
+#
+interface Bridge-Aggregation77
+ description link to 10.68.2.80
+ port link-type trunk
+ port trunk permit vlan all
+#
+interface Bridge-Aggregation78
+ description test 2 application server--10.68.2.32
+ port access vlan 102
+#
+interface Bridge-Aggregation79
+ description test 1 domain control-10.68.2.31
+ port access vlan 102
+#
+interface Bridge-Aggregation80
+ description ling 10.68.2.8
+ port access vlan 102
+#
+interface Bridge-Aggregation81
+ description test server 2 --10.68.2.21
+ port access vlan 102
+#
+interface Bridge-Aggregation82
+ description link to 10.68.2.11
+ port access vlan 102
+#
+interface Bridge-Aggregation83
+ description link to 10.68.2.50
+ port access vlan 102
+#
+interface Bridge-Aggregation84
+ description link 10.68.2.32
+ port access vlan 102
+#
+interface Bridge-Aggregation85
+ description link 10.68.2.11
+ port access vlan 102
+#
+interface Bridge-Aggregation86
+ description link to 10.68.2.55
+ port access vlan 102
+#
+interface Bridge-Aggregation87
+ description link to 10.68.4.33
+ port access vlan 101
+#
+interface Bridge-Aggregation88
+ description link to 10.68.4.34
+ port access vlan 101
+#
+interface Bridge-Aggregation90
+ description Link to 10.68.4.3
+ port access vlan 101
+#
+interface NULL0
+#
+interface Vlan-interface1
+ ip address 10.68.0.2 255.255.255.224
+#
+interface Vlan-interface1000
+ description link_to_SecBladeIPS
+ ip address 100.100.100.1 255.255.255.0
+#
+interface GigabitEthernet1/0/1
+ port link-mode bridge
+ port link-type trunk
+ port trunk permit vlan 1 to 2 100 to 105 201 301 to 304 499 to 500 800 to 802 903
+ port link-aggregation group 1
+#
+interface GigabitEthernet1/0/2
+ port link-mode bridge
+#
+interface GigabitEthernet1/0/3
+ port link-mode bridge
+ description Link to beiyong
+ port access vlan 201
+ mirroring-group 2 mirroring-port both
+ port link-aggregation group 30
+#
+interface GigabitEthernet1/0/4
+ port link-mode bridge
+#
+interface GigabitEthernet1/0/5
+ port link-mode bridge
+ description tscom22-eth1
+ port link-type trunk
+ undo port trunk permit vlan 1
+ port trunk permit vlan 101 to 102 105 304
+#
+interface GigabitEthernet1/0/6
+ port link-mode bridge
+ description link to 10.68.4.32
+ port access vlan 101
+ port link-aggregation group 61
+#
+interface GigabitEthernet1/0/7
+ port link-mode bridge
+ description Link 10.68.4.3
+ port access vlan 101
+ port link-aggregation group 90
+#
+interface GigabitEthernet1/0/8
+ port link-mode bridge
+ description lin to 10.68.4.12
+ port access vlan 101
+ port link-aggregation group 51
+#
+interface GigabitEthernet1/0/9
+ port link-mode bridge
+ description link to 10.68.1.22
+ port access vlan 201
+ port link-aggregation group 33
+#
+interface GigabitEthernet1/0/10
+ port link-mode bridge
+ description link to 10.68.4.2
+ port access vlan 101
+ port link-aggregation group 57
+#
+interface GigabitEthernet1/0/11
+ port link-mode bridge
+ description link virtual test
+ port access vlan 102
+#
+interface GigabitEthernet1/0/12
+ port link-mode bridge
+ description link 10.68.2.11
+ port access vlan 102
+ port link-aggregation group 85
+#
+interface GigabitEthernet1/0/13
+ port link-mode bridge
+ description Link to 10.68.4.6
+ port access vlan 101
+ port link-aggregation group 53
+#
+interface GigabitEthernet1/0/14
+ port link-mode bridge
+ description application server--10.68.2.81
+ port access vlan 102
+ port link-aggregation group 54
+#
+interface GigabitEthernet1/0/15
+ port link-mode bridge
+ description application server--10.68.2.82
+ port access vlan 102
+ port link-aggregation group 55
+#
+interface GigabitEthernet1/0/16
+ port link-mode bridge
+ description link 10.68.6.125
+ port access vlan 303
+ port link-aggregation group 56
+#
+interface GigabitEthernet1/0/17
+ port link-mode bridge
+ description link to 10.68.4.31
+ port access vlan 101
+ mirroring-group 1 mirroring-port both
+ port link-aggregation group 62
+#
+interface GigabitEthernet1/0/18
+ port link-mode bridge
+ description link to 10.68.4.18
+ port access vlan 101
+ mirroring-group 1 mirroring-port both
+ port link-aggregation group 63
+#
+interface GigabitEthernet1/0/19
+ port link-mode bridge
+ description link to 10.68.4.17
+ port access vlan 101
+ port link-aggregation group 64
+#
+interface GigabitEthernet1/0/20
+ port link-mode bridge
+ description link to 10.68.6.66
+ port access vlan 303
+#
+interface GigabitEthernet1/0/21
+ port link-mode bridge
+ port access vlan 302
+ speed 1000
+ duplex full
+#
+interface GigabitEthernet1/0/22
+ port link-mode bridge
+ description Link to DNS
+ port access vlan 302
+#
+interface GigabitEthernet1/0/23
+ port link-mode bridge
+ description description test 1 domain control-10.68.2.31
+ port access vlan 102
+ port link-aggregation group 79
+#
+interface GigabitEthernet1/0/24
+ port link-mode bridge
+ description test 2 application server--10.68.2.32
+ port access vlan 102
+ port link-aggregation group 78
+#
+interface GigabitEthernet1/0/25
+ port link-mode bridge
+ description link to 10.68.2.80
+ port link-type trunk
+ port trunk permit vlan all
+ port link-aggregation group 77
+#
+interface GigabitEthernet1/0/26
+ port link-mode bridge
+ description link to 10.68.1.21
+ port access vlan 201
+ port link-aggregation group 32
+#
+interface GigabitEthernet1/0/27
+ port link-mode bridge
+ description link to 10.68.6.67
+ port access vlan 303
+ port link-aggregation group 70
+#
+interface GigabitEthernet1/0/28
+ port link-mode bridge
+ description link SUN6140-1 10.68.0.201
+ port access vlan 2
+#
+interface GigabitEthernet1/0/29
+ port link-mode bridge
+ description link SUN6140-2 10.68.0.203
+ port access vlan 2
+#
+interface GigabitEthernet1/0/30
+ port link-mode bridge
+ description erp server-10.68.4.36
+ port access vlan 101
+#
+interface GigabitEthernet1/0/31
+ port link-mode bridge
+ description test 2 application server--10.68.2.22
+ port access vlan 102
+#
+interface GigabitEthernet1/0/32
+ port link-mode bridge
+ description link to DWFWDBTEST
+ port link-type trunk
+ port trunk permit vlan 1 101 to 105 304
+#
+interface GigabitEthernet1/0/33
+ port link-mode bridge
+ description link 10.68.2.18
+ port access vlan 102
+#
+interface GigabitEthernet1/0/34
+ port link-mode bridge
+ description link to 10.68.2.20
+ port access vlan 102
+#
+interface GigabitEthernet1/0/35
+ port link-mode bridge
+ description link to 10.68.2.32
+ port access vlan 102
+ port link-aggregation group 84
+#
+interface GigabitEthernet1/0/36
+ port link-mode bridge
+ port access vlan 201
+#
+interface GigabitEthernet1/0/37
+ port link-mode bridge
+ description link to 10.68.2.21
+ port access vlan 102
+ port link-aggregation group 81
+#
+interface GigabitEthernet1/0/38
+ port link-mode bridge
+ description link 10.68.10.12 de eth1
+ port access vlan 102
+#
+interface GigabitEthernet1/0/39
+ port link-mode bridge
+ description link to 10.68.2.50
+ port access vlan 102
+ port link-aggregation group 83
+#
+interface GigabitEthernet1/0/40
+ port link-mode bridge
+ port access vlan 2
+#
+interface GigabitEthernet1/0/41
+ port link-mode bridge
+ port access vlan 2
+#
+interface GigabitEthernet1/0/42
+ port link-mode bridge
+ port access vlan 2
+#
+interface GigabitEthernet1/0/43
+ port link-mode bridge
+ description link to 10.68.2.53
+ port access vlan 102
+ mirroring-group 1 monitor-port
+#
+interface GigabitEthernet1/0/44
+ port link-mode bridge
+ description link to 10.68.4.33
+ port access vlan 101
+ port link-aggregation group 87
+#
+interface GigabitEthernet1/0/45
+ port link-mode bridge
+ description link to 10.68.4.34
+ port access vlan 101
+ port link-aggregation group 88
+#
+interface GigabitEthernet1/0/46
+ port link-mode bridge
+ port access vlan 497
+ port link-aggregation group 20
+#
+interface GigabitEthernet1/0/47
+ port link-mode bridge
+ port access vlan 497
+ port link-aggregation group 40
+#
+interface GigabitEthernet1/0/48
+ port link-mode bridge
+ port link-type trunk
+ port trunk permit vlan 1 to 2 100 to 105 201 301 to 304 499 to 500 800 to 802 903
+ port link-aggregation group 1
+#
+interface GigabitEthernet1/0/49
+ port link-mode bridge
+ port access vlan 302
+ speed 1000
+ duplex full
+#
+interface GigabitEthernet1/0/50
+ port link-mode bridge
+#
+interface GigabitEthernet1/0/51
+ port link-mode bridge
+#
+interface GigabitEthernet1/0/52
+ port link-mode bridge
+#
+interface GigabitEthernet2/0/1
+ port link-mode bridge
+ port link-type trunk
+ port trunk permit vlan 1 to 2 100 to 105 201 301 to 304 499 to 500 800 to 802 903
+ port link-aggregation group 1
+#
+interface GigabitEthernet2/0/2
+ port link-mode bridge
+ description link to 10.68.1.2
+ port access vlan 201
+ port link-aggregation group 10
+#
+interface GigabitEthernet2/0/3
+ port link-mode bridge
+ description Link to beiyong
+ port access vlan 201
+ mirroring-group 2 mirroring-port both
+ port link-aggregation group 30
+#
+interface GigabitEthernet2/0/4
+ port link-mode bridge
+ description Link 3Switch-10.68.0.195
+ port access vlan 2
+#
+interface GigabitEthernet2/0/5
+ port link-mode bridge
+ description tscom21-eth2
+ port link-type trunk
+ undo port trunk permit vlan 1
+ port trunk permit vlan 101 to 102 105 304
+#
+interface GigabitEthernet2/0/6
+ port link-mode bridge
+ description link to 10.68.4.32
+ port access vlan 101
+ port link-aggregation group 61
+#
+interface GigabitEthernet2/0/7
+ port link-mode bridge
+ description Link 10.68.4.3
+ port access vlan 101
+ port link-aggregation group 90
+#
+interface GigabitEthernet2/0/8
+ port link-mode bridge
+ description link to 10.68.4.12
+ port access vlan 101
+ port link-aggregation group 51
+#
+interface GigabitEthernet2/0/9
+ port link-mode bridge
+ description link 10.68.0.205
+ port access vlan 2
+#
+interface GigabitEthernet2/0/10
+ port link-mode bridge
+ description link to 10.68.4.2
+ port access vlan 101
+ port link-aggregation group 57
+#
+interface GigabitEthernet2/0/11
+ port link-mode bridge
+ description link 10.68.1.2
+ port access vlan 201
+ port link-aggregation group 66
+#
+interface GigabitEthernet2/0/12
+ port link-mode bridge
+ description tsss11-eth0
+ port access vlan 105
+#
+interface GigabitEthernet2/0/13
+ port link-mode bridge
+ description Link to 10.68.4.6
+ port access vlan 101
+ port link-aggregation group 53
+#
+interface GigabitEthernet2/0/14
+ port link-mode bridge
+ description tsss12-eth0
+ port access vlan 105
+#
+interface GigabitEthernet2/0/15
+ port link-mode bridge
+ description tsss13-eth0
+ port access vlan 105
+#
+interface GigabitEthernet2/0/16
+ port link-mode bridge
+ description link to 10.68.1.21
+ port access vlan 201
+ port link-aggregation group 32
+#
+interface GigabitEthernet2/0/17
+ port link-mode bridge
+ description link to 10.68.4.31
+ port access vlan 101
+ port link-aggregation group 62
+#
+interface GigabitEthernet2/0/18
+ port link-mode bridge
+ description link to 10.68.4.18
+ port access vlan 101
+ mirroring-group 1 mirroring-port both
+ port link-aggregation group 63
+#
+interface GigabitEthernet2/0/19
+ port link-mode bridge
+ description link to 10.68.4.17
+ port access vlan 101
+ mirroring-group 1 mirroring-port both
+ port link-aggregation group 64
+#
+interface GigabitEthernet2/0/20
+ port link-mode bridge
+ description link to 10.68.6.3
+ port access vlan 302
+ speed 1000
+ duplex full
+#
+interface GigabitEthernet2/0/21
+ port link-mode bridge
+ description tscom23-eth1
+ port link-type trunk
+ undo port trunk permit vlan 1
+ port trunk permit vlan 101 to 102 105 304
+#
+interface GigabitEthernet2/0/22
+ port link-mode bridge
+ description link to 10.68.4.140
+ port access vlan 101
+#
+interface GigabitEthernet2/0/23
+ port link-mode bridge
+ description description test 1 domain control-10.68.2.31
+ port access vlan 102
+ port link-aggregation group 79
+#
+interface GigabitEthernet2/0/24
+ port link-mode bridge
+ description test 2 application server--10.68.2.32
+ port access vlan 102
+ port link-aggregation group 78
+#
+interface GigabitEthernet2/0/25
+ port link-mode bridge
+ description link to 10.68.2.80
+ port link-type trunk
+ port trunk permit vlan all
+ port link-aggregation group 77
+#
+interface GigabitEthernet2/0/26
+ port link-mode bridge
+ description link to 10.68.2.81
+ port access vlan 102
+#
+interface GigabitEthernet2/0/27
+ port link-mode bridge
+ description link to 10.68.6.67
+ port access vlan 303
+ port link-aggregation group 70
+#
+interface GigabitEthernet2/0/28
+ port link-mode bridge
+ description link SUN6140-1 10.68.0.202
+ port access vlan 2
+#
+interface GigabitEthernet2/0/29
+ port link-mode bridge
+ description link SUN6140-2 10.68.0.204
+ port access vlan 2
+#
+interface GigabitEthernet2/0/30
+ port link-mode bridge
+ description test 1 liucheng server--10.68.2.42
+ port access vlan 102
+ port link-aggregation group 76
+#
+interface GigabitEthernet2/0/31
+ port link-mode bridge
+ description link to 10.68.2.52
+ port access vlan 102
+ port link-aggregation group 85
+#
+interface GigabitEthernet2/0/32
+ port link-mode bridge
+ description link 10.68.2.18
+ port access vlan 102
+#
+interface GigabitEthernet2/0/33
+ port link-mode bridge
+ description lin to 10.68.2.55
+ port access vlan 102
+ port link-aggregation group 86
+#
+interface GigabitEthernet2/0/34
+ port link-mode bridge
+ description link to 10.68.2.13
+ port access vlan 201
+#
+interface GigabitEthernet2/0/35
+ port link-mode bridge
+ description link to 10.68.2.32
+ port access vlan 102
+ port link-aggregation group 84
+#
+interface GigabitEthernet2/0/36
+ port link-mode bridge
+ description link to 10.68.4.34
+ port access vlan 101
+ port link-aggregation group 88
+#
+interface GigabitEthernet2/0/37
+ port link-mode bridge
+ description link to 10.68.2.21
+ port access vlan 102
+ port link-aggregation group 81
+#
+interface GigabitEthernet2/0/38
+ port link-mode bridge
+ description lin to 10.68.2.55
+ port access vlan 102
+ port link-aggregation group 86
+#
+interface GigabitEthernet2/0/39
+ port link-mode bridge
+ description link to 10.68.2.50
+ port access vlan 102
+ port link-aggregation group 83
+#
+interface GigabitEthernet2/0/40
+ port link-mode bridge
+ description link to 10.68.1.22
+ port access vlan 201
+ port link-aggregation group 33
+#
+interface GigabitEthernet2/0/41
+ port link-mode bridge
+ port access vlan 2
+#
+interface GigabitEthernet2/0/42
+ port link-mode bridge
+ port access vlan 2
+#
+interface GigabitEthernet2/0/43
+ port link-mode bridge
+ port access vlan 2
+#
+interface GigabitEthernet2/0/44
+ port link-mode bridge
+ description link to 10.68.4.33
+ port access vlan 101
+ port link-aggregation group 87
+#
+interface GigabitEthernet2/0/45
+ port link-mode bridge
+ description link to 10.68.2.51
+ port access vlan 102
+#
+interface GigabitEthernet2/0/46
+ port link-mode bridge
+ port access vlan 497
+ port link-aggregation group 20
+#
+interface GigabitEthernet2/0/47
+ port link-mode bridge
+ port access vlan 497
+ port link-aggregation group 40
+#
+interface GigabitEthernet2/0/48
+ port link-mode bridge
+ port link-type trunk
+ port trunk permit vlan 1 to 2 100 to 105 201 301 to 304 499 to 500 800 to 802 903
+ port link-aggregation group 1
+#
+interface GigabitEthernet2/0/49
+ port link-mode bridge
+#
+interface GigabitEthernet2/0/50
+ port link-mode bridge
+#
+interface GigabitEthernet2/0/51
+ port link-mode bridge
+#
+interface GigabitEthernet2/0/52
+ port link-mode bridge
+#
+interface M-GigabitEthernet0/0/0
+#
+interface Ten-GigabitEthernet1/3/1
+ port link-mode bridge
+ port access vlan 1000
+ port connection-mode extend
+#
+interface Ten-GigabitEthernet1/1/1
+ description Only_For_IRF-port
+#
+interface Ten-GigabitEthernet1/1/2
+ description Only_For_IRF-port
+#
+interface Ten-GigabitEthernet2/1/1
+ description Only_For_IRF-port
+#
+interface Ten-GigabitEthernet2/1/2
+ description Only_For_IRF-port
+#
+nqa entry imcl2topo ping
+ type icmp-echo
+  destination ip 10.68.0.30
+  frequency 270000
+#
+ ip route-static 0.0.0.0 0.0.0.0 10.68.0.1
+#
+ info-center source default channel 2 trap state off
+ info-center loghost 10.1.3.3 facility local3
+#
+ snmp-agent
+ snmp-agent local-engineid 800063A2033CE5A672DE7C
+ snmp-agent community read public
+ snmp-agent sys-info version all
+ snmp-agent group v3 OAA read-view iso write-view iso
+ snmp-agent mib-view included iso iso
+ snmp-agent usm-user v3 OAA OAA
+ snmp-agent trap queue-size 500
+ snmp-agent trap life 600
+#
+ nqa schedule imcl2topo ping start-time now lifetime 630720000
+#
+ ntp-service unicast-peer 10.68.2.50
+#
+ load xml-configuration
+#
+ load tr069-configuration
+#
+user-interface aux 0 1
+user-interface vty 0 4
+ authentication-mode scheme
+ user privilege level 3
+user-interface vty 5 15
+#
+irf-port 1/1
+ port group interface Ten-GigabitEthernet1/1/1 mode enhanced
+ port group interface Ten-GigabitEthernet1/1/2 mode enhanced
+#
+irf-port 2/2
+ port group interface Ten-GigabitEthernet2/1/1 mode enhanced
+ port group interface Ten-GigabitEthernet2/1/2 mode enhanced
+#
+return
+<S5800-60C-IRF>
